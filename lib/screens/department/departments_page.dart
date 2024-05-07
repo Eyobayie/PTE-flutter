@@ -33,7 +33,7 @@ class _DepartmentPageState extends State<DepartmentPage> {
         ],
       ),
       body: FutureBuilder<List<Department>>(
-        future: getDepartments(), // Call fetchData() method here
+        future:DepartmentService.getDepartments(), // Call fetchData() method here
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             // While waiting for data to load, show a loading indicator
@@ -66,7 +66,7 @@ class _DepartmentPageState extends State<DepartmentPage> {
                         icon: const Icon(Icons.delete),
                         color: Colors.red[900],
                         onPressed: () {
-                          deleteDepartment(department.id);
+                         DepartmentService.deleteDepartment(department.id);
                         },
                       ),
                     ),

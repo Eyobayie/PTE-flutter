@@ -75,7 +75,7 @@ class _NewDepartmentState extends State<NewDepartment> {
                     labelText: "Department desc",
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide(color: Colors.blue),
+                      borderSide: const BorderSide(color: Colors.blue),
                     ),
                   ),
                   textInputAction: TextInputAction.done,
@@ -87,7 +87,7 @@ class _NewDepartmentState extends State<NewDepartment> {
                     description = value!;
                   },
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 ElevatedButton(
                   onPressed: saveForm,
                   child: const Text(

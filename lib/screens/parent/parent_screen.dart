@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:parent_teacher_engagement_app/models/parent.dart';
-import 'package:parent_teacher_engagement_app/models/teacher.dart';
 import 'package:parent_teacher_engagement_app/screens/parent/parent_registration.dart';
-import 'package:parent_teacher_engagement_app/screens/teacher/teacher_registration.dart';
 import 'package:parent_teacher_engagement_app/services/parent/parent.dart';
 import 'package:parent_teacher_engagement_app/services/teacher/teacher.dart';
 

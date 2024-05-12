@@ -82,6 +82,7 @@ class _NewDepartmentState extends State<NewDepartment> {
         iconTheme: IconThemeData(
             color: Color(0xFFC5A364)), // Set the color for the back button
       ),
+
       body:
           // Center(
           //   child:
@@ -95,12 +96,11 @@ class _NewDepartmentState extends State<NewDepartment> {
             children: <Widget>[
               TextFormField(
                 decoration: InputDecoration(
-                  labelText: "Department name",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                    borderSide: const BorderSide(color: Colors.blue),
-                  ),
-                ),
+                    labelText: "Department name",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: const BorderSide(color: Colors.blue),
+                    )),
                 textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.text,
                 validator: (value) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:parent_teacher_engagement_app/providers/DepartmentProvider.dart';
 import 'package:parent_teacher_engagement_app/screens/department/departments_page.dart';
 import 'package:parent_teacher_engagement_app/screens/gradelevel/gradeDetail.dart';
 import 'package:parent_teacher_engagement_app/screens/gradelevel/gradelevel_screen.dart';
@@ -10,6 +11,7 @@ import 'package:parent_teacher_engagement_app/screens/section/create_section.dar
 import 'package:parent_teacher_engagement_app/screens/teacher/teacher_registration.dart';
 import 'package:parent_teacher_engagement_app/screens/teacher/teacher_screen.dart';
 import 'package:parent_teacher_engagement_app/widgets/mainDrawer.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,32 +22,37 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.purple.shade900),
-        useMaterial3: true,
-        primaryColor: Colors.blue,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => DepartmentProvider()),
+      ],
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.purple.shade900),
+          useMaterial3: true,
+          primaryColor: Colors.blue,
+        ),
+        // home: const MyHomePage(title: 'Flutter Demo Home Page'),
+        routes: {
+          '/': (context) => const MyHomePage(title: 'PTE'),
+          DepartmentPage.departmentRoute: (context) => const DepartmentPage(),
+          NewDepartment.newDepartmentRoute: (context) => const NewDepartment(),
+          GradelevelScreen.gradelevelScreenRoute: (context) =>
+              const GradelevelScreen(),
+          GradeDetailScreen.gradeDetailScreenRoute: (context) =>
+              const GradeDetailScreen(),
+          NewGradeLevel.newgradelevelRoute: (context) => const NewGradeLevel(),
+          TeacherScree.teacherRoute: (context) => const TeacherScree(),
+          TeacherRegistration.teacherRegistrationRoute: (context) =>
+              const TeacherRegistration(),
+          ParentScreen.parentRoute: (context) => const ParentScreen(),
+          ParentRegistration.parentRegistrationRoute: (context) =>
+              const ParentRegistration(),
+          CreateSection.createSectionRoute: (context) => const CreateSection(),
+        },
       ),
-      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
-      routes: {
-        '/': (context) => const MyHomePage(title: 'PTE'),
-        DepartmentPage.departmentRoute: (context) => const DepartmentPage(),
-        NewDepartment.newDepartmentRoute: (context) => const NewDepartment(),
-        GradelevelScreen.gradelevelScreenRoute: (context) =>
-            const GradelevelScreen(),
-        GradeDetailScreen.gradeDetailScreenRoute: (context) =>
-            const GradeDetailScreen(),
-        NewGradeLevel.newgradelevelRoute: (context) => const NewGradeLevel(),
-        TeacherScree.teacherRoute: (context) => const TeacherScree(),
-        TeacherRegistration.teacherRegistrationRoute: (context) =>
-            const TeacherRegistration(),
-        ParentScreen.parentRoute: (context) => const ParentScreen(),
-        ParentRegistration.parentRegistrationRoute: (context) =>
-            const ParentRegistration(),
-        CreateSection.createSectionRoute: (context) => const CreateSection(),
-      },
     );
   }
 }

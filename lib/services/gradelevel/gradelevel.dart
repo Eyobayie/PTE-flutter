@@ -15,17 +15,22 @@ Future<List<Gradelevel>> getGradelevels() async {
   }
 }
 
-Future<void> createGradelevel(String grade, String description) async {
+Future<Gradelevel?> createGradelevel(String grade, String? description) async {
   final response = await http.post(Uri.parse(ApiService.gradeLevelsUrl),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, dynamic>{
         'grade': grade,
-        'description': description,
+        'description': description ?? '',
       }));
-  if (response.statusCode != 200) {
-    throw Exception('Failed to create data');
+  if (response.statusCode == 200) {
+    // Parse the response body to get the created department
+    final Map<String, dynamic> responseData = jsonDecode(response.body);
+    final createdGradelevel = Gradelevel.fromJson(responseData);
+    return createdGradelevel;
+  } else {
+    throw Exception('Failed to create department');
   }
 }
 

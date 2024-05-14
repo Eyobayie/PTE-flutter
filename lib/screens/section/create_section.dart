@@ -23,7 +23,7 @@ class _CreateSectionState extends State<CreateSection> {
       return;
     }
     _formKey.currentState!.save();
-    SectionService.createSection(_name, _description, gradelevelId);
+    createSection(_name, _description, gradelevelId);
     Navigator.of(context).pop();
   }
 

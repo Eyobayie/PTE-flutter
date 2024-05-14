@@ -46,7 +46,7 @@ Future<List<Department>> getDepartments() async {
 //     throw Exception('Failed to create department');
 //   }
 // }
-Future<Department?> createDepartment(String name, String description) async {
+Future<Department?> createDepartment(String name, String? description) async {
   final response = await http.post(
     Uri.parse(ApiService.departmentsUrl),
     headers: <String, String>{

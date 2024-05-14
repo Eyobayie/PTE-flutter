@@ -17,7 +17,7 @@ Future<List<Teacher>> getTeachers() async {
   }
 }
 
-Future<void> registerTeacher(
+Future<Teacher?> registerTeacher(
     String firstname, String lastname, String? email, int phone) async {
   final response = await http.post(Uri.parse(ApiService.teachersUrl),
       headers: <String, String>{
@@ -29,8 +29,13 @@ Future<void> registerTeacher(
         'email': email ?? '',
         'phone': phone
       }));
-  if (response.statusCode != 200) {
-    throw Exception('Failed to register the teacher');
+  if (response.statusCode == 200) {
+    // Parse the response body to get the created department
+    final Map<String, dynamic> responseData = jsonDecode(response.body);
+    final createdTeacher = Teacher.fromJson(responseData);
+    return createdTeacher;
+  } else {
+    throw Exception('Failed to create department');
   }
 }
 

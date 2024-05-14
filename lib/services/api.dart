@@ -18,4 +18,7 @@ class ApiService {
   //teachers endpoint
   static String get teachersUrl => apiUrl('teachers');
   static String get teacherUrl => apiUrl('teacher');
+  // sections endpoint
+  static String get sectionsUrl => apiUrl('sections');
+  static String get sectionUrl => apiUrl('section');
 }

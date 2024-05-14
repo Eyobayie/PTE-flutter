@@ -15,7 +15,7 @@ Future<List<Parent>> getParents() async {
   }
 }
 
-Future<void> registerParent(
+Future<Parent?> registerParent(
     String firstname, String lastname, String? email, int phone) async {
   final response = await http.post(Uri.parse(ApiService.parentstUrl),
       headers: <String, String>{
@@ -27,8 +27,13 @@ Future<void> registerParent(
         'email': email ?? '',
         'phone': phone
       }));
-  if (response.statusCode != 200) {
-    throw Exception('Failed to register the teacher');
+  if (response.statusCode == 200) {
+    // Parse the response body to get the created department
+    final Map<String, dynamic> responseData = jsonDecode(response.body);
+    final registeredParent = Parent.fromJson(responseData);
+    return registeredParent;
+  } else {
+    throw Exception('Failed to create department');
   }
 }
 

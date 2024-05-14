@@ -89,9 +89,7 @@ class _NewDepartmentState extends State<NewDepartment> {
           Padding(
         padding:
             const EdgeInsets.fromLTRB(15.0, 50.0, 15.0, 0), // Add top padding
-        child: Consumer<DepartmentProvider>(
-            builder: (context, departmentProvider, child) {
-          return Form(
+        child:  Form(
             key: _formKey,
             child: ListView(
               shrinkWrap: true, // ensure ListView takes only the space it needs
@@ -148,10 +146,8 @@ class _NewDepartmentState extends State<NewDepartment> {
                 ),
               ],
             ),
-          );
-        }),
-      ),
-      //),
-    );
+          )
+        ),
+      );
   }
 }

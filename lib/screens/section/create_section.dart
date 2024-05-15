@@ -40,74 +40,72 @@ class _CreateSectionState extends State<CreateSection> {
         title: const Text('Add new department'),
         backgroundColor: Colors.blue,
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0),
-          child: Form(
-            key: _formKey,
-            child: ListView(
-              shrinkWrap: true,
-              children: <Widget>[
-                TextFormField(
-                  decoration: InputDecoration(
-                    labelText: "Section",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      borderSide: const BorderSide(color: Colors.blue),
-                    ),
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(15, 50, 15, 0),
+        child: Form(
+          key: _formKey,
+          child: ListView(
+            shrinkWrap: true,
+            children: <Widget>[
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: "Section",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: const BorderSide(color: Colors.blue),
                   ),
-                  textInputAction: TextInputAction.next,
-                  keyboardType: TextInputType.text,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Grade level is required';
-                    }
-                    return null;
-                  },
-                  onFieldSubmitted: (value) {
-                    FocusScope.of(context).requestFocus(_descriptionFocusNode);
-                  },
-                  focusNode: _nameFocusNode,
-                  maxLines: 1,
-                  controller: _nameController,
-                  onSaved: (value) {
-                    _name = value!;
-                  },
                 ),
-                const SizedBox(height: 10),
-                TextFormField(
-                  decoration: InputDecoration(
-                    labelText: "Desctiption",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      borderSide: const BorderSide(color: Colors.blue),
-                    ),
+                textInputAction: TextInputAction.next,
+                keyboardType: TextInputType.text,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Grade level is required';
+                  }
+                  return null;
+                },
+                onFieldSubmitted: (value) {
+                  FocusScope.of(context).requestFocus(_descriptionFocusNode);
+                },
+                focusNode: _nameFocusNode,
+                maxLines: 1,
+                controller: _nameController,
+                onSaved: (value) {
+                  _name = value!;
+                },
+              ),
+              const SizedBox(height: 10),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: "Desctiption",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: const BorderSide(color: Colors.blue),
                   ),
-                  textInputAction: TextInputAction.done,
-                  keyboardType: TextInputType.text,
-                  focusNode: _descriptionFocusNode,
-                  maxLines: 4,
-                  controller: _descriptionController,
-                  onSaved: (value) {
-                    _description = value!;
-                  },
                 ),
-                const SizedBox(height: 10),
-                ElevatedButton(
-                  onPressed: saveForm,
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    child: Text(
-                      "Submit",
-                      style: TextStyle(
-                        color: Colors.white,
-                        backgroundColor: Colors.orange,
-                      ),
+                textInputAction: TextInputAction.done,
+                keyboardType: TextInputType.text,
+                focusNode: _descriptionFocusNode,
+                maxLines: 4,
+                controller: _descriptionController,
+                onSaved: (value) {
+                  _description = value!;
+                },
+              ),
+              const SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: saveForm,
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  child: Text(
+                    "Submit",
+                    style: TextStyle(
+                      color: Colors.white,
+                      backgroundColor: Colors.orange,
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

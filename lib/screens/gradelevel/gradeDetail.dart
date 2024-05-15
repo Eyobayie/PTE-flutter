@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:parent_teacher_engagement_app/constants/appbar_constants.dart';
 import 'package:parent_teacher_engagement_app/models/gradelevel.dart';
 import 'package:parent_teacher_engagement_app/screens/section/create_section.dart';
 import 'package:parent_teacher_engagement_app/services/gradelevel/gradelevel.dart';
@@ -16,7 +17,12 @@ class _GradeDetailScreenState extends State<GradeDetailScreen> {
     final id = ModalRoute.of(context)!.settings.arguments as int;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Grade Details'),
+        title: const Text(
+          'Gradelevel details',
+          style: AppBarConstants.textStyle,
+        ),
+        backgroundColor: AppBarConstants.backgroundColor,
+        iconTheme: AppBarConstants.iconTheme,
         actions: [
           TextButton(
               onPressed: () {

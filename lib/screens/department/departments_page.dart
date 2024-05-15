@@ -3,6 +3,8 @@ import 'package:parent_teacher_engagement_app/providers/DepartmentProvider.dart'
 import 'package:provider/provider.dart';
 import 'package:parent_teacher_engagement_app/screens/department/new_department.dart';
 
+import '../../constants/appbar_constants.dart';
+
 class DepartmentPage extends StatefulWidget {
   const DepartmentPage({Key? key});
 
@@ -45,10 +47,11 @@ class _DepartmentPageState extends State<DepartmentPage> {
     return Scaffold(
         appBar: AppBar(
           title: const Text(
-            "All Departments",
-            style: TextStyle(color: Colors.white),
+            'All departments',
+            style: AppBarConstants.textStyle,
           ),
-          backgroundColor: Colors.blue,
+          backgroundColor: AppBarConstants.backgroundColor,
+          iconTheme: AppBarConstants.iconTheme,
           actions: [
             TextButton(
                 onPressed: () {
@@ -84,6 +87,7 @@ class _DepartmentPageState extends State<DepartmentPage> {
                           return Dismissible(
                             key: Key(department.id.toString()),
                             child: Card(
+                              elevation: 2,
                               child: ListTile(
                                 leading: IconButton(
                                     icon: const Icon(Icons.edit),
@@ -111,5 +115,5 @@ class _DepartmentPageState extends State<DepartmentPage> {
                       );
                     }
                   }));
- }
+  }
 }

@@ -3,6 +3,8 @@ import 'package:parent_teacher_engagement_app/models/teacher.dart';
 import 'package:parent_teacher_engagement_app/screens/teacher/teacher_registration.dart';
 import 'package:parent_teacher_engagement_app/services/teacher/teacher.dart';
 
+import '../../constants/appbar_constants.dart';
+
 class TeacherScree extends StatefulWidget {
   const TeacherScree({super.key});
   static const String teacherRoute = 'teacherRoute';
@@ -16,10 +18,11 @@ class _TeacherScreeState extends State<TeacherScree> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "All Teachers",
-          style: TextStyle(color: Colors.white),
+          'All teachers',
+          style: AppBarConstants.textStyle,
         ),
-        backgroundColor: Colors.blue,
+        backgroundColor: AppBarConstants.backgroundColor,
+        iconTheme: AppBarConstants.iconTheme,
         actions: [
           TextButton(
               onPressed: () {

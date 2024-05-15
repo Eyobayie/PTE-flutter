@@ -9,6 +9,7 @@ class DepartmentProvider extends ChangeNotifier {
   List<Department> get departments => _departments;
 
   String get error => _error;
+
   Future<void> fetchDepartments() async {
     try {
       _departments = await getDepartments();
@@ -18,22 +19,17 @@ class DepartmentProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> deleteDepartmentProvider(int? id) async {
+  Future<void> deleteDepartmentProvider(int id) async {
     try {
-      if (id == null) {
-        throw ArgumentError.notNull('id');
-      }
-
       await deleteDepartment(id);
-
       _departments.removeWhere((department) => department.id == id);
-
       notifyListeners();
     } catch (e) {
       print('Error deleting department: $e');
     }
   }
 
+// add a new department
   void addDepartment(Department department) {
     _departments.add(department);
     notifyListeners();

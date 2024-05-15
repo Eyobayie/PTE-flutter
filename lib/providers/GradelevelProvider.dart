@@ -5,7 +5,15 @@ import 'package:parent_teacher_engagement_app/services/gradelevel/gradelevel.dar
 class GradelevelProvider extends ChangeNotifier {
   List<Gradelevel> _gradelevels = [];
 
+  String _error = '';
+
   List<Gradelevel> get gradelevels => _gradelevels;
+
+  String get error => _error;
+
+  void setError(String error) {
+    _error = error;
+  }
 
   // Method to fetch gradelevels (example implementation)
   Future<void> fetchGradelevels() async {
@@ -22,9 +30,7 @@ class GradelevelProvider extends ChangeNotifier {
   Future<void> deleteGradelevelProvider(int id) async {
     try {
       await deleteGradelevel(id);
-
       _gradelevels.removeWhere((gradelevel) => gradelevel.id == id);
-
       notifyListeners();
     } catch (e) {
       print('Error deleting department: $e');
@@ -36,8 +42,9 @@ class GradelevelProvider extends ChangeNotifier {
     _gradelevels.add(gradelevel);
     notifyListeners();
   }
+// create a new gradelevel
 
-  Future<void> createDepartmentProvider(
+  Future<void> createGradelevelProvider(
       String grade, String? description) async {
     try {
       Gradelevel? createdDepartment =

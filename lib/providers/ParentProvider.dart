@@ -12,7 +12,6 @@ class ParentProvider extends ChangeNotifier {
     // Fetch parents from API or database
     try {
       _parents = await getParents();
-
       notifyListeners();
     } catch (e) {
       print('Error fetching departments: $e');
@@ -23,9 +22,7 @@ class ParentProvider extends ChangeNotifier {
   Future<void> deleteParentProvider(int id) async {
     try {
       await deleteParent(id);
-
       _parents.removeWhere((parent) => parent.id == id);
-
       notifyListeners();
     } catch (e) {
       print('Error deleting parent: $e');

@@ -15,37 +15,6 @@ Future<List<Department>> getDepartments() async {
   }
 }
 
-// Future<void> createDepartment(String name, String description) async {
-//   final response = await http.post(Uri.parse(ApiService.departmentsUrl),
-//       headers: <String, String>{
-//         'Content-Type': 'application/json; charset=UTF-8',
-//       },
-//       body: jsonEncode(<String, dynamic>{
-//         'name': name,
-//         'description': description,
-//       }));
-//   if (response.statusCode != 200) {
-//     throw Exception('Failed to create data');
-//   }
-// }
-// Future<Department> createDepartment(String name, String description) async {
-//   final response = await http.post(Uri.parse(ApiService.departmentsUrl),
-//       headers: <String, String>{
-//         'Content-Type': 'application/json; charset=UTF-8',
-//       },
-//       body: jsonEncode(<String, dynamic>{
-//         'name': name,
-//         'description': description,
-//       }));
-//   if (response.statusCode == 200) {
-//     // Parse the response body to get the created department
-//     final Map<String, dynamic> responseData = jsonDecode(response.body);
-//     final createdDepartment = Department.fromJson(responseData);
-//     return createdDepartment;
-//   } else {
-//     throw Exception('Failed to create department');
-//   }
-// }
 Future<Department?> createDepartment(String name, String? description) async {
   final response = await http.post(
     Uri.parse(ApiService.departmentsUrl),

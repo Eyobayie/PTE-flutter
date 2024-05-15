@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:parent_teacher_engagement_app/providers/DepartmentProvider.dart';
+import 'package:parent_teacher_engagement_app/providers/GradelevelProvider.dart';
+import 'package:parent_teacher_engagement_app/providers/ParentProvider.dart';
+import 'package:parent_teacher_engagement_app/providers/SectionProvider.dart';
+import 'package:parent_teacher_engagement_app/providers/TeacherProvider.dart';
 import 'package:parent_teacher_engagement_app/screens/department/departments_page.dart';
 import 'package:parent_teacher_engagement_app/screens/gradelevel/gradeDetail.dart';
 import 'package:parent_teacher_engagement_app/screens/gradelevel/gradelevel_screen.dart';
@@ -25,6 +29,10 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => DepartmentProvider()),
+        ChangeNotifierProvider(create: (context) => GradelevelProvider()),
+        ChangeNotifierProvider(create: (context) => TeacherProvider()),
+        ChangeNotifierProvider(create: (context) => SectionProvider()),
+        ChangeNotifierProvider(create: (context) => ParentProvider()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

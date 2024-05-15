@@ -4,6 +4,8 @@ import 'package:parent_teacher_engagement_app/screens/parent/parent_registration
 import 'package:parent_teacher_engagement_app/services/parent/parent.dart';
 import 'package:parent_teacher_engagement_app/services/teacher/teacher.dart';
 
+import '../../constants/appbar_constants.dart';
+
 class ParentScreen extends StatefulWidget {
   const ParentScreen({super.key});
   static const String parentRoute = 'parentrRoute';
@@ -17,10 +19,11 @@ class _ParentScreenState extends State<ParentScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "All Parents",
-          style: TextStyle(color: Colors.white),
+          'All parents',
+          style: AppBarConstants.textStyle,
         ),
-        backgroundColor: Colors.blue,
+        backgroundColor: AppBarConstants.backgroundColor,
+        iconTheme: AppBarConstants.iconTheme,
         actions: [
           TextButton(
               onPressed: () {

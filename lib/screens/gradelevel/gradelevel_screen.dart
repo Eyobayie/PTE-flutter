@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:parent_teacher_engagement_app/providers/GradelevelProvider.dart';
 import 'package:parent_teacher_engagement_app/screens/department/new_department.dart';
+import 'package:parent_teacher_engagement_app/screens/gradelevel/gradeDetail.dart';
 import 'package:parent_teacher_engagement_app/screens/gradelevel/new_grade.dart';
 import 'package:provider/provider.dart';
 
@@ -81,6 +82,11 @@ class _GradelevelScreenState extends State<GradelevelScreen> {
                           child: Card(
                             elevation: 1,
                             child: ListTile(
+                              onTap: () {
+                                Navigator.of(context).pushNamed(
+                                    GradeDetailScreen.gradeDetailScreenRoute,
+                                    arguments: gradelevel.id);
+                              },
                               leading: IconButton(
                                 icon: const Icon(Icons.edit),
                                 color: Colors.amber[400],

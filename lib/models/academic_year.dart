@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class AcademicYear {
   final int year;
   final String? description;

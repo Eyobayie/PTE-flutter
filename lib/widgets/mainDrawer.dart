@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:parent_teacher_engagement_app/screens/department/departments_page.dart';
 import 'package:parent_teacher_engagement_app/screens/gradelevel/gradelevel_screen.dart';
 import 'package:parent_teacher_engagement_app/screens/parent/parent_screen.dart';
+import 'package:parent_teacher_engagement_app/screens/subject/subject_screen.dart';
 import 'package:parent_teacher_engagement_app/screens/teacher/teacher_screen.dart';
 
 class MainDrawer extends StatelessWidget {
@@ -37,12 +38,18 @@ class MainDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            title: const Text('All grades'),
+            title: const Text('Grades'),
             onTap: () {
               Navigator.of(context)
                   .pushNamed(GradelevelScreen.gradelevelScreenRoute);
             },
-          )
+          ),
+          ListTile(
+            title: const Text('Subjects'),
+            onTap: () {
+              Navigator.of(context).pushNamed(SubjectScreen.subjectRoute);
+            },
+          ),
         ],
       ),
     );

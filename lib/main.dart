@@ -3,6 +3,7 @@ import 'package:parent_teacher_engagement_app/providers/DepartmentProvider.dart'
 import 'package:parent_teacher_engagement_app/providers/GradelevelProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/ParentProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/SectionProvider.dart';
+import 'package:parent_teacher_engagement_app/providers/SubjectProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/TeacherProvider.dart';
 import 'package:parent_teacher_engagement_app/screens/department/departments_page.dart';
 import 'package:parent_teacher_engagement_app/screens/gradelevel/gradeDetail.dart';
@@ -12,6 +13,8 @@ import 'package:parent_teacher_engagement_app/screens/gradelevel/new_grade.dart'
 import 'package:parent_teacher_engagement_app/screens/parent/parent_registration.dart';
 import 'package:parent_teacher_engagement_app/screens/parent/parent_screen.dart';
 import 'package:parent_teacher_engagement_app/screens/section/create_section.dart';
+import 'package:parent_teacher_engagement_app/screens/subject/subject_registration.dart';
+import 'package:parent_teacher_engagement_app/screens/subject/subject_screen.dart';
 import 'package:parent_teacher_engagement_app/screens/teacher/teacher_registration.dart';
 import 'package:parent_teacher_engagement_app/screens/teacher/teacher_screen.dart';
 import 'package:parent_teacher_engagement_app/widgets/mainDrawer.dart';
@@ -33,6 +36,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => TeacherProvider()),
         ChangeNotifierProvider(create: (context) => SectionProvider()),
         ChangeNotifierProvider(create: (context) => ParentProvider()),
+        ChangeNotifierProvider(create: (context) => SubjectProvider()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -59,6 +63,9 @@ class MyApp extends StatelessWidget {
           ParentRegistration.parentRegistrationRoute: (context) =>
               const ParentRegistration(),
           CreateSection.createSectionRoute: (context) => const CreateSection(),
+          SubjectScreen.subjectRoute: (context) => const SubjectScreen(),
+          SubjectRegistration.SubjectRegistrationRoute: (context) =>
+              const SubjectRegistration(),
         },
       ),
     );

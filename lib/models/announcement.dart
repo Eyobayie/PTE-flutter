@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class Announcement {
   final DateTime date;
   final String title;

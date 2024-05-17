@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:parent_teacher_engagement_app/providers/AnnouncemetProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/DepartmentProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/GradelevelProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/ParentProvider.dart';
@@ -10,6 +11,8 @@ import 'package:parent_teacher_engagement_app/screens/gradelevel/gradeDetail.dar
 import 'package:parent_teacher_engagement_app/screens/gradelevel/gradelevel_screen.dart';
 import 'package:parent_teacher_engagement_app/screens/department/new_department.dart';
 import 'package:parent_teacher_engagement_app/screens/gradelevel/new_grade.dart';
+import 'package:parent_teacher_engagement_app/screens/notification/UI/notification_action.dart';
+import 'package:parent_teacher_engagement_app/screens/notification/UI/notification_list.dart';
 import 'package:parent_teacher_engagement_app/screens/parent/parent_registration.dart';
 import 'package:parent_teacher_engagement_app/screens/parent/parent_screen.dart';
 import 'package:parent_teacher_engagement_app/screens/section/create_section.dart';
@@ -37,6 +40,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => SectionProvider()),
         ChangeNotifierProvider(create: (context) => ParentProvider()),
         ChangeNotifierProvider(create: (context) => SubjectProvider()),
+        ChangeNotifierProvider(create: (_) => AnnouncementProvider()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -53,6 +57,8 @@ class MyApp extends StatelessWidget {
           NewDepartment.newDepartmentRoute: (context) => const NewDepartment(),
           GradelevelScreen.gradelevelScreenRoute: (context) =>
               const GradelevelScreen(),
+          NotificationList.notificationListRoute: (context) =>
+              const NotificationList(),
           GradeDetailScreen.gradeDetailScreenRoute: (context) =>
               const GradeDetailScreen(),
           NewGradeLevel.newgradelevelRoute: (context) => const NewGradeLevel(),
@@ -87,6 +93,9 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
+        actions: const <Widget>[
+          NotificationAppBarActions(),
+        ],
       ),
       drawer: const MainDrawer(),
       body: const Center(

@@ -37,6 +37,9 @@ dependencies:
   cupertino_icons: ^1.0.6
   http: 
   provider: ^6.1.2
+  popup_menu: ^2.0.0
+  custom_pop_up_menu: ^1.2.4
+  accordion: ^2.6.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

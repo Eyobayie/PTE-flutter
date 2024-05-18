@@ -21,4 +21,5 @@ class ApiService {
   // sections endpoint
   static String get sectionsUrl => apiUrl('sections');
   static String get sectionUrl => apiUrl('section');
+  static String get AnnouncementUrl => apiUrl('announcements');
 }

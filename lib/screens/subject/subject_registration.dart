@@ -5,6 +5,9 @@ import 'package:parent_teacher_engagement_app/providers/GradelevelProvider.dart'
 import 'package:parent_teacher_engagement_app/widgets/sharedButton.dart';
 import 'package:provider/provider.dart';
 
+import '../../constants/appbar_constants.dart';
+import '../../constants/scaffold_constants.dart';
+
 class SubjectRegistration extends StatefulWidget {
   const SubjectRegistration({super.key});
   static const String SubjectRegistrationRoute = 'SubjectRegistration';
@@ -50,14 +53,15 @@ class _SubjectRegistrationState extends State<SubjectRegistration> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ScaffoldConstants.backgroundColor,
       appBar: AppBar(
         title: const Text(
           'Add new subject',
-          style: TextStyle(color: Color(0xFFC5A364)),
+          style: AppBarConstants.textStyle,
         ),
-        backgroundColor: const Color(0xFF1D1B20),
-        iconTheme: const IconThemeData(
-            color: Color(0xFFC5A364)), // Set the color for the back button
+        backgroundColor: AppBarConstants.backgroundColor,
+        iconTheme:
+            AppBarConstants.iconTheme, // Set the color for the back button
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(15.0, 50.0, 15.0, 0),

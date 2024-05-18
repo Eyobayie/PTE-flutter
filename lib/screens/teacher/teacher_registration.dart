@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:parent_teacher_engagement_app/services/teacher/teacher.dart';
 
 import '../../constants/appbar_constants.dart';
+import '../../constants/scaffold_constants.dart';
 
 class TeacherRegistration extends StatefulWidget {
   const TeacherRegistration({super.key});
@@ -41,6 +42,7 @@ class _TeacherRegistrationState extends State<TeacherRegistration> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ScaffoldConstants.backgroundColor,
       appBar: AppBar(
         title: const Text(
           'Teacher registration',

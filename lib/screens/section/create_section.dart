@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:parent_teacher_engagement_app/constants/appbar_constants.dart';
 import 'package:parent_teacher_engagement_app/services/section/section.dart';
+
+import '../../constants/scaffold_constants.dart';
 
 class CreateSection extends StatefulWidget {
   const CreateSection({super.key});
@@ -36,9 +39,14 @@ class _CreateSectionState extends State<CreateSection> {
   Widget build(BuildContext context) {
     gradelevelId = ModalRoute.of(context)!.settings.arguments as int;
     return Scaffold(
+      backgroundColor: ScaffoldConstants.backgroundColor,
       appBar: AppBar(
-        title: const Text('Add new department'),
-        backgroundColor: Colors.blue,
+        title: const Text(
+          'Add new gradelevels',
+          style: AppBarConstants.textStyle,
+        ),
+        backgroundColor: AppBarConstants.backgroundColor,
+        iconTheme: AppBarConstants.iconTheme,
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(15, 50, 15, 0),

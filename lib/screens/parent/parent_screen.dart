@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:parent_teacher_engagement_app/constants/card_constants.dart';
 import 'package:parent_teacher_engagement_app/models/parent.dart';
 import 'package:parent_teacher_engagement_app/screens/parent/parent_registration.dart';
 import 'package:parent_teacher_engagement_app/services/parent/parent.dart';
 import 'package:parent_teacher_engagement_app/services/teacher/teacher.dart';
 
 import '../../constants/appbar_constants.dart';
+import '../../constants/scaffold_constants.dart';
 
 class ParentScreen extends StatefulWidget {
   const ParentScreen({super.key});
@@ -17,6 +19,7 @@ class _ParentScreenState extends State<ParentScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ScaffoldConstants.backgroundColor,
       appBar: AppBar(
         title: const Text(
           'All parents',
@@ -53,6 +56,10 @@ class _ParentScreenState extends State<ParentScreen> {
               itemBuilder: (context, index) {
                 final parent = parents![index];
                 return Card(
+                  elevation: CardConstants.elevationHeight,
+                  margin: CardConstants.marginSize,
+                  color: CardConstants.backgroundColor,
+                  shape: CardConstants.rectangular,
                   child: ListTile(
                     leading: IconButton(
                         icon: const Icon(Icons.edit),

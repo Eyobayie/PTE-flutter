@@ -7,6 +7,15 @@ import 'package:parent_teacher_engagement_app/screens/teacher/teacher_screen.dar
 
 class MainDrawer extends StatelessWidget {
   const MainDrawer({super.key});
+  Widget sideBar(BuildContext context, String title, Icon icon, String route) {
+    return ListTile(
+      title: Text(title),
+      leading: icon,
+      onTap: () {
+        Navigator.of(context).pushNamed(route);
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,37 +28,21 @@ class MainDrawer extends StatelessWidget {
             ),
             child: Text('User profile'),
           ),
-          ListTile(
-            title: const Text('Departments'),
-            onTap: () {
-              Navigator.of(context).pushNamed(DepartmentPage.departmentRoute);
-            },
-          ),
-          ListTile(
-            title: const Text('Teachers'),
-            onTap: () {
-              Navigator.of(context).pushNamed(TeacherScree.teacherRoute);
-            },
-          ),
-          ListTile(
-            title: const Text('Parents'),
-            onTap: () {
-              Navigator.of(context).pushNamed(ParentScreen.parentRoute);
-            },
-          ),
-          ListTile(
-            title: const Text('Grades'),
-            onTap: () {
-              Navigator.of(context)
-                  .pushNamed(GradelevelScreen.gradelevelScreenRoute);
-            },
-          ),
-          ListTile(
-            title: const Text('Subjects'),
-            onTap: () {
-              Navigator.of(context).pushNamed(SubjectScreen.subjectRoute);
-            },
-          ),
+          sideBar(context, 'Departments', const Icon(Icons.home),
+              DepartmentPage.departmentRoute),
+          sideBar(context, 'Teachers', const Icon(Icons.person),
+              TeacherScree.teacherRoute),
+          sideBar(context, 'Parents', const Icon(Icons.people),
+              ParentScreen.parentRoute),
+          sideBar(context, 'Grades', const Icon(Icons.star),
+              GradelevelScreen.gradelevelScreenRoute),
+          sideBar(context, 'Students', const Icon(Icons.book_online),
+              SubjectScreen.subjectRoute),
+          sideBar(
+              context,
+              'Teachers',
+              const Icon(Icons.person_outline_outlined),
+              TeacherScree.teacherRoute)
         ],
       ),
     );

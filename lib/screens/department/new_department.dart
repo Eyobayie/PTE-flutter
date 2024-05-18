@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:parent_teacher_engagement_app/constants/appbar_constants.dart';
+import 'package:parent_teacher_engagement_app/constants/card_constants.dart';
 import 'package:parent_teacher_engagement_app/providers/DepartmentProvider.dart';
 import 'package:parent_teacher_engagement_app/widgets/sharedButton.dart';
 import 'package:provider/provider.dart';
+
+import '../../constants/scaffold_constants.dart';
 
 class NewDepartment extends StatefulWidget {
   const NewDepartment({super.key});
@@ -50,74 +54,81 @@ class _NewDepartmentState extends State<NewDepartment> {
   Widget build(BuildContext context) {
     // final department = ModalRoute.of(context)!.settings.arguments as Department;
     return Scaffold(
+      backgroundColor: ScaffoldConstants.backgroundColor,
       appBar: AppBar(
         title: const Text(
           'Add new department',
-          style: TextStyle(color: Color(0xFFC5A364)),
+          style: AppBarConstants.textStyle,
         ),
-        backgroundColor: const Color(0xFF1D1B20),
-        iconTheme: const IconThemeData(
-            color: Color(0xFFC5A364)), // Set the color for the back button
+        backgroundColor: AppBarConstants.backgroundColor,
       ),
       body: Padding(
           padding:
               const EdgeInsets.fromLTRB(15.0, 50.0, 15.0, 0), // Add top padding
-          child: Form(
-            key: _formKey,
-            child: ListView(
-              shrinkWrap: true, // ensure ListView takes only the space it needs
-              children: <Widget>[
-                TextFormField(
-                  decoration: InputDecoration(
-                      labelText: "Department name",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: const BorderSide(color: Colors.blue),
-                      )),
-                  textInputAction: TextInputAction.next,
-                  keyboardType: TextInputType.text,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Department name is required';
-                    }
-                    return null;
-                  },
-                  onFieldSubmitted: (value) {
-                    FocusScope.of(context).requestFocus(_descriptionFocusNode);
-                  },
-                  focusNode: _nameFocusNode,
-                  maxLines: 1,
-                  controller: nameController,
-                  onSaved: (value) {
-                    //name = value!;
-                    name = value ?? '';
-                  },
-                ),
-                const SizedBox(height: 10),
-                TextFormField(
-                  decoration: InputDecoration(
-                    labelText: "Department desc",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      borderSide: const BorderSide(color: Colors.blue),
+          child: Card(
+            elevation: CardConstants.elevationHeight,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(15.0, 50.0, 15.0, 70),
+              child: Form(
+                key: _formKey,
+                child: ListView(
+                  shrinkWrap:
+                      true, // ensure ListView takes only the space it needs
+                  children: <Widget>[
+                    TextFormField(
+                      decoration: InputDecoration(
+                          labelText: "Department name",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: const BorderSide(color: Colors.blue),
+                          )),
+                      textInputAction: TextInputAction.next,
+                      keyboardType: TextInputType.text,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Department name is required';
+                        }
+                        return null;
+                      },
+                      onFieldSubmitted: (value) {
+                        FocusScope.of(context)
+                            .requestFocus(_descriptionFocusNode);
+                      },
+                      focusNode: _nameFocusNode,
+                      maxLines: 1,
+                      controller: nameController,
+                      onSaved: (value) {
+                        //name = value!;
+                        name = value ?? '';
+                      },
                     ),
-                  ),
-                  textInputAction: TextInputAction.done,
-                  keyboardType: TextInputType.text,
-                  focusNode: _descriptionFocusNode,
-                  maxLines: 4,
-                  controller: descriptionController,
-                  onSaved: (value) {
-                    //description = value!;
-                    description = value ?? '';
-                  },
+                    const SizedBox(height: 10),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: "Department desc",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(color: Colors.blue),
+                        ),
+                      ),
+                      textInputAction: TextInputAction.done,
+                      keyboardType: TextInputType.text,
+                      focusNode: _descriptionFocusNode,
+                      maxLines: 4,
+                      controller: descriptionController,
+                      onSaved: (value) {
+                        //description = value!;
+                        description = value ?? '';
+                      },
+                    ),
+                    const SizedBox(height: 40),
+                    SharedButton(
+                      onPressed: saveForm,
+                      text: 'CREATE',
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 20),
-                SharedButton(
-                  onPressed: saveForm,
-                  text: 'CREATE',
-                ),
-              ],
+              ),
             ),
           )),
     );

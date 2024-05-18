@@ -3,6 +3,7 @@ import 'package:parent_teacher_engagement_app/providers/GradelevelProvider.dart'
 import 'package:provider/provider.dart';
 
 import '../../constants/appbar_constants.dart';
+import '../../constants/scaffold_constants.dart';
 
 class NewGradeLevel extends StatefulWidget {
   const NewGradeLevel({super.key});
@@ -43,6 +44,7 @@ class _NewGradeLevelState extends State<NewGradeLevel> {
   Widget build(BuildContext context) {
     // final department = ModalRoute.of(context)!.settings.arguments as Department;
     return Scaffold(
+      backgroundColor: ScaffoldConstants.backgroundColor,
       appBar: AppBar(
         title: const Text(
           'Add new gradelevels',

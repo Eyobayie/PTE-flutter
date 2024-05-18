@@ -4,6 +4,8 @@ import 'package:parent_teacher_engagement_app/screens/teacher/teacher_registrati
 import 'package:parent_teacher_engagement_app/services/teacher/teacher.dart';
 
 import '../../constants/appbar_constants.dart';
+import '../../constants/card_constants.dart';
+import '../../constants/scaffold_constants.dart';
 
 class TeacherScree extends StatefulWidget {
   const TeacherScree({super.key});
@@ -16,6 +18,7 @@ class _TeacherScreeState extends State<TeacherScree> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ScaffoldConstants.backgroundColor,
       appBar: AppBar(
         title: const Text(
           'All teachers',
@@ -54,6 +57,10 @@ class _TeacherScreeState extends State<TeacherScree> {
                 return Dismissible(
                   key: Key(teacher.id.toString()),
                   child: Card(
+                    elevation: CardConstants.elevationHeight,
+                    margin: CardConstants.marginSize,
+                    color: CardConstants.backgroundColor,
+                    shape: CardConstants.rectangular,
                     child: ListTile(
                       leading: IconButton(
                           icon: const Icon(Icons.edit),

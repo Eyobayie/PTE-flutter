@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:parent_teacher_engagement_app/constants/card_constants.dart';
+import 'package:parent_teacher_engagement_app/constants/scaffold_constants.dart';
 import 'package:parent_teacher_engagement_app/providers/DepartmentProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:parent_teacher_engagement_app/screens/department/new_department.dart';
@@ -45,6 +47,7 @@ class _DepartmentPageState extends State<DepartmentPage> {
     // double screenWidth = MediaQuery.of(context).size.width;
     // double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
+        backgroundColor: ScaffoldConstants.backgroundColor,
         appBar: AppBar(
           title: const Text(
             'All departments',
@@ -87,7 +90,10 @@ class _DepartmentPageState extends State<DepartmentPage> {
                           return Dismissible(
                             key: Key(department.id.toString()),
                             child: Card(
-                              elevation: 2,
+                              elevation: CardConstants.elevationHeight,
+                              margin: CardConstants.marginSize,
+                              color: CardConstants.backgroundColor,
+                              shape: CardConstants.rectangular,
                               child: ListTile(
                                 leading: IconButton(
                                     icon: const Icon(Icons.edit),

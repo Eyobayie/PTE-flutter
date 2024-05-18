@@ -4,40 +4,43 @@ import 'package:parent_teacher_engagement_app/models/gradelevel.dart';
 import 'package:parent_teacher_engagement_app/screens/section/create_section.dart';
 import 'package:parent_teacher_engagement_app/services/gradelevel/gradelevel.dart';
 
-class GradeDetailScreen extends StatefulWidget {
-  const GradeDetailScreen({super.key});
-  static const String gradeDetailScreenRoute = 'gradeDetailScreenRoute';
-  @override
-  State<GradeDetailScreen> createState() => _GradeDetailScreenState();
-}
+import '../../constants/scaffold_constants.dart';
 
-class _GradeDetailScreenState extends State<GradeDetailScreen> {
+class GradeDetailScreen extends StatelessWidget {
+  final Gradelevel gradelevel;
+  static const String gradeDetailScreenRoute = 'gradeDetailScreenRoute';
+  const GradeDetailScreen({Key? key, required this.gradelevel})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    final id = ModalRoute.of(context)!.settings.arguments as int;
     return Scaffold(
+      backgroundColor: ScaffoldConstants.backgroundColor,
       appBar: AppBar(
-        title: const Text(
-          'Gradelevel details',
-          style: AppBarConstants.textStyle,
+        title: Text(
+          gradelevel.grade,
+          style: const TextStyle(color: Colors.white, fontSize: 16),
         ),
         backgroundColor: AppBarConstants.backgroundColor,
         iconTheme: AppBarConstants.iconTheme,
         actions: [
           TextButton(
-              onPressed: () {
-                Navigator.of(context)
-                    .pushNamed(CreateSection.createSectionRoute, arguments: id);
-              },
-              child: const Text(
-                'Add Section',
-                style: TextStyle(color: Colors.white),
-              ))
+            onPressed: () {
+              Navigator.of(context).pushNamed(
+                CreateSection.createSectionRoute,
+                arguments: gradelevel.id,
+              );
+            },
+            child: const Text(
+              'Add Section',
+              style: TextStyle(color: Colors.white),
+            ),
+          )
         ],
       ),
-      body: Center(
+      body: SingleChildScrollView(
         child: FutureBuilder<Gradelevel>(
-          future: fetchGradeWithSections(id),
+          future: fetchGradeWithSections(gradelevel.id),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const CircularProgressIndicator();
@@ -48,15 +51,15 @@ class _GradeDetailScreenState extends State<GradeDetailScreen> {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Grade: ${grade.grade}'),
-                  Text('Description: ${grade.description}'),
                   const SizedBox(height: 20),
                   const Text('Sections:'),
                   Column(
                     children: grade.sections.map((section) {
-                      return ListTile(
-                        title: Text(section.name),
-                        subtitle: Text(section.description ?? ''),
+                      return Card(
+                        child: ListTile(
+                          title: Text(section.name),
+                          subtitle: Text(section.description ?? ''),
+                        ),
                       );
                     }).toList(),
                   ),

@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:parent_teacher_engagement_app/constants/appbar_constants.dart';
+import 'package:parent_teacher_engagement_app/constants/card_constants.dart';
+import 'package:parent_teacher_engagement_app/models/gradelevel.dart';
 import 'package:parent_teacher_engagement_app/providers/GradelevelProvider.dart';
 import 'package:parent_teacher_engagement_app/screens/department/new_department.dart';
 import 'package:parent_teacher_engagement_app/screens/gradelevel/gradeDetail.dart';
 import 'package:parent_teacher_engagement_app/screens/gradelevel/new_grade.dart';
 import 'package:provider/provider.dart';
 
-import '../../constants/appbar_constants.dart';
+import '../../constants/scaffold_constants.dart';
 
 class GradelevelScreen extends StatefulWidget {
-  const GradelevelScreen({super.key});
+  const GradelevelScreen({Key? key});
   static const String gradelevelScreenRoute = "gradelevelRoute";
   @override
   State<GradelevelScreen> createState() => _GradelevelScreenState();
@@ -44,6 +47,7 @@ class _GradelevelScreenState extends State<GradelevelScreen> {
     final gradeProvider = Provider.of<GradelevelProvider>(context);
 
     return Scaffold(
+      backgroundColor: ScaffoldConstants.backgroundColor,
       appBar: AppBar(
         title: const Text(
           'ALL Grades',
@@ -77,16 +81,16 @@ class _GradelevelScreenState extends State<GradelevelScreen> {
                       itemCount: gradeProvider.gradelevels.length,
                       itemBuilder: (context, index) {
                         final gradelevel = gradeProvider.gradelevels[index];
-                        return Dismissible(
-                          key: Key(gradelevel.id.toString()),
+                        return GestureDetector(
+                          onTap: () {
+                            _showGradeDetailBottomSheet(context, gradelevel);
+                          },
                           child: Card(
-                            elevation: 1,
+                            elevation: CardConstants.elevationHeight,
+                            margin: CardConstants.marginSize,
+                            color: CardConstants.backgroundColor,
+                            shape: CardConstants.rectangular,
                             child: ListTile(
-                              onTap: () {
-                                Navigator.of(context).pushNamed(
-                                    GradeDetailScreen.gradeDetailScreenRoute,
-                                    arguments: gradelevel.id);
-                              },
                               leading: IconButton(
                                 icon: const Icon(Icons.edit),
                                 color: Colors.amber[400],
@@ -112,6 +116,27 @@ class _GradelevelScreenState extends State<GradelevelScreen> {
                         );
                       },
                     ),
+    );
+  }
+
+  void _showGradeDetailBottomSheet(
+      BuildContext context, Gradelevel gradelevel) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled:
+          true, // Allow the bottom sheet to take up the full height of the screen
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+            top: Radius.circular(
+                20.0)), // Optional: Customize the shape of the bottom sheet
+      ),
+      builder: (BuildContext context) {
+        return SizedBox(
+          height: MediaQuery.of(context).size.height * 0.7,
+          width: MediaQuery.of(context).size.width * 0.8,
+          child: GradeDetailScreen(gradelevel: gradelevel),
+        );
+      },
     );
   }
 }

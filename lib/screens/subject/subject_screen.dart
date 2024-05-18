@@ -4,6 +4,8 @@ import 'package:parent_teacher_engagement_app/screens/subject/subject_registrati
 import 'package:provider/provider.dart';
 
 import '../../constants/appbar_constants.dart';
+import '../../constants/card_constants.dart';
+import '../../constants/scaffold_constants.dart';
 
 class SubjectScreen extends StatefulWidget {
   const SubjectScreen({Key? key});
@@ -45,6 +47,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
     // double screenWidth = MediaQuery.of(context).size.width;
     // double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
+        backgroundColor: ScaffoldConstants.backgroundColor,
         appBar: AppBar(
           title: const Text(
             'All Subjects',
@@ -87,7 +90,10 @@ class _SubjectScreenState extends State<SubjectScreen> {
                           return Dismissible(
                             key: Key(subject.id.toString()),
                             child: Card(
-                              elevation: 2,
+                              elevation: CardConstants.elevationHeight,
+                              margin: CardConstants.marginSize,
+                              color: CardConstants.backgroundColor,
+                              shape: CardConstants.rectangular,
                               child: ListTile(
                                 leading: IconButton(
                                     icon: const Icon(Icons.edit),

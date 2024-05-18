@@ -1,5 +1,3 @@
-import 'gradelevel.dart';
-
 class Subject {
   final int id;
   final String name;
@@ -26,7 +24,7 @@ class Subject {
       'id': id,
       'name': name,
       'description': description ?? '',
-      'gradelevel': GradelevelId ?? '',
+      'gradelevel': GradelevelId,
     };
   }
 }

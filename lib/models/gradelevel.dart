@@ -10,7 +10,8 @@ class Gradelevel {
       {required this.id,
       required this.grade,
       required this.description,
-      required this.sections});
+      required this.sections
+      });
 
   factory Gradelevel.fromJson(Map<String, dynamic> json) {
     List<dynamic> sectionList = json['Sections'] ?? [];

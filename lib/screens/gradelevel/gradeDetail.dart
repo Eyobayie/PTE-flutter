@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:parent_teacher_engagement_app/constants/appbar_constants.dart';
+import 'package:parent_teacher_engagement_app/constants/card_constants.dart';
 import 'package:parent_teacher_engagement_app/models/gradelevel.dart';
 import 'package:parent_teacher_engagement_app/screens/section/create_section.dart';
+import 'package:parent_teacher_engagement_app/screens/student/student_per_section.dart';
 import 'package:parent_teacher_engagement_app/services/gradelevel/gradelevel.dart';
 
 import '../../constants/scaffold_constants.dart';
@@ -56,9 +58,27 @@ class GradeDetailScreen extends StatelessWidget {
                   Column(
                     children: grade.sections.map((section) {
                       return Card(
+                        color: CardConstants.backgroundColor,
+                        elevation: CardConstants.elevationHeight,
+                        margin: CardConstants.marginSize,
+                        shape: CardConstants.rectangular,
                         child: ListTile(
                           title: Text(section.name),
                           subtitle: Text(section.description ?? ''),
+                          trailing: IconButton(
+                            onPressed: () {
+                              Navigator.of(context).pushNamed(
+                                StudentPerSection.studentRoute,
+                                arguments: {
+                                  'gradelevelId': gradelevel.id,
+                                  'sectionId': section.id
+                                },
+                              );
+                            },
+                            icon: const Icon(Icons.remove_red_eye_outlined),
+                            iconSize: 20,
+                            color: AppBarConstants.backgroundColor,
+                          ),
                         ),
                       );
                     }).toList(),

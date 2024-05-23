@@ -3,12 +3,17 @@ import 'package:http/http.dart' as http;
 import 'package:parent_teacher_engagement_app/models/section.dart';
 import 'package:parent_teacher_engagement_app/services/api.dart';
 
-Future<List<Section>> getSections() async {
-  final response = await http.get(Uri.parse(ApiService.sectionsUrl));
+Future<List<Section>> getSections(int? gradelevelId) async {
+  final response = await http
+      .get(Uri.parse('${ApiService.gradeLevelUrl}/$gradelevelId/sections'));
+
   if (response.statusCode == 200) {
-    final List<dynamic> data = jsonDecode(response.body);
+    final Map<String, dynamic> data = jsonDecode(response.body);
+    final List<dynamic> sectionData = data['grade'][
+        'Sections']; // Adjust the key names according to your actual JSON structure
+
     final List<Section> sections =
-        data.map((item) => Section.fromJson(item)).toList();
+        sectionData.map((item) => Section.fromJson(item)).toList();
     return sections;
   } else {
     throw Exception('Failed to load sections');

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:parent_teacher_engagement_app/constants/appbar_constants.dart';
+import 'package:parent_teacher_engagement_app/screens/academicYear/academic_year.dart';
 import 'package:parent_teacher_engagement_app/screens/department/departments_page.dart';
 import 'package:parent_teacher_engagement_app/screens/gradelevel/gradelevel_screen.dart';
 import 'package:parent_teacher_engagement_app/screens/parent/parent_screen.dart';
+import 'package:parent_teacher_engagement_app/screens/student/student_registration.dart';
 import 'package:parent_teacher_engagement_app/screens/subject/subject_screen.dart';
 import 'package:parent_teacher_engagement_app/screens/teacher/teacher_screen.dart';
 
@@ -24,9 +27,12 @@ class MainDrawer extends StatelessWidget {
         children: [
           const DrawerHeader(
             decoration: BoxDecoration(
-              color: Colors.blue,
+              color: AppBarConstants.backgroundColor,
             ),
-            child: Text('User profile'),
+            child: Text(
+              'User profile',
+              style: TextStyle(color: Colors.white),
+            ),
           ),
           sideBar(context, 'Departments', const Icon(Icons.home),
               DepartmentPage.departmentRoute),
@@ -36,13 +42,20 @@ class MainDrawer extends StatelessWidget {
               ParentScreen.parentRoute),
           sideBar(context, 'Grades', const Icon(Icons.star),
               GradelevelScreen.gradelevelScreenRoute),
-          sideBar(context, 'Students', const Icon(Icons.book_online),
+          sideBar(context, 'Subject', const Icon(Icons.book_online),
               SubjectScreen.subjectRoute),
+          sideBar(context, 'Students', const Icon(Icons.people),
+              StudentRegistration.StudentRegistrationRoute),
+          sideBar(
+              context,
+              'Academic years',
+              const Icon(Icons.person_outline_outlined),
+              AcademicYearScreen.academicYearRoute),
           sideBar(
               context,
               'Teachers',
               const Icon(Icons.person_outline_outlined),
-              TeacherScree.teacherRoute)
+              TeacherScree.teacherRoute),
         ],
       ),
     );

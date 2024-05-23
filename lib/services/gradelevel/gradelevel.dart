@@ -74,3 +74,18 @@ Future<Gradelevel> fetchGradeWithSections(int id) async {
     throw Exception('Failed to load grade: $e');
   }
 }
+
+Future<List<Gradelevel>> fetchGradelevelsWithSections() async {
+  try {
+    final response = await http.get(Uri.parse(ApiService.gradewithsection));
+
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonResponse = json.decode(response.body);
+      return jsonResponse.map((json) => Gradelevel.fromJson(json)).toList();
+    } else {
+      throw Exception('Failed to load sections');
+    }
+  } catch (e) {
+    throw Exception('Failed to load sections: $e');
+  }
+}

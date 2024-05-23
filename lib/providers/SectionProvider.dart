@@ -8,10 +8,10 @@ class SectionProvider extends ChangeNotifier {
   List<Section> get sections => _sections;
 
   // Method to fetch sections (example implementation)
-  Future<void> fetchSections() async {
+  Future<void> fetchSections(int? gradelevelId) async {
     // Fetch sections from API or database
     try {
-      _sections = await getSections();
+      _sections = await getSections(gradelevelId);
 
       notifyListeners();
     } catch (e) {

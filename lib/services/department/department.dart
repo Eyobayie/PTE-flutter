@@ -47,7 +47,7 @@ Future<void> deleteDepartment(int id) async {
 }
 
 Future<void> updateDepartment(int id, String name, String desctiption) async {
-  final response = await http.put(Uri.parse('${ApiService.departmentUrl}$id'),
+  final response = await http.put(Uri.parse('${ApiService.departmentUrl}/$id'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

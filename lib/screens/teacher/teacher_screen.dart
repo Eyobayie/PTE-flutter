@@ -66,9 +66,9 @@ class _TeacherScreeState extends State<TeacherScree> {
                           icon: const Icon(Icons.edit),
                           color: Colors.amber[400],
                           onPressed: () {
-                            // Navigator.of(context).pushNamed(
-                            //     NewDepartment.newDepartmentRoute,
-                            //     arguments: teacher);
+                            Navigator.of(context).pushNamed(
+                                TeacherRegistration.teacherRegistrationRoute,
+                                arguments: teacher);
                           }),
                       title: Text('${teacher.firstname} ${teacher.lastname}'),
                       subtitle: Text(teacher.phone.toString()),

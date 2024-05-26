@@ -4,7 +4,7 @@ import 'package:parent_teacher_engagement_app/models/help.dart';
 import 'package:parent_teacher_engagement_app/services/api.dart';
 
 // Fetch all helps
-Future<List<Help>> fetchHelps() async {
+Future<List<Help>> getHelps() async {
   final response = await http.get(Uri.parse(ApiService.helpsUrl));
   if (response.statusCode == 200) {
     final List<dynamic> data = jsonDecode(response.body);
@@ -26,15 +26,36 @@ Future<Help> fetchHelp(int id) async {
 }
 
 // Create new help
-Future<void> createHelp(Help help) async {
+// Future<void> createHelp(Help help) async {
+//   final response = await http.post(
+//     Uri.parse(ApiService.helpsUrl),
+//     headers: <String, String>{
+//       'Content-Type': 'application/json; charset=UTF-8',
+//     },
+//     body: jsonEncode(help.toJson()),
+//   );
+//   if (response.statusCode != 200) {
+//     throw Exception('Failed to create help');
+//   }
+// }
+
+Future<Help> createHelp(
+    String description, DateTime date, int? parentId) async {
   final response = await http.post(
     Uri.parse(ApiService.helpsUrl),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
-    body: jsonEncode(help.toJson()),
+    body: jsonEncode({
+      'description': description,
+      'date': date.toIso8601String(),
+    }),
   );
-  if (response.statusCode != 200) {
+
+  if (response.statusCode == 200) {
+    final Map<String, dynamic> data = jsonDecode(response.body);
+    return Help.fromJson(data);
+  } else {
     throw Exception('Failed to create help');
   }
 }

@@ -28,15 +28,12 @@ class _AcademicYearScreenState extends State<AcademicYearScreen> {
   Future<void> fetchData() async {
     try {
       setState(() {
-        _isLoading =
-            true; // Set local isLoading to true before making the API call
+        _isLoading = true;
       });
-      // Use the provider to fetch data
       await context.read<AcademicYearProvider>().fetchAcademicYears();
     } finally {
       setState(() {
-        _isLoading =
-            false; // Set local isLoading to false after the API call is complete
+        _isLoading = false;
       });
     }
   }

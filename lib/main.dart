@@ -9,12 +9,14 @@ import 'package:parent_teacher_engagement_app/providers/SectionProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/ParentProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/SubjectProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/TeacherProvider.dart';
+import 'package:parent_teacher_engagement_app/providers/helpProvider.dart';
 import 'package:parent_teacher_engagement_app/screens/academicYear/academic_year.dart';
 import 'package:parent_teacher_engagement_app/screens/department/departments_page.dart';
 import 'package:parent_teacher_engagement_app/screens/gradelevel/gradeDetail.dart';
 import 'package:parent_teacher_engagement_app/screens/gradelevel/gradelevel_screen.dart';
 import 'package:parent_teacher_engagement_app/screens/department/new_department.dart';
 import 'package:parent_teacher_engagement_app/screens/gradelevel/new_grade.dart';
+import 'package:parent_teacher_engagement_app/screens/help/help_Dialog.dart';
 import 'package:parent_teacher_engagement_app/screens/notification/UI/notification_action.dart';
 import 'package:parent_teacher_engagement_app/screens/notification/UI/notification_list.dart';
 import 'package:parent_teacher_engagement_app/screens/parent/parent_registration.dart';
@@ -51,8 +53,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => SubjectProvider()),
         ChangeNotifierProvider(create: (_) => AnnouncementProvider()),
         ChangeNotifierProvider(create: (_) => AcademicYearProvider()),
-        ChangeNotifierProvider(
-            create: (context) => StudentProvider()), // Add StudentProvider here
+        ChangeNotifierProvider(create: (_) => HelpProvider()),
+        ChangeNotifierProvider(create: (context) => StudentProvider()),
+        // Add StudentProvider here
       ],
       child: MaterialApp(
         title: 'Parent Teacher Engagement',
@@ -108,6 +111,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  bool _isHelpActive = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,14 +126,42 @@ class _MyHomePageState extends State<MyHomePage> {
         actions: const <Widget>[
           NotificationAppBarActions(),
         ],
+        iconTheme: IconThemeData(color: AppBarConstants.iconThem),
       ),
       drawer: const MainDrawer(),
       body: const Center(
         child: Text('There will be something here'),
       ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {},
+      //   child: const Text('Help?'),
+      // ),
+
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Text('Help?'),
+        onPressed: () {
+          setState(() {
+            _isHelpActive = !_isHelpActive;
+          });
+          if (_isHelpActive) {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return HelpDialog();
+              },
+            ).then((_) {
+              setState(() {
+                _isHelpActive = false;
+              });
+            });
+          }
+        },
+        shape: const CircleBorder(),
+        backgroundColor: AppBarConstants.backgroundColor,
+        tooltip: "Help",
+        child: Icon(
+          _isHelpActive ? Icons.close : Icons.help_outline,
+          color: AppBarConstants.iconThem,
+        ),
       ),
     );
   }

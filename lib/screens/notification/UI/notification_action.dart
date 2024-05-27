@@ -50,7 +50,7 @@ class _NotificationAppBarActionsState extends State<NotificationAppBarActions> {
               children: <Widget>[
                 const Icon(
                   Icons.notifications,
-                  color: AppBarConstants.backgroundColor,
+                  color: AppBarConstants.iconThem,
                 ),
                 Positioned(
                   left: 16.0,

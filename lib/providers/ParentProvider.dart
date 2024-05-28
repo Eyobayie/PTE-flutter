@@ -7,12 +7,11 @@ class ParentProvider extends ChangeNotifier {
 
   List<Parent> get parents => _parents;
 
-  // Method to fetch parents (example implementation)
   Future<void> fetchParents() async {
-    // Fetch parents from API or database
     try {
       _parents = await getParents();
       notifyListeners();
+      print('_parents: $parents');
     } catch (e) {
       print('Error fetching departments: $e');
     }
@@ -29,13 +28,11 @@ class ParentProvider extends ChangeNotifier {
     }
   }
 
-// create new gradelevel
   void addParent(Parent parent) {
     _parents.add(parent);
     notifyListeners();
   }
 
-  // create a parent provider
   Future<void> createParentProvider(
       String firstname, String lastname, String email, int phone) async {
     try {

@@ -9,6 +9,7 @@ import 'package:parent_teacher_engagement_app/providers/SectionProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/ParentProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/SubjectProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/TeacherProvider.dart';
+import 'package:parent_teacher_engagement_app/providers/helpProvider.dart';
 import 'package:parent_teacher_engagement_app/screens/academicYear/academic_year.dart';
 import 'package:parent_teacher_engagement_app/screens/department/departments_page.dart';
 import 'package:parent_teacher_engagement_app/screens/gradelevel/gradeDetail.dart';
@@ -52,8 +53,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => SubjectProvider()),
         ChangeNotifierProvider(create: (_) => AnnouncementProvider()),
         ChangeNotifierProvider(create: (_) => AcademicYearProvider()),
-        ChangeNotifierProvider(
-            create: (context) => StudentProvider()), // Add StudentProvider here
+        ChangeNotifierProvider(create: (_) => HelpProvider()),
+        ChangeNotifierProvider(create: (context) => StudentProvider()),
+        // Add StudentProvider here
       ],
       child: MaterialApp(
         title: 'Parent Teacher Engagement',

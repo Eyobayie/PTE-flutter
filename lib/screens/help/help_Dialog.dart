@@ -1,8 +1,56 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:parent_teacher_engagement_app/constants/appbar_constants.dart';
+import 'package:parent_teacher_engagement_app/models/help.dart';
+import 'package:parent_teacher_engagement_app/models/parent.dart';
+import 'package:parent_teacher_engagement_app/providers/ParentProvider.dart';
+import 'package:parent_teacher_engagement_app/providers/helpProvider.dart';
+import 'package:parent_teacher_engagement_app/screens/help/helpchat.dart';
+import 'package:provider/provider.dart';
 
-class HelpDialog extends StatelessWidget {
-  final TextEditingController _controller = TextEditingController();
+class HelpDialog extends StatefulWidget {
+  const HelpDialog({super.key});
+  @override
+  State<HelpDialog> createState() => _HelpDialogState();
+}
+
+class _HelpDialogState extends State<HelpDialog> {
+  final _descriptionFocusNode = FocusNode();
+  final descriptionController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  String? description;
+  List<Parent> parentIds = [];
+  int? parentId;
+
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<HelpProvider>(context, listen: false).fetchHelps();
+    // Fetch parentIds if needed
+    Provider.of<ParentProvider>(context, listen: false).fetchParents();
+  }
+
+  void saveForm() {
+    final isValid = _formKey.currentState!.validate();
+    if (!isValid) {
+      return;
+    }
+    _formKey.currentState!.save();
+
+    description = descriptionController.text.trim();
+    final DateTime date = DateTime.now();
+
+    if (description != null && description!.isNotEmpty) {
+      Provider.of<HelpProvider>(context, listen: false)
+          .createHelpProvider(description!, date, parentId)
+          .then((_) {
+        Navigator.pop(context);
+      }).catchError((error) {
+        print('Error creating help: $error');
+      });
+      descriptionController.clear();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -10,17 +58,17 @@ class HelpDialog extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
-      child: Container(
+      child: SizedBox(
         height: 400,
         child: Column(
           children: [
             Container(
-              padding: EdgeInsets.all(16),
-              decoration: BoxDecoration(
+              padding: const EdgeInsets.all(16),
+              decoration: const BoxDecoration(
                 color: AppBarConstants.backgroundColor,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
               ),
-              child: Row(
+              child: const Row(
                 children: [
                   CircleAvatar(
                     backgroundColor: Colors.white,
@@ -36,41 +84,78 @@ class HelpDialog extends StatelessWidget {
             ),
             Expanded(
               child: Container(
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 color: Colors.grey[200],
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       'Welcome To PTE, We are here to assist you with any issues that you have faced.',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     Expanded(
-                      child: Center(
-                        child: Text(
-                          'No messages yet...',
-                          style: TextStyle(color: Colors.grey),
-                        ),
+                      child: Consumer<HelpProvider>(
+                        builder: (context, helpProvider, child) {
+                          if (helpProvider.helps.isEmpty) {
+                            return const Center(
+                              child: Text(
+                                'No messages yet...',
+                                style: TextStyle(color: Colors.grey),
+                              ),
+                            );
+                          } else {
+                            return ListView.builder(
+                              itemCount: helpProvider.helps.length,
+                              itemBuilder: (context, index) {
+                                final help = helpProvider.helps[index];
+                                final formattedDate =
+                                    DateFormat('yyyy-MM-dd').format(help.date);
+                                return ChatBubble(
+                                  message: help.description,
+                                  date: formattedDate,
+                                  isMe: true,
+                                );
+                              },
+                            );
+                          }
+                        },
                       ),
                     ),
                     Row(
                       children: [
-                        Expanded(
-                          child: TextField(
-                            controller: _controller,
-                            decoration: InputDecoration(
-                              hintText: 'questions',
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(50),
-                                borderSide:
-                                    BorderSide(color: AppBarConstants.iconThem),
+                        Form(
+                          key: _formKey,
+                          child: Expanded(
+                            child: TextFormField(
+                              controller: descriptionController,
+                              decoration: InputDecoration(
+                                hintText: 'questions',
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(50),
+                                  borderSide: BorderSide(
+                                      color: AppBarConstants.iconThem),
+                                ),
                               ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'question is required';
+                                }
+                                return null;
+                              },
+                              onFieldSubmitted: (value) {
+                                FocusScope.of(context)
+                                    .requestFocus(_descriptionFocusNode);
+                              },
+                              focusNode: _descriptionFocusNode,
+                              maxLines: null,
+                              onSaved: (value) {
+                                description = value!;
+                              },
                             ),
-                            maxLines: null,
                           ),
                         ),
                         SizedBox(width: 8),
@@ -78,18 +163,13 @@ class HelpDialog extends StatelessWidget {
                           backgroundColor: AppBarConstants.backgroundColor,
                           child: IconButton(
                             icon: const Icon(Icons.send, color: Colors.white),
-                            onPressed: () {
-                              final message = _controller.text;
-                              if (message.isNotEmpty) {
-                                print(
-                                    'Message sent: $message'); // Replace with your send logic
-                                _controller
-                                    .clear(); // Clear the input after sending
-                              }
-                            },
+                            onPressed: saveForm,
                           ),
                         ),
                       ],
+                    ),
+                    const SizedBox(
+                      height: 15,
                     ),
                   ],
                 ),

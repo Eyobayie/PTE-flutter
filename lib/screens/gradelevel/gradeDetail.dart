@@ -56,7 +56,7 @@ class GradeDetailScreen extends StatelessWidget {
                   const SizedBox(height: 20),
                   const Text('Sections:'),
                   Column(
-                    children: grade.sections.map((section) {
+                    children: grade.sections!.map((section) {
                       return Card(
                         color: CardConstants.backgroundColor,
                         elevation: CardConstants.elevationHeight,

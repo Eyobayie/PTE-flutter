@@ -80,7 +80,7 @@ class MyApp extends StatelessWidget {
           AcademicYearScreen.academicYearRoute: (context) =>
               const AcademicYearScreen(),
           NewGradeLevel.newgradelevelRoute: (context) => const NewGradeLevel(),
-          TeacherScree.teacherRoute: (context) => const TeacherScree(),
+          TeacherScreen.teacherRoute: (context) => const TeacherScreen(),
           TeacherRegistration.teacherRegistrationRoute: (context) =>
               const TeacherRegistration(),
           ParentScreen.parentRoute: (context) => const ParentScreen(),

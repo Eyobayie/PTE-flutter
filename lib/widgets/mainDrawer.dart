@@ -37,7 +37,7 @@ class MainDrawer extends StatelessWidget {
           sideBar(context, 'Departments', const Icon(Icons.home),
               DepartmentPage.departmentRoute),
           sideBar(context, 'Teachers', const Icon(Icons.person),
-              TeacherScree.teacherRoute),
+              TeacherScreen.teacherRoute),
           sideBar(context, 'Parents', const Icon(Icons.people),
               ParentScreen.parentRoute),
           sideBar(context, 'Grades', const Icon(Icons.star),

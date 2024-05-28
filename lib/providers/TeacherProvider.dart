@@ -4,9 +4,10 @@ import 'package:parent_teacher_engagement_app/services/teacher/teacher.dart';
 
 class TeacherProvider extends ChangeNotifier {
   List<Teacher> _teachers = [];
-
+  String _error = '';
   List<Teacher> get teachers => _teachers;
-
+// set error
+  String get error => _error;
   // Method to fetch teachers
   Future<void> fetchTeachers() async {
     try {

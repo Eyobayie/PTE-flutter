@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:parent_teacher_engagement_app/models/gradelevel.dart';
 import 'package:parent_teacher_engagement_app/providers/GradelevelProvider.dart';
+import 'package:parent_teacher_engagement_app/widgets/sharedButton.dart';
 import 'package:provider/provider.dart';
 
 import '../../constants/appbar_constants.dart';
@@ -20,7 +22,21 @@ class _NewGradeLevelState extends State<NewGradeLevel> {
   final gradeController = TextEditingController();
   final descriptionController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  void saveForm() {
+
+  Gradelevel? gradelevel;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final args = ModalRoute.of(context)?.settings.arguments;
+    if (args is Gradelevel) {
+      gradelevel = args;
+      gradeController.text = gradelevel?.grade ?? '';
+      descriptionController.text = gradelevel?.description ?? '';
+    }
+  }
+
+  void saveForm() async {
     final isValid = _formKey.currentState!.validate();
     if (!isValid) {
       return;
@@ -29,6 +45,25 @@ class _NewGradeLevelState extends State<NewGradeLevel> {
 
     final String enteredGrade = gradeController.text.trim();
     final String enteredDescription = descriptionController.text.trim();
+
+    if (gradelevel == null) {
+      // create new department
+      try {
+        await Provider.of<GradelevelProvider>(context, listen: false)
+            .createGradelevelProvider(enteredGrade, enteredDescription);
+      } catch (error) {
+        print('Error creating gradelevel: $error');
+      }
+    } else {
+      // Update existing grade level
+      try {
+        await Provider.of<GradelevelProvider>(context, listen: false)
+            .updateGradelevelProvider(
+                gradelevel!.id, enteredGrade, enteredDescription);
+      } catch (error) {
+        print('Error updating gradelevel: $error');
+      }
+    }
 
     Provider.of<GradelevelProvider>(context, listen: false)
         .createGradelevelProvider(enteredGrade, enteredDescription)
@@ -46,8 +81,8 @@ class _NewGradeLevelState extends State<NewGradeLevel> {
     return Scaffold(
       backgroundColor: ScaffoldConstants.backgroundColor,
       appBar: AppBar(
-        title: const Text(
-          'Add new gradelevels',
+        title: Text(
+          gradelevel == null ? 'Add new gradelevels' : 'Update gradelevel',
           style: AppBarConstants.textStyle,
         ),
         backgroundColor: AppBarConstants.backgroundColor,
@@ -107,15 +142,11 @@ class _NewGradeLevelState extends State<NewGradeLevel> {
               const SizedBox(height: 10),
               ElevatedButton(
                 onPressed: saveForm,
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  child: Text(
-                    "Create",
-                    style: TextStyle(
-                      color: Colors.white,
-                      backgroundColor: Colors.orange,
-                    ),
-                  ),
+                child: SharedButton(
+                  onPressed: () {
+                    saveForm();
+                  },
+                  text: gradelevel == null ? 'Submit' : 'Update',
                 ),
               ),
             ],

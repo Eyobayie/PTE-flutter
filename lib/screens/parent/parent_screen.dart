@@ -1,90 +1,127 @@
 import 'package:flutter/material.dart';
 import 'package:parent_teacher_engagement_app/constants/card_constants.dart';
-import 'package:parent_teacher_engagement_app/models/parent.dart';
+import 'package:parent_teacher_engagement_app/constants/scaffold_constants.dart';
+import 'package:parent_teacher_engagement_app/providers/ParentProvider.dart';
 import 'package:parent_teacher_engagement_app/screens/parent/parent_registration.dart';
-import 'package:parent_teacher_engagement_app/services/parent/parent.dart';
-import 'package:parent_teacher_engagement_app/services/teacher/teacher.dart';
+import 'package:provider/provider.dart';
+import 'package:parent_teacher_engagement_app/screens/department/new_department.dart';
 
 import '../../constants/appbar_constants.dart';
-import '../../constants/scaffold_constants.dart';
 
 class ParentScreen extends StatefulWidget {
-  const ParentScreen({super.key});
-  static const String parentRoute = 'parentrRoute';
+  const ParentScreen({Key? key});
+
+  static const String parentRoute = 'parent';
+
   @override
   State<ParentScreen> createState() => _ParentScreenState();
 }
 
 class _ParentScreenState extends State<ParentScreen> {
+  bool _isLoading = false; // Local loading state in ExamHome
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  Future<void> fetchData() async {
+    try {
+      setState(() {
+        _isLoading =
+            true; // Set local isLoading to true before making the API call
+      });
+      // Use the provider to fetch data
+      await context.read<ParentProvider>().fetchParents();
+    } finally {
+      setState(() {
+        _isLoading =
+            false; // Set local isLoading to false after the API call is complete
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    var parentProvider = Provider.of<ParentProvider>(context);
+    // double screenWidth = MediaQuery.of(context).size.width;
+    // double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: ScaffoldConstants.backgroundColor,
-      appBar: AppBar(
-        title: const Text(
-          'All parents',
-          style: AppBarConstants.textStyle,
+        backgroundColor: ScaffoldConstants.backgroundColor,
+        appBar: AppBar(
+          title: const Text(
+            'All parents',
+            style: AppBarConstants.textStyle,
+          ),
+          backgroundColor: AppBarConstants.backgroundColor,
+          iconTheme: AppBarConstants.iconTheme,
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context)
+                      .pushNamed(ParentRegistration.ParentRegistrationRoute);
+                },
+                child: const Text(
+                  'Add new',
+                  style: TextStyle(color: Colors.white),
+                ))
+          ],
         ),
-        backgroundColor: AppBarConstants.backgroundColor,
-        iconTheme: AppBarConstants.iconTheme,
-        actions: [
-          TextButton(
-              onPressed: () {
-                Navigator.of(context)
-                    .pushNamed(ParentRegistration.ParentRegistrationRoute);
-              },
-              child: const Text(
-                'Add new',
-                style: TextStyle(color: Colors.white),
-              ))
-        ],
-      ),
-      body: FutureBuilder<List<Parent>>(
-        future: getParents(), // Call fetchData() method here
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            // While waiting for data to load, show a loading indicator
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            // If an error occurs, display an error message
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else {
-            // If data is successfully loaded, display the department list
-            final List<Parent>? parents = snapshot.data;
-            return ListView.builder(
-              itemCount: parents?.length ?? 0,
-              itemBuilder: (context, index) {
-                final parent = parents![index];
-                return Card(
-                  elevation: CardConstants.elevationHeight,
-                  margin: CardConstants.marginSize,
-                  color: CardConstants.backgroundColor,
-                  shape: CardConstants.rectangular,
-                  child: ListTile(
-                    leading: IconButton(
-                        icon: const Icon(Icons.edit),
-                        color: Colors.amber[400],
-                        onPressed: () {
-                          Navigator.of(context).pushNamed(
-                              ParentRegistration.ParentRegistrationRoute,
-                              arguments: parent);
-                        }),
-                    title: Text('${parent.firstname} ${parent.lastname}'),
-                    subtitle: Text(parent.phone.toString()),
-                    trailing: IconButton(
-                      icon: const Icon(Icons.delete),
-                      color: Colors.red[900],
-                      onPressed: () {
-                        deleteTeacher(parent.id);
-                      },
-                    ),
-                  ),
-                );
-              },
-            );
-          }
-        },
-      ),
-    );
+        body: _isLoading
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : parentProvider.error.isNotEmpty
+                ? Center(
+                    child: Text('Error: ${parentProvider.error}'),
+                  )
+                : Consumer<ParentProvider>(
+                    builder: (context, departmentProvider, child) {
+                    if (departmentProvider.parents.isEmpty) {
+                      // If departments list is empty, fetch data
+                      departmentProvider.fetchParents();
+                      return const Center(child: CircularProgressIndicator());
+                    } else {
+                      // If departments list is not empty, display the department list
+                      return ListView.builder(
+                        itemCount: parentProvider.parents.length,
+                        itemBuilder: (context, index) {
+                          final parent = parentProvider.parents[index];
+                          return Dismissible(
+                            key: Key(parent.id.toString()),
+                            child: Card(
+                              elevation: CardConstants.elevationHeight,
+                              margin: CardConstants.marginSize,
+                              color: CardConstants.backgroundColor,
+                              shape: CardConstants.rectangular,
+                              child: ListTile(
+                                leading: IconButton(
+                                    icon: const Icon(Icons.edit),
+                                    color: Colors.amber[400],
+                                    onPressed: () {
+                                      Navigator.of(context).pushNamed(
+                                        ParentRegistration
+                                            .ParentRegistrationRoute,
+                                        arguments: parent,
+                                      );
+                                    }),
+                                title: Text(parent.firstname),
+                                subtitle: Text('${parent.phone}'),
+                                trailing: IconButton(
+                                  icon: const Icon(Icons.delete),
+                                  color: Colors.red[900],
+                                  onPressed: () {
+                                    parentProvider
+                                        .deleteParentProvider(parent.id);
+                                  },
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    }
+                  }));
   }
 }

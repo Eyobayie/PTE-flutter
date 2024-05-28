@@ -6,6 +6,9 @@ class ParentProvider extends ChangeNotifier {
   List<Parent> _parents = [];
 
   List<Parent> get parents => _parents;
+  String _error = '';
+
+  String get error => _error;
 
   Future<void> fetchParents() async {
     try {

@@ -60,4 +60,21 @@ class GradelevelProvider extends ChangeNotifier {
       print('Error creating department from provider: $e');
     }
   }
+
+  Future<void> updateGradelevelProvider(
+      int id, String grade, String description) async {
+    try {
+      await updateGradelevel(id, grade, description);
+      int index = _gradelevels.indexWhere((gradelevel) => gradelevel.id == id);
+      if (index != -1) {
+        _gradelevels[index] =
+            Gradelevel(id: id, grade: grade, description: description);
+        notifyListeners();
+      } else {
+        print('Error: Gradelevel not found in provider list');
+      }
+    } catch (e) {
+      print('Error updating gradelevel: $e');
+    }
+  }
 }

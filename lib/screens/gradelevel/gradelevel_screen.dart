@@ -96,7 +96,7 @@ class _GradelevelScreenState extends State<GradelevelScreen> {
                                 color: Colors.amber[400],
                                 onPressed: () {
                                   Navigator.of(context).pushNamed(
-                                    NewDepartment.newDepartmentRoute,
+                                    NewGradeLevel.newgradelevelRoute,
                                     arguments: gradelevel,
                                   );
                                 },

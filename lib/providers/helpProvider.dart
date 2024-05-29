@@ -9,20 +9,20 @@ class HelpProvider extends ChangeNotifier {
   List<Help> get helps => _helps;
   String get error => _error;
 
-  Future<void> fetchHelps() async {
-    try {
-      _helps = await getHelps();
-      print(' _helps: $_helps');
-      notifyListeners();
-    } catch (e) {
-      print('Error fetching helps: $e');
-    }
-  }
+  // Future<void> fetchHelps() async {
+  //   try {
+  //     _helps = await getHelps();
+  //     print(' _helps: $_helps');
+  //     notifyListeners();
+  //   } catch (e) {
+  //     print('Error fetching helps: $e');
+  //   }
+  // }
 
   Future<void> createHelpProvider(
-      String description, DateTime date, int? parentId) async {
+      String description, DateTime date, int ParentId) async {
     try {
-      Help createdHelp = await createHelp(description, date, parentId);
+      Help createdHelp = await createHelp(description, date, ParentId);
       _helps.add(createdHelp);
       notifyListeners();
     } catch (e) {
@@ -30,9 +30,9 @@ class HelpProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> getHelpsWithResponsesByParentId(int parentId) async {
+  Future<void> getHelpsWithResponsesByParentId(int ParentId) async {
     try {
-      _helps = await fetchHelpsWithResponsesByParentId(parentId);
+      _helps = await fetchHelpsWithResponsesByParentId(ParentId);
       notifyListeners();
     } catch (e) {
       print('Error fetching helps with responses: $e');

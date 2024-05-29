@@ -40,7 +40,7 @@ Future<Help> fetchHelp(int id) async {
 // }
 
 Future<Help> createHelp(
-    String description, DateTime date, int? parentId) async {
+    String description, DateTime date, int? ParentId) async {
   final response = await http.post(
     Uri.parse(ApiService.helpsUrl),
     headers: <String, String>{
@@ -83,9 +83,9 @@ Future<void> deleteHelp(int id) async {
 }
 
 // Fetch helps with responses by parent ID
-Future<List<Help>> fetchHelpsWithResponsesByParentId(int parentId) async {
+Future<List<Help>> fetchHelpsWithResponsesByParentId(int ParentId) async {
   final response =
-      await http.get(Uri.parse('${ApiService.helpWithResponse}/$parentId'));
+      await http.get(Uri.parse('${ApiService.helpWithResponse}/$ParentId'));
   if (response.statusCode == 200) {
     final List<dynamic> data = jsonDecode(response.body);
     return data.map((item) => Help.fromJson(item)).toList();

@@ -1,17 +1,13 @@
-// ignore_for_file: avoid_print
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:parent_teacher_engagement_app/constants/appbar_constants.dart';
-import 'package:parent_teacher_engagement_app/models/help.dart';
-import 'package:parent_teacher_engagement_app/models/parent.dart';
 import 'package:parent_teacher_engagement_app/providers/ParentProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/helpProvider.dart';
-import 'package:parent_teacher_engagement_app/screens/help/helpchat.dart';
 import 'package:provider/provider.dart';
 
 class HelpDialog extends StatefulWidget {
   const HelpDialog({super.key});
+
   @override
   State<HelpDialog> createState() => _HelpDialogState();
 }
@@ -21,27 +17,27 @@ class _HelpDialogState extends State<HelpDialog> {
   final descriptionController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String? description;
-  late List<Parent> parentIds;
-  int? parentId;
-  bool _isLoading = false;
+  late int parentId;
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await Provider.of<ParentProvider>(context, listen: false).fetchParents();
       final parentProvider =
           Provider.of<ParentProvider>(context, listen: false);
-      parentId = parentProvider.parentId;
-      print('parentIdgenet: $parentId');
+      await parentProvider.fetchParents();
+      parentId = parentProvider
+          .parents.first.id; // Assuming you want the first parent's ID
+      print('parentId: $parentId');
+
       if (parentId != null) {
         await Provider.of<HelpProvider>(context, listen: false)
-            .getHelpsWithResponsesByParentId(parentId!);
+            .getHelpsWithResponsesByParentId(parentId);
       }
     });
   }
 
   void saveForm() {
-    print('parentId on button click:$parentId');
     final isValid = _formKey.currentState!.validate();
     if (!isValid) {
       return;
@@ -184,6 +180,60 @@ class _HelpDialogState extends State<HelpDialog> {
                     ),
                   ],
                 ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ChatBubble extends StatelessWidget {
+  final String message;
+  final String date;
+  final bool isMe;
+
+  const ChatBubble({
+    Key? key,
+    required this.message,
+    required this.date,
+    required this.isMe,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 5),
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: isMe ? Colors.blue[200] : Colors.grey[300],
+          borderRadius: isMe
+              ? const BorderRadius.only(
+                  topLeft: Radius.circular(15),
+                  topRight: Radius.circular(15),
+                  bottomLeft: Radius.circular(15),
+                )
+              : const BorderRadius.only(
+                  topLeft: Radius.circular(15),
+                  topRight: Radius.circular(15),
+                  bottomRight: Radius.circular(15),
+                ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              message,
+              style: const TextStyle(color: Colors.black),
+            ),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: Text(
+                date,
+                style: const TextStyle(color: Colors.black54, fontSize: 10),
               ),
             ),
           ],

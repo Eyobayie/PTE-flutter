@@ -51,6 +51,8 @@ class MainDrawer extends StatelessWidget {
               'Academic years',
               const Icon(Icons.person_outline_outlined),
               AcademicYearScreen.academicYearRoute),
+          sideBar(context, 'Help', Icon(Icons.help),
+              AcademicYearScreen.academicYearRoute),
         ],
       ),
     );

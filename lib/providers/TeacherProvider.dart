@@ -7,9 +7,8 @@ class TeacherProvider extends ChangeNotifier {
 
   List<Teacher> get teachers => _teachers;
 
-  // Method to fetch teachers (example implementation)
+  // Method to fetch teachers
   Future<void> fetchTeachers() async {
-    // Fetch teachers from API or database
     try {
       List<Teacher> teacherData = await getTeachers();
       _teachers = teacherData;
@@ -17,7 +16,6 @@ class TeacherProvider extends ChangeNotifier {
     } catch (e) {
       print('Error fetching teachers: $e');
     }
-    notifyListeners();
   }
 
   Future<void> deleteTeacherProvider(int id) async {
@@ -30,7 +28,7 @@ class TeacherProvider extends ChangeNotifier {
     }
   }
 
-  void addDepartment(Teacher teacher) {
+  void addTeacher(Teacher teacher) {
     _teachers.add(teacher);
     notifyListeners();
   }
@@ -45,10 +43,32 @@ class TeacherProvider extends ChangeNotifier {
         notifyListeners();
       } else {
         print(
-            'Error creating department at provider: createdDepartment is null or id is null');
+            'Error creating teacher: registeredTeacher is null or id is null');
       }
     } catch (e) {
-      print('Error creating department from provider: $e');
+      print('Error creating teacher from provider: $e');
+    }
+  }
+
+  Future<void> updateTeacherProvider(int id, String firstname, String lastname,
+      String email, int phone) async {
+    try {
+      await updateTeacher(id, firstname, lastname, email, phone);
+      int index = _teachers.indexWhere((teacher) => teacher.id == id);
+      if (index != -1) {
+        _teachers[index] = Teacher(
+          id: id,
+          firstname: firstname,
+          lastname: lastname,
+          email: email,
+          phone: phone,
+        );
+        notifyListeners();
+      } else {
+        print('Error: Teacher not found in provider list');
+      }
+    } catch (e) {
+      print('Error updating teacher: $e');
     }
   }
 }

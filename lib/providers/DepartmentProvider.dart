@@ -29,7 +29,6 @@ class DepartmentProvider extends ChangeNotifier {
     }
   }
 
-// add a new department
   void addDepartment(Department department) {
     _departments.add(department);
     notifyListeners();
@@ -48,6 +47,23 @@ class DepartmentProvider extends ChangeNotifier {
       }
     } catch (e) {
       print('Error creating department from provider: $e');
+    }
+  }
+
+  Future<void> updateDepartmentProvider(
+      int id, String name, String description) async {
+    try {
+      await updateDepartment(id, name, description);
+      int index = _departments.indexWhere((department) => department.id == id);
+      if (index != -1) {
+        _departments[index] =
+            Department(id: id, name: name, description: description);
+        notifyListeners();
+      } else {
+        print('Error: Department not found in provider list');
+      }
+    } catch (e) {
+      print('Error updating department: $e');
     }
   }
 }

@@ -32,7 +32,7 @@ Future<List<Student>> getStudentPerSection(
 
 Future<Student?> registerStudent(String firstname, String? email, int? phone,
     int sectionId, int gradelevelId, int parentId) async {
-  final response = await http.post(Uri.parse(ApiService.parentstUrl),
+  final response = await http.post(Uri.parse(ApiService.studentsUrl),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

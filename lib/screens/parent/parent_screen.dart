@@ -31,7 +31,7 @@ class _ParentScreenState extends State<ParentScreen> {
           TextButton(
               onPressed: () {
                 Navigator.of(context)
-                    .pushNamed(ParentRegistration.parentRegistrationRoute);
+                    .pushNamed(ParentRegistration.ParentRegistrationRoute);
               },
               child: const Text(
                 'Add new',
@@ -65,9 +65,9 @@ class _ParentScreenState extends State<ParentScreen> {
                         icon: const Icon(Icons.edit),
                         color: Colors.amber[400],
                         onPressed: () {
-                          // Navigator.of(context).pushNamed(
-                          //     NewDepartment.newDepartmentRoute,
-                          //     arguments: teacher);
+                          Navigator.of(context).pushNamed(
+                              ParentRegistration.ParentRegistrationRoute,
+                              arguments: parent);
                         }),
                     title: Text('${parent.firstname} ${parent.lastname}'),
                     subtitle: Text(parent.phone.toString()),

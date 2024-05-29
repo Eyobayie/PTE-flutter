@@ -1,17 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:parent_teacher_engagement_app/services/parent/parent.dart';
+import 'package:parent_teacher_engagement_app/models/parent.dart';
+import 'package:parent_teacher_engagement_app/providers/ParentProvider.dart';
+import 'package:parent_teacher_engagement_app/widgets/sharedButton.dart';
+import 'package:provider/provider.dart';
 
 import '../../constants/appbar_constants.dart';
 import '../../constants/scaffold_constants.dart';
 
 class ParentRegistration extends StatefulWidget {
   const ParentRegistration({super.key});
-  static const String parentRegistrationRoute = "ParentRegistrationRoute";
+  static const String ParentRegistrationRoute = "ParentRegistrationRoute";
   @override
   State<ParentRegistration> createState() => _ParentRegistrationState();
 }
 
 class _ParentRegistrationState extends State<ParentRegistration> {
+  Parent? parent;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final args = ModalRoute.of(context)?.settings.arguments;
+    if (args is Parent) {
+      parent = args;
+      _firstnameController.text = parent?.firstname ?? '';
+      _lastnameController.text = parent?.lastname ?? '';
+      _emailController.text = parent!.email ?? '';
+      _phoneController.text = parent!.phone.toString();
+    }
+  }
+
   // Declaring variables
   late final String _firstname;
   late final String _lastname;
@@ -29,13 +47,33 @@ class _ParentRegistrationState extends State<ParentRegistration> {
   final _phoneController = TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  void saveForm() {
+  void saveForm() async {
     final isValid = _formKey.currentState!.validate();
     if (!isValid) {
       return;
     }
     _formKey.currentState!.save();
-    registerParent(_firstname, _lastname, _email, _phone);
+    final String enteredName = _firstnameController.text.trim();
+    final String enteredLstname = _lastnameController.text.trim();
+    final String enteredEmail = _emailController.text.trim();
+    if (parent == null) {
+      try {
+        await Provider.of<ParentProvider>(context, listen: false)
+            .createParentProvider(
+                enteredName, enteredLstname, enteredEmail, _phone);
+      } catch (error) {
+        print('Error creating department');
+      }
+    } else {
+      try {
+        await Provider.of<ParentProvider>(context, listen: false)
+            .updateParentProvider(
+                parent!.id, enteredName, enteredLstname, enteredEmail, _phone);
+      } catch (error) {
+        print('Error updating parent: $error');
+      }
+    }
+
     Navigator.pop(context);
   }
 
@@ -44,8 +82,8 @@ class _ParentRegistrationState extends State<ParentRegistration> {
     return Scaffold(
       backgroundColor: ScaffoldConstants.backgroundColor,
       appBar: AppBar(
-        title: const Text(
-          'Parent registration',
+        title: Text(
+          parent == null ? 'parent registration' : 'Edit parent info',
           style: AppBarConstants.textStyle,
         ),
         backgroundColor: AppBarConstants.backgroundColor,
@@ -172,19 +210,13 @@ class _ParentRegistrationState extends State<ParentRegistration> {
               const SizedBox(
                 height: 20,
               ),
-              SizedBox(
+              const SizedBox(
                 width: 60,
                 height: 40,
-                child: ElevatedButton(
-                  onPressed: saveForm,
-                  child: const Text(
-                    "Submit",
-                    style: TextStyle(
-                      color: Colors.white,
-                      backgroundColor: Colors.blue,
-                    ),
-                  ),
-                ),
+              ),
+              SharedButton(
+                onPressed: () => saveForm(),
+                text: parent == null ? 'Submit' : 'Update',
               ),
             ],
           ),

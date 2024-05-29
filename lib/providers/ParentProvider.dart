@@ -58,4 +58,26 @@ class ParentProvider extends ChangeNotifier {
       print('Error creating department from provider: $e');
     }
   }
+
+  Future<void> updateParentProvider(int id, String firstname, String lastname,
+      String email, int phone) async {
+    try {
+      await updateParent(id, firstname, lastname, email, phone);
+      int index = _parents.indexWhere((parent) => parent.id == id);
+      if (index != -1) {
+        _parents[index] = Parent(
+          id: id,
+          firstname: firstname,
+          lastname: lastname,
+          email: email,
+          phone: phone,
+        );
+        notifyListeners();
+      } else {
+        print('Error: Teacher not found in provider list');
+      }
+    } catch (e) {
+      print('Error updating teacher: $e');
+    }
+  }
 }

@@ -24,9 +24,9 @@ class _StudentRegistrationState extends State<StudentRegistration> {
   String firstname = '';
   String? email;
   int? phone;
-  int? gradelevelId;
-  int? sectionId;
-  int? parentId;
+  int? GradelevelId;
+  int? SectionId;
+  int? ParentId;
 
   final firstnameController = TextEditingController();
   final emailController = TextEditingController();
@@ -43,9 +43,9 @@ class _StudentRegistrationState extends State<StudentRegistration> {
   void saveForm() {
     final isValid = _formKey.currentState!.validate();
     if (!isValid ||
-        gradelevelId == null ||
-        sectionId == null ||
-        parentId == null) {
+        GradelevelId == null ||
+        SectionId == null ||
+        ParentId == null) {
       return;
     }
     _formKey.currentState!.save();
@@ -61,9 +61,15 @@ class _StudentRegistrationState extends State<StudentRegistration> {
 
     Provider.of<StudentProvider>(context, listen: false)
         .createStudentProvider(enteredName, enteredEmail, enteredPhone,
-            sectionId!, gradelevelId!, parentId!)
+            SectionId!, GradelevelId!, ParentId!)
         .then((_) {
       Navigator.of(context).pop();
+      print("grade levelID...+ $GradelevelId");
+      print("grade levelID...+ $ParentId");
+      print("grade levelID...+ $SectionId");
+      print("grade levelID...+ $enteredName");
+      print("grade levelID...+ $enteredPhone");
+      print("grade levelID...+ $enteredEmail");
     }).catchError((error) {
       print('Error creating student: $error');
     });
@@ -181,14 +187,14 @@ class _StudentRegistrationState extends State<StudentRegistration> {
                     }).toList(),
                     onChanged: (value) {
                       setState(() {
-                        gradelevelId = value;
+                        GradelevelId = value;
                         Provider.of<SectionProvider>(context, listen: false)
-                            .fetchSections(gradelevelId);
-                        sectionId =
+                            .fetchSections(GradelevelId);
+                        SectionId =
                             null; // Reset section when grade level changes
                       });
                     },
-                    value: gradelevelId,
+                    value: GradelevelId,
                     validator: (value) {
                       if (value == null) {
                         return 'Please select a grade level';
@@ -201,7 +207,7 @@ class _StudentRegistrationState extends State<StudentRegistration> {
               const SizedBox(height: 20),
               Consumer<SectionProvider>(
                 builder: (context, sectionProvider, child) {
-                  if (gradelevelId == null ||
+                  if (GradelevelId == null ||
                       sectionProvider.sections.isEmpty) {
                     return const Center(child: CircularProgressIndicator());
                   }
@@ -221,10 +227,10 @@ class _StudentRegistrationState extends State<StudentRegistration> {
                     }).toList(),
                     onChanged: (value) {
                       setState(() {
-                        sectionId = value;
+                        SectionId = value;
                       });
                     },
-                    value: sectionId,
+                    value: SectionId,
                     validator: (value) {
                       if (value == null) {
                         return 'Please select a section';
@@ -256,10 +262,10 @@ class _StudentRegistrationState extends State<StudentRegistration> {
                     }).toList(),
                     onChanged: (value) {
                       setState(() {
-                        parentId = value;
+                        ParentId = value;
                       });
                     },
-                    value: parentId,
+                    value: ParentId,
                     validator: (value) {
                       if (value == null) {
                         return 'Please select a parent';

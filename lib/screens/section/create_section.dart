@@ -1,43 +1,51 @@
 import 'package:flutter/material.dart';
 import 'package:parent_teacher_engagement_app/constants/appbar_constants.dart';
+import 'package:parent_teacher_engagement_app/providers/AcademicYearProvider.dart';
 import 'package:parent_teacher_engagement_app/services/section/section.dart';
+import 'package:provider/provider.dart';
 
 import '../../constants/scaffold_constants.dart';
 
 class CreateSection extends StatefulWidget {
   const CreateSection({super.key});
   static const createSectionRoute = 'createSectionRoute';
+
   @override
   State<CreateSection> createState() => _CreateSectionState();
 }
 
 class _CreateSectionState extends State<CreateSection> {
-  late final String _name;
-  late final String _description;
+  late String _name;
+  late String _description;
   final _nameFocusNode = FocusNode();
   final _descriptionFocusNode = FocusNode();
   final _nameController = TextEditingController();
   final _descriptionController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  late final int gradelevelId;
-  void saveForm() {
-    final isValid = _formKey.currentState!.validate();
-    if (!isValid) {
-      return;
-    }
-    _formKey.currentState!.save();
-    createSection(_name, _description, gradelevelId);
-    Navigator.of(context).pop();
-  }
+  int? gradelevelId;
+  int? _selectedAcademicYearId;
 
   @override
   void initState() {
     super.initState();
+    Provider.of<AcademicYearProvider>(context, listen: false)
+        .fetchAcademicYears();
+  }
+
+  void saveForm() {
+    final isValid = _formKey.currentState!.validate();
+    if (!isValid || _selectedAcademicYearId == null) {
+      return;
+    }
+    _formKey.currentState!.save();
+    createSection(_name, _description, gradelevelId!);
+    Navigator.of(context).pop();
   }
 
   @override
   Widget build(BuildContext context) {
     gradelevelId = ModalRoute.of(context)!.settings.arguments as int;
+
     return Scaffold(
       backgroundColor: ScaffoldConstants.backgroundColor,
       appBar: AppBar(
@@ -84,7 +92,7 @@ class _CreateSectionState extends State<CreateSection> {
               const SizedBox(height: 10),
               TextFormField(
                 decoration: InputDecoration(
-                  labelText: "Desctiption",
+                  labelText: "Description",
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
                     borderSide: const BorderSide(color: Colors.blue),
@@ -97,6 +105,42 @@ class _CreateSectionState extends State<CreateSection> {
                 controller: _descriptionController,
                 onSaved: (value) {
                   _description = value!;
+                },
+              ),
+              const SizedBox(height: 10),
+              Consumer<AcademicYearProvider>(
+                builder: (context, academicYearProvider, child) {
+                  if (academicYearProvider.academicYears.isEmpty) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  return DropdownButtonFormField<int>(
+                    decoration: InputDecoration(
+                      labelText: "Academic Year",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: const BorderSide(color: Colors.blue),
+                      ),
+                    ),
+                    items:
+                        academicYearProvider.academicYears.map((academicYear) {
+                      return DropdownMenuItem<int>(
+                        value: academicYear.id,
+                        child: Text(academicYear.year.toString()),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        _selectedAcademicYearId = value;
+                      });
+                    },
+                    value: _selectedAcademicYearId,
+                    validator: (value) {
+                      if (value == null) {
+                        return 'Please select an academic year';
+                      }
+                      return null;
+                    },
+                  );
                 },
               ),
               const SizedBox(height: 10),

@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:parent_teacher_engagement_app/models/teacher.dart';
+import 'package:parent_teacher_engagement_app/providers/TeacherProvider.dart';
 import 'package:parent_teacher_engagement_app/services/teacher/teacher.dart';
+import 'package:parent_teacher_engagement_app/widgets/sharedButton.dart';
+import 'package:provider/provider.dart';
 
 import '../../constants/appbar_constants.dart';
 import '../../constants/scaffold_constants.dart';
@@ -12,6 +16,21 @@ class TeacherRegistration extends StatefulWidget {
 }
 
 class _TeacherRegistrationState extends State<TeacherRegistration> {
+  Teacher? teacher;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final args = ModalRoute.of(context)?.settings.arguments;
+    if (args is Teacher) {
+      teacher = args;
+      _firstnameController.text = teacher?.firstname ?? '';
+      _lastnameController.text = teacher?.lastname ?? '';
+      _emailController.text = teacher!.email ?? '';
+      _phoneController.text = teacher!.phone.toString();
+    }
+  }
+
   // Declaring variables
   late final String _firstname;
   late final String _lastname;
@@ -29,13 +48,33 @@ class _TeacherRegistrationState extends State<TeacherRegistration> {
   final _phoneController = TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  void saveForm() {
+  void saveForm() async {
     final isValid = _formKey.currentState!.validate();
     if (!isValid) {
       return;
     }
     _formKey.currentState!.save();
-    registerTeacher(_firstname, _lastname, _email, _phone);
+    final String enteredName = _firstnameController.text.trim();
+    final String enteredLstname = _lastnameController.text.trim();
+    final String enteredEmail = _emailController.text.trim();
+    if (teacher == null) {
+      try {
+        await Provider.of<TeacherProvider>(context, listen: false)
+            .createTeacherProvider(
+                enteredName, enteredLstname, enteredEmail, _phone);
+      } catch (error) {
+        print('Error creating department');
+      }
+    } else {
+      try {
+        await Provider.of<TeacherProvider>(context, listen: false)
+            .updateTeacherProvider(
+                teacher!.id, enteredName, enteredLstname, enteredEmail, _phone);
+      } catch (error) {
+        print('Error updating teacher: $error');
+      }
+    }
+
     Navigator.pop(context);
   }
 
@@ -44,8 +83,8 @@ class _TeacherRegistrationState extends State<TeacherRegistration> {
     return Scaffold(
       backgroundColor: ScaffoldConstants.backgroundColor,
       appBar: AppBar(
-        title: const Text(
-          'Teacher registration',
+        title: Text(
+          teacher == null ? 'Teacher registration' : 'Edit teacher info',
           style: AppBarConstants.textStyle,
         ),
         backgroundColor: AppBarConstants.backgroundColor,
@@ -172,19 +211,13 @@ class _TeacherRegistrationState extends State<TeacherRegistration> {
               const SizedBox(
                 height: 20,
               ),
-              SizedBox(
+              const SizedBox(
                 width: 60,
                 height: 40,
-                child: ElevatedButton(
-                  onPressed: saveForm,
-                  child: const Text(
-                    "Submit",
-                    style: TextStyle(
-                      color: Colors.white,
-                      backgroundColor: Colors.blue,
-                    ),
-                  ),
-                ),
+              ),
+              SharedButton(
+                onPressed: () => saveForm(),
+                text: teacher == null ? 'Submit' : 'Update',
               ),
             ],
           ),

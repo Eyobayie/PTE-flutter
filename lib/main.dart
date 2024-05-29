@@ -84,7 +84,7 @@ class MyApp extends StatelessWidget {
           TeacherRegistration.teacherRegistrationRoute: (context) =>
               const TeacherRegistration(),
           ParentScreen.parentRoute: (context) => const ParentScreen(),
-          ParentRegistration.parentRegistrationRoute: (context) =>
+          ParentRegistration.ParentRegistrationRoute: (context) =>
               const ParentRegistration(),
           CreateSection.createSectionRoute: (context) => const CreateSection(),
           SubjectScreen.subjectRoute: (context) => const SubjectScreen(),

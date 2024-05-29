@@ -3,7 +3,6 @@ import 'package:parent_teacher_engagement_app/constants/appbar_constants.dart';
 import 'package:parent_teacher_engagement_app/constants/card_constants.dart';
 import 'package:parent_teacher_engagement_app/models/gradelevel.dart';
 import 'package:parent_teacher_engagement_app/providers/GradelevelProvider.dart';
-import 'package:parent_teacher_engagement_app/screens/department/new_department.dart';
 import 'package:parent_teacher_engagement_app/screens/gradelevel/gradeDetail.dart';
 import 'package:parent_teacher_engagement_app/screens/gradelevel/new_grade.dart';
 import 'package:provider/provider.dart';

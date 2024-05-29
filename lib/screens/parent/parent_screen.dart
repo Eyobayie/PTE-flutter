@@ -4,7 +4,6 @@ import 'package:parent_teacher_engagement_app/constants/scaffold_constants.dart'
 import 'package:parent_teacher_engagement_app/providers/ParentProvider.dart';
 import 'package:parent_teacher_engagement_app/screens/parent/parent_registration.dart';
 import 'package:provider/provider.dart';
-import 'package:parent_teacher_engagement_app/screens/department/new_department.dart';
 
 import '../../constants/appbar_constants.dart';
 

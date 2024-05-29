@@ -75,7 +75,7 @@ class MyApp extends StatelessWidget {
           DepartmentPage.departmentRoute: (context) => const DepartmentPage(),
 
           NewDepartment.newDepartmentRoute: (context) => const NewDepartment(),
-          HelpDialog.helpDialogRoute: (context) => HelpDialog(),
+          HelpDialog.helpDialogRoute: (context) => const HelpDialog(),
           HelpResponsePage.helpRoute: (context) => const HelpResponsePage(),
           GradelevelScreen.gradelevelScreenRoute: (context) =>
               const GradelevelScreen(),

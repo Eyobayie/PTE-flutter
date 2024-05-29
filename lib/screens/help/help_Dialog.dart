@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:parent_teacher_engagement_app/constants/appbar_constants.dart';
@@ -19,18 +21,27 @@ class _HelpDialogState extends State<HelpDialog> {
   final descriptionController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String? description;
-  List<Parent> parentIds = [];
+  late List<Parent> parentIds;
   int? parentId;
-
+  bool _isLoading = false;
   @override
   void initState() {
     super.initState();
-    Provider.of<HelpProvider>(context, listen: false).fetchHelps();
-    // Fetch parentIds if needed
-    Provider.of<ParentProvider>(context, listen: false).fetchParents();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await Provider.of<ParentProvider>(context, listen: false).fetchParents();
+      final parentProvider =
+          Provider.of<ParentProvider>(context, listen: false);
+      parentId = parentProvider.parentId;
+      print('parentIdgenet: $parentId');
+      if (parentId != null) {
+        await Provider.of<HelpProvider>(context, listen: false)
+            .getHelpsWithResponsesByParentId(parentId!);
+      }
+    });
   }
 
   void saveForm() {
+    print('parentId on button click:$parentId');
     final isValid = _formKey.currentState!.validate();
     if (!isValid) {
       return;
@@ -40,7 +51,7 @@ class _HelpDialogState extends State<HelpDialog> {
     description = descriptionController.text.trim();
     final DateTime date = DateTime.now();
 
-    if (description != null && description!.isNotEmpty) {
+    if (description != null && description!.isNotEmpty && parentId != null) {
       Provider.of<HelpProvider>(context, listen: false)
           .createHelpProvider(description!, date, parentId)
           .then((_) {

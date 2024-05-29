@@ -29,4 +29,15 @@ class HelpProvider extends ChangeNotifier {
       print('Error creating help from provider: $e');
     }
   }
+
+  Future<void> getHelpsWithResponsesByParentId(int parentId) async {
+    try {
+      _helps = await fetchHelpsWithResponsesByParentId(parentId);
+      notifyListeners();
+    } catch (e) {
+      print('Error fetching helps with responses: $e');
+      _error = 'Error fetching helps with responses';
+      notifyListeners();
+    }
+  }
 }

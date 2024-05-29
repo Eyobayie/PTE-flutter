@@ -6,16 +6,25 @@ class ParentProvider extends ChangeNotifier {
   List<Parent> _parents = [];
 
   List<Parent> get parents => _parents;
-
+  late int parentIds;
   Future<void> fetchParents() async {
     try {
       _parents = await getParents();
+      parentIds = parents[0].id;
       notifyListeners();
-      print('_parents: $parents');
+      print('_parents: ${parents[0].id}');
     } catch (e) {
       print('Error fetching departments: $e');
     }
+
     notifyListeners();
+  }
+
+  int? get parentId {
+    if (parents.isNotEmpty) {
+      return parents[0].id;
+    }
+    return null;
   }
 
   Future<void> deleteParentProvider(int id) async {

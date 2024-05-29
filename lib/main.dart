@@ -10,6 +10,7 @@ import 'package:parent_teacher_engagement_app/providers/ParentProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/SubjectProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/TeacherProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/helpProvider.dart';
+import 'package:parent_teacher_engagement_app/providers/helpResponseProvider.dart';
 import 'package:parent_teacher_engagement_app/screens/academicYear/academic_year.dart';
 import 'package:parent_teacher_engagement_app/screens/department/departments_page.dart';
 import 'package:parent_teacher_engagement_app/screens/gradelevel/gradeDetail.dart';
@@ -17,6 +18,7 @@ import 'package:parent_teacher_engagement_app/screens/gradelevel/gradelevel_scre
 import 'package:parent_teacher_engagement_app/screens/department/new_department.dart';
 import 'package:parent_teacher_engagement_app/screens/gradelevel/new_grade.dart';
 import 'package:parent_teacher_engagement_app/screens/help/help_Dialog.dart';
+import 'package:parent_teacher_engagement_app/screens/helpResponse/helpResponse.dart';
 import 'package:parent_teacher_engagement_app/screens/notification/UI/notification_action.dart';
 import 'package:parent_teacher_engagement_app/screens/notification/UI/notification_list.dart';
 import 'package:parent_teacher_engagement_app/screens/parent/parent_registration.dart';
@@ -54,6 +56,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AnnouncementProvider()),
         ChangeNotifierProvider(create: (_) => AcademicYearProvider()),
         ChangeNotifierProvider(create: (_) => HelpProvider()),
+        ChangeNotifierProvider(create: (_) => HelpResponseProvider()),
         ChangeNotifierProvider(create: (context) => StudentProvider()),
         // Add StudentProvider here
       ],
@@ -70,7 +73,10 @@ class MyApp extends StatelessWidget {
           '/': (context) =>
               const MyHomePage(title: 'Parent Teacher Engagement'),
           DepartmentPage.departmentRoute: (context) => const DepartmentPage(),
+
           NewDepartment.newDepartmentRoute: (context) => const NewDepartment(),
+          HelpDialog.helpDialogRoute: (context) => HelpDialog(),
+          HelpResponsePage.helpRoute: (context) => const HelpResponsePage(),
           GradelevelScreen.gradelevelScreenRoute: (context) =>
               const GradelevelScreen(),
           NotificationList.notificationListRoute: (context) =>

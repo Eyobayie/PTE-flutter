@@ -2,6 +2,8 @@ import 'package:accordion/controllers.dart';
 import 'package:flutter/material.dart';
 import 'package:parent_teacher_engagement_app/constants/appbar_constants.dart';
 import 'package:accordion/accordion.dart';
+import 'package:parent_teacher_engagement_app/providers/AnnouncemetProvider.dart';
+import 'package:provider/provider.dart';
 
 class NotificationList extends StatefulWidget {
   const NotificationList({super.key});
@@ -25,6 +27,28 @@ class _NotificationListState extends State<NotificationList> {
 
   static const loremIpsum =
       '''Lorem ipsum is typically a corrupted version of 'De finibus bonorum et malorum', a 1st century BC text by the Roman statesman and philosopher Cicero, with words altered, added, and removed to make it nonsensical and improper Latin.''';
+
+  bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  Future<void> fetchData() async {
+    try {
+      setState(() {
+        _isLoading = true;
+      });
+
+      await context.read<AnnouncementProvider>().fetchAnnouncements();
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,15 +102,15 @@ class _NotificationListState extends State<NotificationList> {
                 //elevation: 1,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5),
-                  side: BorderSide(
+                  side: const BorderSide(
                     color: Color.fromARGB(255, 184, 193, 195),
                   ),
                 ),
-                child: Padding(
+                child: const Padding(
                   padding: const EdgeInsets.all(4.0),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
-                    children: const <Widget>[
+                    children: <Widget>[
                       Text(
                         'Title',
                         style: TextStyle(

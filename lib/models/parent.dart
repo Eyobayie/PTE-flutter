@@ -29,4 +29,7 @@ class Parent {
         'email': email,
         'phone': phone,
       };
+  String toString() {
+    return 'Parent{id: $id, firstname: $firstname, lastname: $lastname, email: $email, phone: $phone}';
+  }
 }

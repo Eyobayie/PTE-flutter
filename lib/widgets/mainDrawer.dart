@@ -3,6 +3,7 @@ import 'package:parent_teacher_engagement_app/constants/appbar_constants.dart';
 import 'package:parent_teacher_engagement_app/screens/academicYear/academic_year.dart';
 import 'package:parent_teacher_engagement_app/screens/department/departments_page.dart';
 import 'package:parent_teacher_engagement_app/screens/gradelevel/gradelevel_screen.dart';
+import 'package:parent_teacher_engagement_app/screens/helpResponse/helpResponse.dart';
 import 'package:parent_teacher_engagement_app/screens/parent/parent_screen.dart';
 import 'package:parent_teacher_engagement_app/screens/student/student_registration.dart';
 import 'package:parent_teacher_engagement_app/screens/subject/subject_screen.dart';
@@ -51,6 +52,8 @@ class MainDrawer extends StatelessWidget {
               'Academic years',
               const Icon(Icons.person_outline_outlined),
               AcademicYearScreen.academicYearRoute),
+          sideBar(
+              context, 'Help', Icon(Icons.help), HelpResponsePage.helpRoute),
         ],
       ),
     );

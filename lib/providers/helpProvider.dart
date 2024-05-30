@@ -18,6 +18,17 @@ class HelpProvider extends ChangeNotifier {
   //     print('Error fetching helps: $e');
   //   }
   // }
+  Future<void> getHelpsWithResponsesByParentId(int? ParentId) async {
+    try {
+      _helps = await fetchHelpsWithResponsesByParentId(ParentId!);
+      print(' _helps with response: $_helps');
+      notifyListeners();
+    } catch (e) {
+      print('Error fetching helps with responses: $e');
+      _error = 'Error fetching helps with responses';
+      notifyListeners();
+    }
+  }
 
   Future<void> createHelpProvider(
       String description, DateTime date, int ParentId) async {
@@ -27,17 +38,6 @@ class HelpProvider extends ChangeNotifier {
       notifyListeners();
     } catch (e) {
       print('Error creating help from provider: $e');
-    }
-  }
-
-  Future<void> getHelpsWithResponsesByParentId(int ParentId) async {
-    try {
-      _helps = await fetchHelpsWithResponsesByParentId(ParentId);
-      notifyListeners();
-    } catch (e) {
-      print('Error fetching helps with responses: $e');
-      _error = 'Error fetching helps with responses';
-      notifyListeners();
     }
   }
 }

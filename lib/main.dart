@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:parent_teacher_engagement_app/constants/appbar_constants.dart';
 import 'package:parent_teacher_engagement_app/constants/scaffold_constants.dart';
 import 'package:parent_teacher_engagement_app/providers/AcademicYearProvider.dart';
+import 'package:parent_teacher_engagement_app/providers/AttendanceProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/DepartmentProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/StudentProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/GradelevelProvider.dart';
@@ -57,6 +58,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AcademicYearProvider()),
         ChangeNotifierProvider(create: (_) => HelpProvider()),
         ChangeNotifierProvider(create: (_) => HelpResponseProvider()),
+        ChangeNotifierProvider(create: (_) => AttendanceProvider()),
+
         ChangeNotifierProvider(create: (context) => StudentProvider()),
         // Add StudentProvider here
       ],
@@ -75,7 +78,7 @@ class MyApp extends StatelessWidget {
           DepartmentPage.departmentRoute: (context) => const DepartmentPage(),
 
           NewDepartment.newDepartmentRoute: (context) => const NewDepartment(),
-          HelpDialog.helpDialogRoute: (context) => const HelpDialog(),
+          HelpDialog.helpDialogRoute: (context) => HelpDialog(),
           HelpResponsePage.helpRoute: (context) => const HelpResponsePage(),
           GradelevelScreen.gradelevelScreenRoute: (context) =>
               const GradelevelScreen(),

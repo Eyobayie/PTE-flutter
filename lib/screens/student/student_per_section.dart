@@ -3,8 +3,10 @@ import 'package:parent_teacher_engagement_app/constants/appbar_constants.dart';
 import 'package:parent_teacher_engagement_app/constants/card_constants.dart';
 import 'package:parent_teacher_engagement_app/constants/scaffold_constants.dart';
 import 'package:parent_teacher_engagement_app/models/student.dart';
+import 'package:parent_teacher_engagement_app/providers/AttendanceProvider.dart';
 import 'package:parent_teacher_engagement_app/services/student/student.dart';
 import 'package:parent_teacher_engagement_app/screens/department/new_department.dart';
+import 'package:provider/provider.dart';
 
 class StudentPerSection extends StatefulWidget {
   const StudentPerSection({Key? key}) : super(key: key);
@@ -18,7 +20,7 @@ class StudentPerSection extends StatefulWidget {
 class _StudentPerSectionState extends State<StudentPerSection> {
   late int gradelevelId;
   late int sectionId;
-
+  final bool isPresent = false;
   @override
   void initState() {
     super.initState();
@@ -40,9 +42,22 @@ class _StudentPerSectionState extends State<StudentPerSection> {
       final students = await getStudentPerSection(gradelevelId, sectionId);
       return students;
     } catch (e) {
-      // Log the error or response for debugging purposes
       print('Error fetching students: $e');
       rethrow;
+    }
+  }
+
+  void saveAttendance(int studentId, bool isPresent) {
+    DateTime date = DateTime.now();
+    int teacherId = 1;
+
+    if (studentId != null && teacherId != null) {
+      Provider.of<AttendanceProvider>(context, listen: false)
+          .addAttendance(studentId, studentId, date, teacherId, isPresent)
+          .then((_) {})
+          .catchError((error) {
+        print('Error creating attendance: $error');
+      });
     }
   }
 
@@ -108,10 +123,48 @@ class _StudentPerSectionState extends State<StudentPerSection> {
                       ),
                       title: Text(student.firstname),
                       subtitle: Text(student.phone.toString()),
-                      trailing: IconButton(
-                        icon: const Icon(Icons.remove_red_eye_outlined),
-                        color: AppBarConstants.backgroundColor,
-                        onPressed: () {},
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            icon: const Icon(
+                              Icons.remove_red_eye_outlined,
+                              size: 20,
+                            ),
+                            color: AppBarConstants.backgroundColor,
+                            onPressed: () {
+                              // View button action
+                            },
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              saveAttendance(student.id, true);
+                              print('${student.firstname} is Present');
+                            },
+                            style: ElevatedButton.styleFrom(
+                              foregroundColor: Colors.white,
+                              backgroundColor: Colors.green, // text color
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                            ),
+                            child: const Text('Present'),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              saveAttendance(student.id, false);
+                              print('${student.firstname} is Absent');
+                            },
+                            style: ElevatedButton.styleFrom(
+                              foregroundColor: Colors.white,
+                              backgroundColor: Colors.red, // text color
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                            ),
+                            child: const Text('Absent'),
+                          ),
+                        ],
                       ),
                     ),
                   ),

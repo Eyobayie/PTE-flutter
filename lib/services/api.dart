@@ -41,4 +41,6 @@ class ApiService {
   // Academic year Endpoints
   static String get academicYearsUrl => apiUrl('academicyears');
   static String get academicYear => apiUrl('academicyear');
+  //attendance endpoint
+  static String get attendaceUrl => apiUrl('attendances');
 }

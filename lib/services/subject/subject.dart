@@ -63,3 +63,32 @@ Future<void> updateSubject(
     throw Exception('Failed to update subject');
   }
 }
+
+// Future<List<Subject>> getSubjectByGradelevel(int gradeId) async {
+//   final response =
+//       await http.get(Uri.parse('${ApiService.subjectGradeLevel}/$gradeId'));
+//   if (response.statusCode == 200) {
+//     final List<dynamic> data = jsonDecode(response.body);
+//     final List<Subject> subjects =
+//         data.map((item) => Subject.fromJson(item)).toList();
+//     return subjects;
+//   } else {
+//     throw Exception('Failed to load grade level data: ${response.statusCode}');
+//   }
+// }
+Future<List<Subject>> getSubjectByGradelevel(int gradeId) async {
+  final response =
+      await http.get(Uri.parse('${ApiService.subjectGradeLevel}/$gradeId'));
+  if (response.statusCode == 200) {
+    final dynamic data = jsonDecode(response.body);
+    if (data is List) {
+      final List<Subject> subjects =
+          data.map((item) => Subject.fromJson(item)).toList();
+      return subjects;
+    } else {
+      throw Exception('Invalid response format: $data');
+    }
+  } else {
+    throw Exception('Failed to load grade level data: ${response.statusCode}');
+  }
+}

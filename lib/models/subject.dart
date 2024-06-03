@@ -27,4 +27,8 @@ class Subject {
       'gradelevel': GradelevelId,
     };
   }
+
+  String toString() {
+    return 'subject{id: $id,name: $name, description: $description, gradelevel: $GradelevelId}';
+  }
 }

@@ -38,4 +38,7 @@ class Student {
         'ParentId': ParentId,
         'GradelevelId': GradelevelId,
       };
+  String toString() {
+    return 'student{id: $id,firstname: $firstname, email: $email, phone: $phone, SectionId: $SectionId, ParentId: $ParentId,GradelevelId: $GradelevelId}';
+  }
 }

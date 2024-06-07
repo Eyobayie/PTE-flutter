@@ -52,15 +52,4 @@ class StudentProvider extends ChangeNotifier {
       print('Error creating student from provider: $e');
     }
   }
-
-  // Future<void> getStudentPerSectionProvider(
-  //     int sectionId, int gradelebelId) async {
-  //   try {
-  //     _students = await getStudents();
-  //     notifyListeners();
-  //   } catch (e) {
-  //     print('Error fetching departments: $e');
-  //   }
-  //   notifyListeners();
-  // }
 }

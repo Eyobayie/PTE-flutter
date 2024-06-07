@@ -4,7 +4,7 @@ import 'package:parent_teacher_engagement_app/models/student.dart';
 import 'package:parent_teacher_engagement_app/services/api.dart';
 
 Future<List<Student>> getStudents() async {
-  final response = await http.get(Uri.parse(ApiService.studentsUrl));
+  final response = await http.get(Uri.parse(Api.studentsUrl));
   if (response.statusCode == 200) {
     final List<dynamic> data = jsonDecode(response.body);
     final List<Student> students =
@@ -18,7 +18,7 @@ Future<List<Student>> getStudents() async {
 Future<List<Student>> getStudentPerSection(
     int gradelevelId, int sectionId) async {
   final response = await http.get(Uri.parse(
-      '${ApiService.studentPerSectionUrl}/$gradelevelId/section/$sectionId'));
+      '${Api.studentPerSectionUrl}/$gradelevelId/section/$sectionId'));
   if (response.statusCode == 200) {
     final List<dynamic> data = jsonDecode(response.body);
     final List<Student> students =
@@ -32,7 +32,7 @@ Future<List<Student>> getStudentPerSection(
 
 Future<Student?> registerStudent(String firstname, String? email, int? phone,
     int sectionId, int gradelevelId, int parentId) async {
-  final response = await http.post(Uri.parse(ApiService.studentsUrl),
+  final response = await http.post(Uri.parse(Api.studentsUrl),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -55,7 +55,7 @@ Future<Student?> registerStudent(String firstname, String? email, int? phone,
 }
 
 Future<void> deleteStudent(int id) async {
-  final response = await http.delete(Uri.parse('${ApiService.studentUrl}/$id'));
+  final response = await http.delete(Uri.parse('${Api.studentUrl}/$id'));
   if (response.statusCode != 200) {
     throw Exception('Failed to delete student');
   }
@@ -63,7 +63,7 @@ Future<void> deleteStudent(int id) async {
 
 Future<void> updateParent(int id, String firstname, String email, int phone,
     int sectionId, int parentId, int gradelevelId) async {
-  final response = await http.put(Uri.parse('${ApiService.studentUrl}/$id'),
+  final response = await http.put(Uri.parse('${Api.studentUrl}/$id'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

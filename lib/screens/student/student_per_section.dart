@@ -5,6 +5,7 @@ import 'package:parent_teacher_engagement_app/constants/scaffold_constants.dart'
 import 'package:parent_teacher_engagement_app/models/student.dart';
 import 'package:parent_teacher_engagement_app/providers/AttendanceProvider.dart';
 import 'package:parent_teacher_engagement_app/screens/student/student_detail.dart';
+import 'package:parent_teacher_engagement_app/screens/Assignment/assignment.dart';
 import 'package:parent_teacher_engagement_app/services/student/student.dart';
 import 'package:provider/provider.dart';
 
@@ -78,10 +79,76 @@ class _StudentPerSectionState extends State<StudentPerSection> {
             onPressed: () {
               // Navigator.of(context).pushNamed(NewDepartment.newDepartmentRoute);
             },
-            child: const Text(
-              'Add new',
-              style: TextStyle(color: Colors.white),
+            child:
+                //  PopupMenuButton(
+
+                //   itemBuilder: (context) {
+                //     return [
+                //       PopupMenuItem(
+                //         value: 'edit',
+                //         child: Text('Edit'),
+                //         onTap: () {
+                //           print('hey');
+                //         },
+                //       ),
+                //       PopupMenuItem(
+                //         value: 'delete',
+                //         child: Text('Delete'),
+                //       )
+                //     ];
+                //   },
+                //   onSelected: (String value) {
+                //     print('You Click on po up menu item $value');
+                //   },
+                // ),
+                PopupMenuItem(
+              child: IconButton(
+                icon: Icon(
+                  Icons.menu,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  showMenu(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          5), // Adjust the value as needed
+                      side: BorderSide(
+                          color: Colors.white), // Add border color if necessary
+                    ),
+                    color: Colors.white,
+                    context: context,
+                    position: RelativeRect.fromLTRB(82, 82, 0, 0),
+                    items: [
+                      PopupMenuItem(
+                        child: Text('Add New'),
+                        onTap: () {},
+                        value: 1,
+                      ),
+                      PopupMenuItem(
+                        child: Text('Assigment'),
+                        onTap: () async {
+                          // Navigator.of(context).pushNamed(
+                          //     AssignmentPage.assignmentRoute,
+                          //     arguments: gradelevelId);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  AssignmentPage(gradelevelId: gradelevelId),
+                            ),
+                          );
+                        },
+                        value: 2,
+                      ),
+                    ],
+                  );
+                },
+              ),
             ),
+            // const Text(
+            //   'Add new',
+            //   style: TextStyle(color: Colors.white),
+            // ),
           )
         ],
       ),

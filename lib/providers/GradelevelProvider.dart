@@ -54,7 +54,7 @@ class GradelevelProvider extends ChangeNotifier {
         notifyListeners();
       } else {
         print(
-            'Error creating department at provider: createdDepartment is null or id is null');
+            'Error creating grade level at provider: created data is null or id is null');
       }
     } catch (e) {
       print('Error creating department from provider: $e');

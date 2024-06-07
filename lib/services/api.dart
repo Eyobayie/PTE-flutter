@@ -1,4 +1,4 @@
-class ApiService {
+class Api {
   static const String baseUrl = 'http://localhost:5000/api';
 
   static String apiUrl(String endpoint) {
@@ -24,6 +24,7 @@ class ApiService {
   // sebjects endpoint
   static String get subjectsUrl => apiUrl('subjects');
   static String get subjectUrl => apiUrl('subject');
+  static String get subjectGradeLevel => apiUrl('subjectGradeLevel');
   // Notifications endpoint
   static String get announcementsUrl => apiUrl('announcements');
   static String get announcementUrl => apiUrl('announcement');
@@ -44,4 +45,15 @@ class ApiService {
   static String get academicYear => apiUrl('academicyear');
   //attendance endpoint
   static String get attendaceUrl => apiUrl('attendances');
+  //assignment endpoint
+  static String get assignmentUrl => apiUrl('assignments');
+  static String get assignment => apiUrl('assignment');
+  //semester endpoint
+  static String get semisters => apiUrl('semisters');
+  static String get semister => apiUrl('semister');
+  static String get academicyearsemisters => apiUrl('academicyearsemisters');
+  static String get semisterAcademicyear => apiUrl('academicyear');
+  //assign teacher endpoint
+  static String get teacherassignments => apiUrl('teacherassignments');
+  static String get teacherAssignment => apiUrl('teacherAssignment');
 }

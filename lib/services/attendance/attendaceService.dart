@@ -4,8 +4,7 @@ import 'package:parent_teacher_engagement_app/models/attendence.dart';
 import 'package:parent_teacher_engagement_app/services/api.dart';
 
 Future<List<Attendance>> getAttendances(int studentId) async {
-  final response =
-      await http.get(Uri.parse('${ApiService.attendaceUrl}/$studentId'));
+  final response = await http.get(Uri.parse('${Api.attendaceUrl}/$studentId'));
   if (response.statusCode == 200) {
     final List<dynamic> data = jsonDecode(response.body);
     return data.map((item) => Attendance.fromJson(item)).toList();
@@ -16,7 +15,7 @@ Future<List<Attendance>> getAttendances(int studentId) async {
 
 Future<Attendance> getAttendance(int id, int studentId) async {
   final response =
-      await http.get(Uri.parse('${ApiService.attendaceUrl}/$studentId/$id'));
+      await http.get(Uri.parse('${Api.attendaceUrl}/$studentId/$id'));
   if (response.statusCode == 200) {
     final Map<String, dynamic> data = jsonDecode(response.body);
     return Attendance.fromJson(data);
@@ -28,7 +27,7 @@ Future<Attendance> getAttendance(int id, int studentId) async {
 Future<Attendance> createAttendance(
     int studentId, DateTime date, int TeacherId, bool isPresent) async {
   final response = await http.post(
-    Uri.parse('${ApiService.attendaceUrl}/$studentId'),
+    Uri.parse('${Api.attendaceUrl}/$studentId'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -51,8 +50,7 @@ Future<Attendance> createAttendance(
 // Update help
 Future<void> updateAttendance(Attendance attendance) async {
   final response = await http.put(
-    Uri.parse(
-        '${ApiService.attendaceUrl}/${attendance.StudentId}/${attendance.id}'),
+    Uri.parse('${Api.attendaceUrl}/${attendance.StudentId}/${attendance.id}'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -65,7 +63,7 @@ Future<void> updateAttendance(Attendance attendance) async {
 
 Future<void> deleteAttendance(int id, int StudentId) async {
   final response =
-      await http.delete(Uri.parse('${ApiService.attendaceUrl}/$StudentId/$id'));
+      await http.delete(Uri.parse('${Api.attendaceUrl}/$StudentId/$id'));
   if (response.statusCode != 200) {
     throw Exception('Failed to delete help');
   }

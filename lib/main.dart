@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:parent_teacher_engagement_app/constants/appbar_constants.dart';
 import 'package:parent_teacher_engagement_app/constants/scaffold_constants.dart';
 import 'package:parent_teacher_engagement_app/providers/AcademicYearProvider.dart';
+import 'package:parent_teacher_engagement_app/providers/AssignmentProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/AttendanceProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/DepartmentProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/StudentProvider.dart';
@@ -10,9 +11,14 @@ import 'package:parent_teacher_engagement_app/providers/SectionProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/ParentProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/SubjectProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/TeacherProvider.dart';
+import 'package:parent_teacher_engagement_app/providers/assinTeacher_provider.dart';
 import 'package:parent_teacher_engagement_app/providers/helpProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/helpResponseProvider.dart';
+import 'package:parent_teacher_engagement_app/providers/semister_provider.dart';
+import 'package:parent_teacher_engagement_app/screens/Assignment/assignment.dart';
 import 'package:parent_teacher_engagement_app/screens/academicYear/academic_year.dart';
+import 'package:parent_teacher_engagement_app/screens/assign_teacher/assign_teacher.dart';
+import 'package:parent_teacher_engagement_app/screens/assign_teacher/newAssign_teacher.dart';
 import 'package:parent_teacher_engagement_app/screens/department/departments_page.dart';
 import 'package:parent_teacher_engagement_app/screens/gradelevel/gradeDetail.dart';
 import 'package:parent_teacher_engagement_app/screens/gradelevel/gradelevel_screen.dart';
@@ -27,6 +33,8 @@ import 'package:parent_teacher_engagement_app/screens/notification/announcement_
 import 'package:parent_teacher_engagement_app/screens/parent/parent_registration.dart';
 import 'package:parent_teacher_engagement_app/screens/parent/parent_screen.dart';
 import 'package:parent_teacher_engagement_app/screens/section/create_section.dart';
+import 'package:parent_teacher_engagement_app/screens/semister/semister_list_screen.dart';
+import 'package:parent_teacher_engagement_app/screens/semister/semister_registration.dart';
 import 'package:parent_teacher_engagement_app/screens/student/student_per_section.dart';
 import 'package:parent_teacher_engagement_app/screens/student/student_registration.dart';
 import 'package:parent_teacher_engagement_app/screens/student/student_detail.dart';
@@ -62,7 +70,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => HelpProvider()),
         ChangeNotifierProvider(create: (_) => HelpResponseProvider()),
         ChangeNotifierProvider(create: (_) => AttendanceProvider()),
-
+        ChangeNotifierProvider(create: (_) => AssignmentProvider()),
+        ChangeNotifierProvider(create: (_) => SemisterProvider()),
+        ChangeNotifierProvider(create: (_) => AssignTeacherProvider()),
         ChangeNotifierProvider(create: (context) => StudentProvider()),
         // Add StudentProvider here
       ],
@@ -81,8 +91,11 @@ class MyApp extends StatelessWidget {
           DepartmentPage.departmentRoute: (context) => const DepartmentPage(),
 
           NewDepartment.newDepartmentRoute: (context) => const NewDepartment(),
+          NewSmister.newSemisterRoute: (context) => const NewSmister(),
           HelpDialog.helpDialogRoute: (context) => HelpDialog(),
           HelpResponsePage.helpRoute: (context) => const HelpResponsePage(),
+          //AssignmentPage.assignmentRoute: (context) => AssignmentPage(),
+
           GradelevelScreen.gradelevelScreenRoute: (context) =>
               const GradelevelScreen(),
           NotificationList.notificationListRoute: (context) =>
@@ -111,9 +124,7 @@ class MyApp extends StatelessWidget {
           StudentRegistration.StudentRegistrationRoute: (context) =>
               const StudentRegistration(),
           AcademicYearRegistration.AcademicYearRegistrationRoute: (context) =>
-              const AcademicYearRegistration(),
-          StudentDetailScreen.studentDetailRoute: (context) =>
-              const StudentDetailScreen(), // Add this route
+              const AcademicYearRegistration(), // Add this route
         },
       ),
     );

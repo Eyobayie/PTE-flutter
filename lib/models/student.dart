@@ -45,4 +45,7 @@ class Student {
         'Parent': parent
             ?.toJson(), // Add this line to include the Parent object in JSON
       };
+  String toString() {
+    return 'student{id: $id,firstname: $firstname, email: $email, phone: $phone, SectionId: $SectionId, ParentId: $ParentId,GradelevelId: $GradelevelId}';
+  }
 }

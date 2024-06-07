@@ -4,7 +4,7 @@ import 'package:parent_teacher_engagement_app/models/gradelevel.dart';
 import 'package:parent_teacher_engagement_app/services/api.dart';
 
 Future<List<Gradelevel>> getGradelevels() async {
-  final response = await http.get(Uri.parse(ApiService.gradeLevelsUrl));
+  final response = await http.get(Uri.parse(Api.gradeLevelsUrl));
   if (response.statusCode == 200) {
     final List<dynamic> data = jsonDecode(response.body);
     final List<Gradelevel> gradelevels =
@@ -16,7 +16,7 @@ Future<List<Gradelevel>> getGradelevels() async {
 }
 
 Future<Gradelevel?> createGradelevel(String grade, String? description) async {
-  final response = await http.post(Uri.parse(ApiService.gradeLevelsUrl),
+  final response = await http.post(Uri.parse(Api.gradeLevelsUrl),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -35,8 +35,7 @@ Future<Gradelevel?> createGradelevel(String grade, String? description) async {
 }
 
 Future<void> deleteGradelevel(int id) async {
-  final response =
-      await http.delete(Uri.parse('${ApiService.gradeLevelUrl}/$id'));
+  final response = await http.delete(Uri.parse('${Api.gradeLevelUrl}/$id'));
 
   if (response.statusCode != 200) {
     throw Exception('Failed to delete data');
@@ -44,7 +43,7 @@ Future<void> deleteGradelevel(int id) async {
 }
 
 Future<void> updateGradelevel(int id, String name, String desctiption) async {
-  final response = await http.put(Uri.parse('${ApiService.gradeLevelUrl}/$id'),
+  final response = await http.put(Uri.parse('${Api.gradeLevelUrl}/$id'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -61,7 +60,7 @@ Future<void> updateGradelevel(int id, String name, String desctiption) async {
 Future<Gradelevel> fetchGradeWithSections(int id) async {
   try {
     final response =
-        await http.get(Uri.parse('${ApiService.gradeLevelUrl}/$id/sections'));
+        await http.get(Uri.parse('${Api.gradeLevelUrl}/$id/sections'));
 
     if (response.statusCode == 200) {
       final data = Gradelevel.fromJson(jsonDecode(response.body)['grade']);
@@ -77,7 +76,7 @@ Future<Gradelevel> fetchGradeWithSections(int id) async {
 
 Future<List<Gradelevel>> fetchGradelevelsWithSections() async {
   try {
-    final response = await http.get(Uri.parse(ApiService.gradewithsection));
+    final response = await http.get(Uri.parse(Api.gradewithsection));
 
     if (response.statusCode == 200) {
       final List<dynamic> jsonResponse = json.decode(response.body);

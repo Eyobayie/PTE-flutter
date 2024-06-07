@@ -44,7 +44,7 @@ class TeacherProvider extends ChangeNotifier {
         notifyListeners();
       } else {
         print(
-            'Error creating teacher: registeredTeacher is null or id is null');
+            'Error creating teacher: registered Teacher is null or id is null');
       }
     } catch (e) {
       print('Error creating teacher from provider: $e');

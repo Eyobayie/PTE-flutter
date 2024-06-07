@@ -1,17 +1,15 @@
+// models/announcement.dart
 class Announcement {
-  final DateTime date;
+  final int id;
   final String title;
   final String description;
 
-  Announcement({
-    required this.date,
-    required this.title,
-    required this.description,
-  });
+  Announcement(
+      {required this.id, required this.title, required this.description});
 
   factory Announcement.fromJson(Map<String, dynamic> json) {
     return Announcement(
-      date: DateTime.parse(json['date']),
+      id: json['id'],
       title: json['title'],
       description: json['description'],
     );
@@ -19,7 +17,7 @@ class Announcement {
 
   Map<String, dynamic> toJson() {
     return {
-      'date': date.toIso8601String(),
+      'id': id,
       'title': title,
       'description': description,
     };

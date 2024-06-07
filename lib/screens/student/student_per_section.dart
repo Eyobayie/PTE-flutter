@@ -4,8 +4,8 @@ import 'package:parent_teacher_engagement_app/constants/card_constants.dart';
 import 'package:parent_teacher_engagement_app/constants/scaffold_constants.dart';
 import 'package:parent_teacher_engagement_app/models/student.dart';
 import 'package:parent_teacher_engagement_app/providers/AttendanceProvider.dart';
+import 'package:parent_teacher_engagement_app/screens/student/student_detail.dart';
 import 'package:parent_teacher_engagement_app/services/student/student.dart';
-import 'package:parent_teacher_engagement_app/screens/department/new_department.dart';
 import 'package:provider/provider.dart';
 
 class StudentPerSection extends StatefulWidget {
@@ -21,6 +21,7 @@ class _StudentPerSectionState extends State<StudentPerSection> {
   late int gradelevelId;
   late int sectionId;
   final bool isPresent = false;
+
   @override
   void initState() {
     super.initState();
@@ -53,7 +54,7 @@ class _StudentPerSectionState extends State<StudentPerSection> {
 
     if (studentId != null && teacherId != null) {
       Provider.of<AttendanceProvider>(context, listen: false)
-          .addAttendance(studentId, studentId, date, teacherId, isPresent)
+          .addAttendance(studentId, date, teacherId, isPresent)
           .then((_) {})
           .catchError((error) {
         print('Error creating attendance: $error');
@@ -99,77 +100,38 @@ class _StudentPerSectionState extends State<StudentPerSection> {
             );
           } else if (snapshot.hasData) {
             List<Student> students = snapshot.data!;
-            return ListView.builder(
-              itemCount: students.length,
-              itemBuilder: (context, index) {
-                final student = students[index];
-                return Dismissible(
-                  key: Key(student.id.toString()),
-                  child: Card(
-                    elevation: CardConstants.elevationHeight,
-                    margin: CardConstants.marginSize,
-                    color: CardConstants.backgroundColor,
-                    shape: CardConstants.rectangular,
-                    child: ListTile(
-                      leading: IconButton(
-                        icon: const Icon(Icons.edit),
-                        color: Colors.amber[400],
-                        onPressed: () {
-                          Navigator.of(context).pushNamed(
-                            NewDepartment.newDepartmentRoute,
-                            arguments: student,
-                          );
-                        },
-                      ),
-                      title: Text(student.firstname),
-                      subtitle: Text(student.phone.toString()),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            icon: const Icon(
-                              Icons.remove_red_eye_outlined,
-                              size: 20,
-                            ),
-                            color: AppBarConstants.backgroundColor,
-                            onPressed: () {
-                              // View button action
-                            },
-                          ),
-                          ElevatedButton(
-                            onPressed: () {
-                              saveAttendance(student.id, true);
-                              print('${student.firstname} is Present');
-                            },
-                            style: ElevatedButton.styleFrom(
-                              foregroundColor: Colors.white,
-                              backgroundColor: Colors.green, // text color
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                            ),
-                            child: const Text('Present'),
-                          ),
-                          ElevatedButton(
-                            onPressed: () {
-                              saveAttendance(student.id, false);
-                              print('${student.firstname} is Absent');
-                            },
-                            style: ElevatedButton.styleFrom(
-                              foregroundColor: Colors.white,
-                              backgroundColor: Colors.red, // text color
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                            ),
-                            child: const Text('Absent'),
-                          ),
-                        ],
-                      ),
-                    ),
+            return SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Container(
+                color: CardConstants.backgroundColor,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: DataTable(
+                    dataRowHeight: 50, // Adjust the row height as needed
+                    columns: const [
+                      DataColumn(label: Text('Name')),
+                      DataColumn(label: Text('Fa.name')),
+                      DataColumn(label: Text('Phone')),
+                      DataColumn(label: Text('Actions')),
+                    ],
+                    rows: students.map((student) {
+                      return DataRow(cells: [
+                        DataCell(Text(student.firstname)),
+                        DataCell(Text(student.parent?.firstname ?? '')),
+                        DataCell(Text(student.phone.toString())),
+                        DataCell(IconButton(
+                          icon: const Icon(Icons.remove_red_eye_outlined),
+                          onPressed: () {
+                            Navigator.of(context).pushNamed(
+                                StudentDetailScreen.studentDetailRoute,
+                                arguments: student);
+                          },
+                        )),
+                      ]);
+                    }).toList(),
                   ),
-                );
-              },
+                ),
+              ),
             );
           } else {
             return const Center(

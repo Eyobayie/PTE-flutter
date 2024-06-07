@@ -1,3 +1,5 @@
+import 'package:parent_teacher_engagement_app/models/parent.dart';
+
 class Student {
   int id;
   String firstname;
@@ -6,6 +8,7 @@ class Student {
   int SectionId;
   int ParentId;
   int GradelevelId;
+  Parent? parent; // Add this line to include the Parent object
 
   Student({
     required this.id,
@@ -15,6 +18,7 @@ class Student {
     required this.SectionId,
     required this.ParentId,
     required this.GradelevelId,
+    this.parent,
   });
 
   factory Student.fromJson(Map<String, dynamic> json) {
@@ -26,6 +30,7 @@ class Student {
       SectionId: json['SectionId'],
       ParentId: json['ParentId'],
       GradelevelId: json['GradelevelId'],
+      parent: json['Parent'] != null ? Parent.fromJson(json['Parent']) : null,
     );
   }
 
@@ -37,5 +42,7 @@ class Student {
         'SectionId': SectionId,
         'ParentId': ParentId,
         'GradelevelId': GradelevelId,
+        'Parent': parent
+            ?.toJson(), // Add this line to include the Parent object in JSON
       };
 }

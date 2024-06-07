@@ -47,10 +47,10 @@ class GradelevelProvider extends ChangeNotifier {
   Future<void> createGradelevelProvider(
       String grade, String? description) async {
     try {
-      Gradelevel? createdDepartment =
+      Gradelevel? createdGradelevel =
           await createGradelevel(grade, description);
-      if (createdDepartment != null) {
-        _gradelevels.add(createdDepartment);
+      if (createdGradelevel != null) {
+        _gradelevels.add(createdGradelevel);
         notifyListeners();
       } else {
         print(

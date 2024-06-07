@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:parent_teacher_engagement_app/constants/card_constants.dart';
 import 'package:parent_teacher_engagement_app/constants/scaffold_constants.dart';
+import 'package:parent_teacher_engagement_app/providers/AnnouncemetProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/DepartmentProvider.dart';
-import 'package:parent_teacher_engagement_app/providers/TeacherProvider.dart';
-import 'package:parent_teacher_engagement_app/screens/teacher/teacher_registration.dart';
+import 'package:parent_teacher_engagement_app/screens/notification/announcement_form.dart';
 import 'package:provider/provider.dart';
 import 'package:parent_teacher_engagement_app/screens/department/new_department.dart';
 
 import '../../constants/appbar_constants.dart';
 
-class TeacherScreen extends StatefulWidget {
-  const TeacherScreen({Key? key});
+class NewAnnouncement extends StatefulWidget {
+  const NewAnnouncement({Key? key});
 
-  static const String teacherRoute = 'teacher';
+  static const String announcementRoute = 'announcement';
 
   @override
-  State<TeacherScreen> createState() => _TeacherScreenState();
+  State<NewAnnouncement> createState() => _NewAnnouncementState();
 }
 
-class _TeacherScreenState extends State<TeacherScreen> {
+class _NewAnnouncementState extends State<NewAnnouncement> {
   bool _isLoading = false; // Local loading state in ExamHome
 
   @override
@@ -34,25 +34,24 @@ class _TeacherScreenState extends State<TeacherScreen> {
             true; // Set local isLoading to true before making the API call
       });
       // Use the provider to fetch data
-      await context.read<TeacherProvider>().fetchTeachers();
+      await context.read<AnnouncementProvider>().fetchAnnouncements();
     } finally {
       setState(() {
-        _isLoading =
-            false; // Set local isLoading to false after the API call is complete
+        _isLoading = false;
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    var teachProvider = Provider.of<TeacherProvider>(context);
+    var announceProvider = Provider.of<AnnouncementProvider>(context);
     // double screenWidth = MediaQuery.of(context).size.width;
     // double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
         backgroundColor: ScaffoldConstants.backgroundColor,
         appBar: AppBar(
           title: const Text(
-            'All Teachers',
+            'All Announcements',
             style: AppBarConstants.textStyle,
           ),
           backgroundColor: AppBarConstants.backgroundColor,
@@ -61,7 +60,7 @@ class _TeacherScreenState extends State<TeacherScreen> {
             TextButton(
                 onPressed: () {
                   Navigator.of(context)
-                      .pushNamed(TeacherRegistration.teacherRegistrationRoute);
+                      .pushNamed(AnnouncementForm.AnnouncementFormRoute);
                 },
                 child: const Text(
                   'Add new',
@@ -73,24 +72,25 @@ class _TeacherScreenState extends State<TeacherScreen> {
             ? const Center(
                 child: CircularProgressIndicator(),
               )
-            : teachProvider.error.isNotEmpty
+            : announceProvider.error.isNotEmpty
                 ? Center(
-                    child: Text('Error: ${teachProvider.error}'),
+                    child: Text('Error: ${announceProvider.error}'),
                   )
-                : Consumer<DepartmentProvider>(
-                    builder: (context, departmentProvider, child) {
-                    if (departmentProvider.departments.isEmpty) {
+                : Consumer<AnnouncementProvider>(
+                    builder: (context, announcementProvider, child) {
+                    if (announcementProvider.announcements.isEmpty) {
                       // If departments list is empty, fetch data
-                      departmentProvider.fetchDepartments();
+                      announcementProvider.fetchAnnouncements();
                       return const Center(child: CircularProgressIndicator());
                     } else {
                       // If departments list is not empty, display the department list
                       return ListView.builder(
-                        itemCount: teachProvider.teachers.length,
+                        itemCount: announceProvider.announcements.length,
                         itemBuilder: (context, index) {
-                          final teacher = teachProvider.teachers[index];
+                          final announcement =
+                              announceProvider.announcements[index];
                           return Dismissible(
-                            key: Key(teacher.id.toString()),
+                            key: Key(announcement.id.toString()),
                             child: Card(
                               elevation: CardConstants.elevationHeight,
                               margin: CardConstants.marginSize,
@@ -102,20 +102,18 @@ class _TeacherScreenState extends State<TeacherScreen> {
                                     color: Colors.amber[400],
                                     onPressed: () {
                                       Navigator.of(context).pushNamed(
-                                        TeacherRegistration
-                                            .teacherRegistrationRoute,
-                                        arguments: teacher,
+                                        AnnouncementForm.AnnouncementFormRoute,
+                                        arguments: announcement,
                                       );
                                     }),
-                                title: Text(
-                                    '${teacher.firstname} ${' '} ${teacher.lastname}'),
-                                subtitle: Text('${teacher.phone}'),
+                                title: Text(announcement.title),
+                                subtitle: Text(announcement.description ?? ''),
                                 trailing: IconButton(
                                   icon: const Icon(Icons.delete),
                                   color: Colors.red[900],
                                   onPressed: () {
-                                    teachProvider
-                                        .deleteTeacherProvider(teacher.id);
+                                    announceProvider.deleteAnnouncementProvider(
+                                        announcement.id);
                                   },
                                 ),
                               ),

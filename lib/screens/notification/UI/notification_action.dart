@@ -109,14 +109,14 @@ class _NotificationAppBarActionsState extends State<NotificationAppBarActions> {
                                               ),
                                             ),
                                             const SizedBox(height: 4),
-                                            Text(
-                                              'Date: ${announcement.date.toLocal().toString().split(' ')[0]}',
-                                              style: const TextStyle(
-                                                color: AppBarConstants
-                                                    .backgroundColor,
-                                                fontSize: 12,
-                                              ),
-                                            ),
+                                            // Text(
+                                            //   'Date: ${announcement.date.toLocal().toString().split(' ')[0]}',
+                                            //   style: const TextStyle(
+                                            //     color: AppBarConstants
+                                            //         .backgroundColor,
+                                            //     fontSize: 12,
+                                            //   ),
+                                            // ),
                                           ],
                                         ),
                                       ),

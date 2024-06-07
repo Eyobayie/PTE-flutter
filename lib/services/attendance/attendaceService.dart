@@ -25,15 +25,15 @@ Future<Attendance> getAttendance(int id, int studentId) async {
   }
 }
 
-Future<Attendance> createAttendance(int studentId, int StudentId, DateTime date,
-    int TeacherId, bool isPresent) async {
+Future<Attendance> createAttendance(
+    int studentId, DateTime date, int TeacherId, bool isPresent) async {
   final response = await http.post(
     Uri.parse('${ApiService.attendaceUrl}/$studentId'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
     body: jsonEncode({
-      'StudentId': StudentId,
+      'StudentId': studentId,
       'TeacherId': TeacherId,
       'date': date.toIso8601String(),
       'isPresent': isPresent

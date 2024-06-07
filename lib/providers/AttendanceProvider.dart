@@ -16,7 +16,6 @@ class AttendanceProvider with ChangeNotifier {
   Future<void> fetchAttendances(int studentId) async {
     _isLoading = true;
     notifyListeners();
-
     try {
       _attendances = await getAttendances(studentId);
       _error = '';
@@ -45,7 +44,6 @@ class AttendanceProvider with ChangeNotifier {
 
   Future<void> addAttendance(
     int studentId,
-    int StudentId,
     DateTime date,
     int TeacherId,
     bool isPresent,
@@ -56,7 +54,6 @@ class AttendanceProvider with ChangeNotifier {
     try {
       final newAttendance = await createAttendance(
         studentId,
-        StudentId,
         date,
         TeacherId,
         isPresent,

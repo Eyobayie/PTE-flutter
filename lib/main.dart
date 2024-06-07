@@ -22,11 +22,14 @@ import 'package:parent_teacher_engagement_app/screens/help/help_Dialog.dart';
 import 'package:parent_teacher_engagement_app/screens/helpResponse/helpResponse.dart';
 import 'package:parent_teacher_engagement_app/screens/notification/UI/notification_action.dart';
 import 'package:parent_teacher_engagement_app/screens/notification/UI/notification_list.dart';
+import 'package:parent_teacher_engagement_app/screens/notification/announcement.dart';
+import 'package:parent_teacher_engagement_app/screens/notification/announcement_form.dart';
 import 'package:parent_teacher_engagement_app/screens/parent/parent_registration.dart';
 import 'package:parent_teacher_engagement_app/screens/parent/parent_screen.dart';
 import 'package:parent_teacher_engagement_app/screens/section/create_section.dart';
 import 'package:parent_teacher_engagement_app/screens/student/student_per_section.dart';
 import 'package:parent_teacher_engagement_app/screens/student/student_registration.dart';
+import 'package:parent_teacher_engagement_app/screens/student/student_detail.dart';
 import 'package:parent_teacher_engagement_app/screens/subject/subject_registration.dart';
 import 'package:parent_teacher_engagement_app/screens/subject/subject_screen.dart';
 import 'package:parent_teacher_engagement_app/screens/teacher/teacher_registration.dart';
@@ -88,6 +91,10 @@ class MyApp extends StatelessWidget {
               const SizedBox(),
           AcademicYearScreen.academicYearRoute: (context) =>
               const AcademicYearScreen(),
+          NewAnnouncement.announcementRoute: (context) =>
+              const NewAnnouncement(),
+          AnnouncementForm.AnnouncementFormRoute: (context) =>
+              const AnnouncementForm(),
           NewGradeLevel.newgradelevelRoute: (context) => const NewGradeLevel(),
           TeacherScreen.teacherRoute: (context) => const TeacherScreen(),
           TeacherRegistration.teacherRegistrationRoute: (context) =>
@@ -104,7 +111,9 @@ class MyApp extends StatelessWidget {
           StudentRegistration.StudentRegistrationRoute: (context) =>
               const StudentRegistration(),
           AcademicYearRegistration.AcademicYearRegistrationRoute: (context) =>
-              const AcademicYearRegistration(), // Add this route
+              const AcademicYearRegistration(),
+          StudentDetailScreen.studentDetailRoute: (context) =>
+              const StudentDetailScreen(), // Add this route
         },
       ),
     );

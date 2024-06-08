@@ -124,7 +124,10 @@ class MyApp extends StatelessWidget {
           StudentRegistration.StudentRegistrationRoute: (context) =>
               const StudentRegistration(),
           AcademicYearRegistration.AcademicYearRegistrationRoute: (context) =>
-              const AcademicYearRegistration(), // Add this route
+              const AcademicYearRegistration(),
+          StudentDetailScreen.studentDetailRoute: (context) =>
+              const StudentDetailScreen(),
+          // Add this route
         },
       ),
     );

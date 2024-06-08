@@ -7,6 +7,7 @@ import 'package:parent_teacher_engagement_app/providers/AttendanceProvider.dart'
 import 'package:parent_teacher_engagement_app/screens/student/student_detail.dart';
 import 'package:parent_teacher_engagement_app/screens/Assignment/assignment.dart';
 import 'package:parent_teacher_engagement_app/services/student/student.dart';
+import 'package:parent_teacher_engagement_app/widgets/createAttendance.dart';
 import 'package:provider/provider.dart';
 
 class StudentPerSection extends StatefulWidget {
@@ -140,6 +141,25 @@ class _StudentPerSectionState extends State<StudentPerSection> {
                         },
                         value: 2,
                       ),
+                      PopupMenuItem(
+                        child: Text('Attendence'),
+                        onTap: () async {
+                          Navigator.of(context).pushNamed(
+                              NewAttendancePage.newAttendance,
+                              arguments: {
+                                'SectionId': sectionId,
+                                'GradelevelId': gradelevelId
+                              });
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) =>
+                          //         NewAttendancePage(gradelevelId: gradelevelId, sectionId),
+                          //   ),
+                          // );
+                        },
+                        value: 3,
+                      ),
                     ],
                   );
                 },
@@ -170,6 +190,7 @@ class _StudentPerSectionState extends State<StudentPerSection> {
             return SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Container(
+                width: MediaQuery.of(context).size.width * 1.0,
                 color: CardConstants.backgroundColor,
                 child: SingleChildScrollView(
                   scrollDirection: Axis.vertical,

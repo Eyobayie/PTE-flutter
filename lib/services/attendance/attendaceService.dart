@@ -43,11 +43,11 @@ Future<Attendance> createAttendance(
     final Map<String, dynamic> data = jsonDecode(response.body);
     return Attendance.fromJson(data);
   } else {
-    throw Exception('Failed to create help');
+    throw Exception('Failed to create attendance');
   }
 }
 
-// Update help
+// Update attendance
 Future<void> updateAttendance(Attendance attendance) async {
   final response = await http.put(
     Uri.parse('${Api.attendaceUrl}/${attendance.StudentId}/${attendance.id}'),
@@ -57,7 +57,7 @@ Future<void> updateAttendance(Attendance attendance) async {
     body: jsonEncode(attendance.toJson()),
   );
   if (response.statusCode != 200) {
-    throw Exception('Failed to update Attendence');
+    throw Exception('Failed to update Attendance');
   }
 }
 
@@ -65,6 +65,6 @@ Future<void> deleteAttendance(int id, int StudentId) async {
   final response =
       await http.delete(Uri.parse('${Api.attendaceUrl}/$StudentId/$id'));
   if (response.statusCode != 200) {
-    throw Exception('Failed to delete help');
+    throw Exception('Failed to delete attendance');
   }
 }

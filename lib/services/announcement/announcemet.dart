@@ -4,7 +4,7 @@ import 'package:parent_teacher_engagement_app/models/announcement.dart';
 import 'package:parent_teacher_engagement_app/services/api.dart';
 
 Future<List<Announcement>> getAnnouncements() async {
-  final response = await http.get(Uri.parse(ApiService.AnnouncementUrl));
+  final response = await http.get(Uri.parse(Api.AnnouncementUrl));
   if (response.statusCode == 200) {
     final List<dynamic> data = jsonDecode(response.body);
     final List<Announcement> parents =
@@ -20,7 +20,7 @@ Future<Announcement?> registerAnnouncementt(
   String title,
   String description,
 ) async {
-  final response = await http.post(Uri.parse(ApiService.AnnouncementUrl),
+  final response = await http.post(Uri.parse(Api.AnnouncementUrl),
       // headers: <String, String>{
       //   'Content-Type': 'application/json; charset=UTF-8',
       // },
@@ -40,8 +40,7 @@ Future<Announcement?> registerAnnouncementt(
 }
 
 Future<void> deleteAnnouncement(int id) async {
-  final response =
-      await http.delete(Uri.parse('${ApiService.AnnouncementUrl}/$id'));
+  final response = await http.delete(Uri.parse('${Api.AnnouncementUrl}/$id'));
 
   if (response.statusCode != 200) {
     throw Exception('Failed to delete data');
@@ -54,16 +53,15 @@ Future<void> updateAnnouncement(
   String title,
   String description,
 ) async {
-  final response =
-      await http.put(Uri.parse('${ApiService.AnnouncementUrl}/$id'),
-          // headers: <String, String>{
-          //   'Content-Type': 'application/json; charset=UTF-8',
-          // },
-          body: jsonEncode(<String, dynamic>{
-            'date': date,
-            'title': title,
-            'description': description,
-          }));
+  final response = await http.put(Uri.parse('${Api.AnnouncementUrl}/$id'),
+      // headers: <String, String>{
+      //   'Content-Type': 'application/json; charset=UTF-8',
+      // },
+      body: jsonEncode(<String, dynamic>{
+        'date': date,
+        'title': title,
+        'description': description,
+      }));
   if (response.statusCode != 200) {
     throw Exception('Failed to update data');
   }

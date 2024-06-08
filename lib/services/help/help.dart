@@ -5,7 +5,7 @@ import 'package:parent_teacher_engagement_app/services/api.dart';
 
 // Fetch all helps
 Future<List<Help>> getHelps() async {
-  final response = await http.get(Uri.parse(ApiService.helpsUrl));
+  final response = await http.get(Uri.parse(Api.helpsUrl));
   if (response.statusCode == 200) {
     final List<dynamic> data = jsonDecode(response.body);
     return data.map((item) => Help.fromJson(item)).toList();
@@ -16,7 +16,7 @@ Future<List<Help>> getHelps() async {
 
 // Fetch help by ID
 Future<Help> fetchHelp(int id) async {
-  final response = await http.get(Uri.parse('${ApiService.helpUrl}/$id'));
+  final response = await http.get(Uri.parse('${Api.helpUrl}/$id'));
   if (response.statusCode == 200) {
     final Map<String, dynamic> data = jsonDecode(response.body);
     return Help.fromJson(data);
@@ -42,7 +42,7 @@ Future<Help> fetchHelp(int id) async {
 Future<Help> createHelp(
     String description, DateTime date, int? ParentId) async {
   final response = await http.post(
-    Uri.parse(ApiService.helpsUrl),
+    Uri.parse(Api.helpsUrl),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -63,7 +63,7 @@ Future<Help> createHelp(
 // Update help
 Future<void> updateHelp(Help help) async {
   final response = await http.put(
-    Uri.parse('${ApiService.helpUrl}/${help.id}'),
+    Uri.parse('${Api.helpUrl}/${help.id}'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -76,7 +76,7 @@ Future<void> updateHelp(Help help) async {
 
 // Delete help by ID
 Future<void> deleteHelp(int id) async {
-  final response = await http.delete(Uri.parse('${ApiService.helpUrl}/$id'));
+  final response = await http.delete(Uri.parse('${Api.helpUrl}/$id'));
   if (response.statusCode != 200) {
     throw Exception('Failed to delete help');
   }
@@ -85,7 +85,7 @@ Future<void> deleteHelp(int id) async {
 // Fetch helps with responses by parent ID
 Future<List<Help>> fetchHelpsWithResponsesByParentId(int ParentId) async {
   final response =
-      await http.get(Uri.parse('${ApiService.helpWithResponse}/$ParentId'));
+      await http.get(Uri.parse('${Api.helpWithResponse}/$ParentId'));
   if (response.statusCode == 200) {
     final List<dynamic> data = jsonDecode(response.body);
     return data.map((item) => Help.fromJson(item)).toList();

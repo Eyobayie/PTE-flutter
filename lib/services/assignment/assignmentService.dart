@@ -4,7 +4,7 @@ import 'package:parent_teacher_engagement_app/models/assignment.dart';
 import 'package:parent_teacher_engagement_app/services/api.dart';
 
 Future<List<Assignment>> getAssignments() async {
-  final response = await http.get(Uri.parse(ApiService.assignmentUrl));
+  final response = await http.get(Uri.parse(Api.assignmentUrl));
   if (response.statusCode == 200) {
     final List<dynamic> data = jsonDecode(response.body);
     return data.map((item) => Assignment.fromJson(item)).toList();
@@ -14,7 +14,7 @@ Future<List<Assignment>> getAssignments() async {
 }
 
 Future<Assignment> getAssignment(int id) async {
-  final response = await http.get(Uri.parse('${ApiService.assignment}/$id'));
+  final response = await http.get(Uri.parse('${Api.assignment}/$id'));
   if (response.statusCode == 200) {
     final Map<String, dynamic> data = jsonDecode(response.body);
     return Assignment.fromJson(data);
@@ -26,7 +26,7 @@ Future<Assignment> getAssignment(int id) async {
 Future<Assignment> createAssignment(String title, String description,
     int SubjectId, DateTime givenDate, DateTime endDate) async {
   final response = await http.post(
-    Uri.parse(ApiService.assignmentUrl),
+    Uri.parse(Api.assignmentUrl),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -51,7 +51,7 @@ Future<Assignment> createAssignment(String title, String description,
 // Update help
 Future<void> updateAssignment(Assignment assignment) async {
   final response = await http.put(
-    Uri.parse('${ApiService.assignment}/${assignment.id}'),
+    Uri.parse('${Api.assignment}/${assignment.id}'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -63,7 +63,7 @@ Future<void> updateAssignment(Assignment assignment) async {
 }
 
 Future<void> deleteAssignment(int id) async {
-  final response = await http.delete(Uri.parse('${ApiService.assignment}/$id'));
+  final response = await http.delete(Uri.parse('${Api.assignment}/$id'));
   if (response.statusCode != 200) {
     throw Exception('Failed to delete Assignment');
   }

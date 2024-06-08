@@ -13,8 +13,10 @@ import 'package:parent_teacher_engagement_app/providers/SubjectProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/TeacherProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/helpProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/helpResponseProvider.dart';
+import 'package:parent_teacher_engagement_app/providers/semister_provider.dart';
 import 'package:parent_teacher_engagement_app/screens/Assignment/assignment.dart';
 import 'package:parent_teacher_engagement_app/screens/academicYear/academic_year.dart';
+import 'package:parent_teacher_engagement_app/screens/assign_teacher/assign_teacher.dart';
 import 'package:parent_teacher_engagement_app/screens/department/departments_page.dart';
 import 'package:parent_teacher_engagement_app/screens/gradelevel/gradeDetail.dart';
 import 'package:parent_teacher_engagement_app/screens/gradelevel/gradelevel_screen.dart';
@@ -27,6 +29,8 @@ import 'package:parent_teacher_engagement_app/screens/notification/UI/notificati
 import 'package:parent_teacher_engagement_app/screens/parent/parent_registration.dart';
 import 'package:parent_teacher_engagement_app/screens/parent/parent_screen.dart';
 import 'package:parent_teacher_engagement_app/screens/section/create_section.dart';
+import 'package:parent_teacher_engagement_app/screens/semister/semister_list_screen.dart';
+import 'package:parent_teacher_engagement_app/screens/semister/semister_registration.dart';
 import 'package:parent_teacher_engagement_app/screens/student/student_per_section.dart';
 import 'package:parent_teacher_engagement_app/screens/student/student_registration.dart';
 import 'package:parent_teacher_engagement_app/screens/subject/subject_registration.dart';
@@ -62,6 +66,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => HelpResponseProvider()),
         ChangeNotifierProvider(create: (_) => AttendanceProvider()),
         ChangeNotifierProvider(create: (_) => AssignmentProvider()),
+        ChangeNotifierProvider(create: (_) => SemisterProvider()),
 
         ChangeNotifierProvider(create: (context) => StudentProvider()),
         // Add StudentProvider here
@@ -81,6 +86,7 @@ class MyApp extends StatelessWidget {
           DepartmentPage.departmentRoute: (context) => const DepartmentPage(),
 
           NewDepartment.newDepartmentRoute: (context) => const NewDepartment(),
+          NewSmister.newSemisterRoute: (context) => const NewSmister(),
           HelpDialog.helpDialogRoute: (context) => HelpDialog(),
           HelpResponsePage.helpRoute: (context) => const HelpResponsePage(),
           //AssignmentPage.assignmentRoute: (context) => AssignmentPage(),
@@ -109,7 +115,11 @@ class MyApp extends StatelessWidget {
           StudentRegistration.StudentRegistrationRoute: (context) =>
               const StudentRegistration(),
           AcademicYearRegistration.AcademicYearRegistrationRoute: (context) =>
-              const AcademicYearRegistration(), // Add this route
+              const AcademicYearRegistration(),
+
+          AssignTeacher.assignTeacherRoute: (context) => const AssignTeacher(),
+          SemisterListScreen.semisterRoute: (context) => SemisterListScreen()
+          // Add this route
         },
       ),
     );

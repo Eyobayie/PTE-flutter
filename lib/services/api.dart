@@ -1,4 +1,4 @@
-class ApiService {
+class Api {
   static const String baseUrl = 'http://localhost:5000/api';
 
   static String apiUrl(String endpoint) {
@@ -47,4 +47,9 @@ class ApiService {
   //assignment endpoint
   static String get assignmentUrl => apiUrl('assignments');
   static String get assignment => apiUrl('assignment');
+  //semester endpoint
+  static String get semisters => apiUrl('semisters');
+  static String get semister => apiUrl('semister');
+  static String get academicyearsemisters => apiUrl('academicyearsemisters');
+  static String get semisterAcademicyear => apiUrl('academicyear');
 }

@@ -4,8 +4,8 @@ import 'package:parent_teacher_engagement_app/models/section.dart';
 import 'package:parent_teacher_engagement_app/services/api.dart';
 
 Future<List<Section>> getSections(int? gradelevelId) async {
-  final response = await http
-      .get(Uri.parse('${ApiService.gradeLevelUrl}/$gradelevelId/sections'));
+  final response =
+      await http.get(Uri.parse('${Api.gradeLevelUrl}/$gradelevelId/sections'));
 
   if (response.statusCode == 200) {
     final Map<String, dynamic> data = jsonDecode(response.body);
@@ -23,7 +23,7 @@ Future<List<Section>> getSections(int? gradelevelId) async {
 Future<void> createSection(
     String name, String? description, int gradelevelId) async {
   final response = await http.post(
-    Uri.parse(ApiService.sectionsUrl),
+    Uri.parse(Api.sectionsUrl),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -39,7 +39,7 @@ Future<void> createSection(
 }
 
 Future<void> deleteSection(int id) async {
-  final response = await http.delete(Uri.parse('${ApiService.teacherUrl}/$id'));
+  final response = await http.delete(Uri.parse('${Api.teacherUrl}/$id'));
 
   if (response.statusCode != 200) {
     throw Exception('Failed to delete section');
@@ -48,7 +48,7 @@ Future<void> deleteSection(int id) async {
 
 Future<void> updateSection(int id, String name, String? description) async {
   final response = await http.put(
-    Uri.parse('${ApiService.teacherUrl}/$id'),
+    Uri.parse('${Api.teacherUrl}/$id'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },

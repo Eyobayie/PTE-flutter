@@ -6,7 +6,7 @@ import 'package:parent_teacher_engagement_app/services/api.dart';
 Future<List<Teacher>> getTeachers() async {
   final response =
       // await http.get(Uri.parse('http://localhost:5000/api/teachers'));
-      await http.get(Uri.parse(ApiService.teachersUrl));
+      await http.get(Uri.parse(Api.teachersUrl));
   if (response.statusCode == 200) {
     final List<dynamic> data = jsonDecode(response.body);
     final List<Teacher> teachers =
@@ -19,7 +19,7 @@ Future<List<Teacher>> getTeachers() async {
 
 Future<Teacher?> registerTeacher(
     String firstname, String lastname, String? email, int phone) async {
-  final response = await http.post(Uri.parse(ApiService.teachersUrl),
+  final response = await http.post(Uri.parse(Api.teachersUrl),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -40,7 +40,7 @@ Future<Teacher?> registerTeacher(
 }
 
 Future<void> deleteTeacher(int id) async {
-  final response = await http.delete(Uri.parse('${ApiService.teacherUrl}/$id'));
+  final response = await http.delete(Uri.parse('${Api.teacherUrl}/$id'));
 
   if (response.statusCode != 200) {
     throw Exception('Failed to delete data');
@@ -49,7 +49,7 @@ Future<void> deleteTeacher(int id) async {
 
 Future<void> updateTeacher(
     int id, String firstname, String lastname, String email, int phone) async {
-  final response = await http.put(Uri.parse('${ApiService.teacherUrl}/$id'),
+  final response = await http.put(Uri.parse('${Api.teacherUrl}/$id'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

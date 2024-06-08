@@ -4,7 +4,7 @@ import 'package:parent_teacher_engagement_app/models/subject.dart';
 import 'package:parent_teacher_engagement_app/services/api.dart';
 
 Future<List<Subject>> getSubjects() async {
-  final response = await http.get(Uri.parse(ApiService.subjectsUrl));
+  final response = await http.get(Uri.parse(Api.subjectsUrl));
   if (response.statusCode == 200) {
     final List<dynamic> data = jsonDecode(response.body);
     final List<Subject> subjects =
@@ -18,7 +18,7 @@ Future<List<Subject>> getSubjects() async {
 Future<Subject?> createSubject(
     String name, String? description, int gradelevelId) async {
   final response = await http.post(
-    Uri.parse(ApiService.subjectsUrl),
+    Uri.parse(Api.subjectsUrl),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -40,7 +40,7 @@ Future<Subject?> createSubject(
 }
 
 Future<void> deleteSubject(int id) async {
-  final response = await http.delete(Uri.parse('${ApiService.subjectUrl}/$id'));
+  final response = await http.delete(Uri.parse('${Api.subjectUrl}/$id'));
 
   if (response.statusCode != 200) {
     throw Exception('Failed to delete subject');
@@ -49,7 +49,7 @@ Future<void> deleteSubject(int id) async {
 
 Future<void> updateSubject(
     int id, String name, String desctiption, int gradelevelId) async {
-  final response = await http.put(Uri.parse('${ApiService.subjectUrl}$id'),
+  final response = await http.put(Uri.parse('${Api.subjectUrl}$id'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -78,7 +78,7 @@ Future<void> updateSubject(
 // }
 Future<List<Subject>> getSubjectByGradelevel(int gradeId) async {
   final response =
-      await http.get(Uri.parse('${ApiService.subjectGradeLevel}/$gradeId'));
+      await http.get(Uri.parse('${Api.subjectGradeLevel}/$gradeId'));
   if (response.statusCode == 200) {
     final dynamic data = jsonDecode(response.body);
     if (data is List) {

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'package:parent_teacher_engagement_app/models/attendence.dart';
+import 'package:parent_teacher_engagement_app/services/api.dart';
 import 'package:parent_teacher_engagement_app/services/attendance/attendaceService.dart';
 
 class AttendanceProvider with ChangeNotifier {
@@ -62,6 +65,39 @@ class AttendanceProvider with ChangeNotifier {
       _error = '';
     } catch (e) {
       _error = e.toString();
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> addBulkAttendance(
+      List<Map<String, dynamic>> attendanceList) async {
+    _isLoading = true;
+    notifyListeners();
+
+    final url =
+        Uri.parse('${Api.attendaceUrl}/bulk'); // Adjust endpoint as necessary
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: json.encode(attendanceList),
+      );
+
+      if (response.statusCode == 200) {
+        // Handle success
+        print('Attendance data submitted successfully.');
+      } else {
+        // Handle error
+        print('Failed to submit attendance data: ${response.body}');
+        throw Exception('Failed to submit attendance data');
+      }
+    } catch (error) {
+      print('Error submitting attendance data: $error');
+      throw error;
     } finally {
       _isLoading = false;
       notifyListeners();

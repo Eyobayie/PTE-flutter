@@ -43,6 +43,7 @@ import 'package:parent_teacher_engagement_app/screens/subject/subject_screen.dar
 import 'package:parent_teacher_engagement_app/screens/teacher/teacher_registration.dart';
 import 'package:parent_teacher_engagement_app/screens/teacher/teacher_screen.dart';
 import 'package:parent_teacher_engagement_app/screens/academicYear/academicYear_registration.dart';
+import 'package:parent_teacher_engagement_app/widgets/createAttendance.dart';
 import 'package:parent_teacher_engagement_app/widgets/mainDrawer.dart';
 import 'package:provider/provider.dart';
 
@@ -123,8 +124,15 @@ class MyApp extends StatelessWidget {
               const StudentPerSection(),
           StudentRegistration.StudentRegistrationRoute: (context) =>
               const StudentRegistration(),
+          StudentDetailScreen.studentDetailRoute: (context) =>
+              StudentDetailScreen(),
           AcademicYearRegistration.AcademicYearRegistrationRoute: (context) =>
-              const AcademicYearRegistration(), // Add this route
+              const AcademicYearRegistration(),
+          NewAttendancePage.newAttendance: (context) =>
+              const NewAttendancePage(),
+          AssignTeacher.assignTeacherRoute: (context) => const AssignTeacher(),
+          NewTeacherAssignment.newTeacherAssignmentRoute: (context) =>
+              const NewTeacherAssignment()
         },
       ),
     );

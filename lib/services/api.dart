@@ -52,4 +52,7 @@ class Api {
   static String get semister => apiUrl('semister');
   static String get academicyearsemisters => apiUrl('academicyearsemisters');
   static String get semisterAcademicyear => apiUrl('academicyear');
+  //assign teacher endpoint
+  static String get teacherassignments => apiUrl('teacherassignments');
+  static String get teacherAssignment => apiUrl('teacherAssignment');
 }

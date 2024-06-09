@@ -11,12 +11,14 @@ import 'package:parent_teacher_engagement_app/providers/SectionProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/ParentProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/SubjectProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/TeacherProvider.dart';
+import 'package:parent_teacher_engagement_app/providers/assinTeacher_provider.dart';
 import 'package:parent_teacher_engagement_app/providers/helpProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/helpResponseProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/semister_provider.dart';
 import 'package:parent_teacher_engagement_app/screens/Assignment/assignment.dart';
 import 'package:parent_teacher_engagement_app/screens/academicYear/academic_year.dart';
 import 'package:parent_teacher_engagement_app/screens/assign_teacher/assign_teacher.dart';
+import 'package:parent_teacher_engagement_app/screens/assign_teacher/newAssign_teacher.dart';
 import 'package:parent_teacher_engagement_app/screens/department/departments_page.dart';
 import 'package:parent_teacher_engagement_app/screens/gradelevel/gradeDetail.dart';
 import 'package:parent_teacher_engagement_app/screens/gradelevel/gradelevel_screen.dart';
@@ -67,7 +69,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AttendanceProvider()),
         ChangeNotifierProvider(create: (_) => AssignmentProvider()),
         ChangeNotifierProvider(create: (_) => SemisterProvider()),
-
+        ChangeNotifierProvider(create: (_) => AssignTeacherProvider()),
         ChangeNotifierProvider(create: (context) => StudentProvider()),
         // Add StudentProvider here
       ],
@@ -118,6 +120,8 @@ class MyApp extends StatelessWidget {
               const AcademicYearRegistration(),
 
           AssignTeacher.assignTeacherRoute: (context) => const AssignTeacher(),
+          NewTeacherAssignment.newTeacherAssignmentRoute: (context) =>
+              const NewTeacherAssignment(),
           SemisterListScreen.semisterRoute: (context) => SemisterListScreen()
           // Add this route
         },

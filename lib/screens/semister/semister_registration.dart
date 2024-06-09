@@ -22,13 +22,13 @@ class NewSmister extends StatefulWidget {
 class _NewSmisterState extends State<NewSmister> {
   String name = '';
   String description = '';
-  int AcademicYearId = 0;
+
   final _nameFocusNode = FocusNode();
   final _descriptionFocusNode = FocusNode();
-  final _AcademicYearIdFocuseNode = FocusNode();
+
   final nameController = TextEditingController();
   final descriptionController = TextEditingController();
-  final AcademicYearIdController = TextEditingController();
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   Semister? semister;
 
@@ -56,10 +56,10 @@ class _NewSmisterState extends State<NewSmister> {
   void dispose() {
     _nameFocusNode.dispose();
     _descriptionFocusNode.dispose();
-    _AcademicYearIdFocuseNode.dispose();
+
     nameController.dispose();
     descriptionController.dispose();
-    AcademicYearIdController.dispose();
+
     super.dispose();
   }
 

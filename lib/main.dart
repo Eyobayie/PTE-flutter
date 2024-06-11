@@ -15,7 +15,6 @@ import 'package:parent_teacher_engagement_app/providers/assinTeacher_provider.da
 import 'package:parent_teacher_engagement_app/providers/helpProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/helpResponseProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/semister_provider.dart';
-import 'package:parent_teacher_engagement_app/screens/Assignment/assignment.dart';
 import 'package:parent_teacher_engagement_app/screens/academicYear/academic_year.dart';
 import 'package:parent_teacher_engagement_app/screens/assign_teacher/assign_teacher.dart';
 import 'package:parent_teacher_engagement_app/screens/assign_teacher/newAssign_teacher.dart';
@@ -33,7 +32,6 @@ import 'package:parent_teacher_engagement_app/screens/notification/announcement_
 import 'package:parent_teacher_engagement_app/screens/parent/parent_registration.dart';
 import 'package:parent_teacher_engagement_app/screens/parent/parent_screen.dart';
 import 'package:parent_teacher_engagement_app/screens/section/create_section.dart';
-import 'package:parent_teacher_engagement_app/screens/semister/semister_list_screen.dart';
 import 'package:parent_teacher_engagement_app/screens/semister/semister_registration.dart';
 import 'package:parent_teacher_engagement_app/screens/student/student_per_section.dart';
 import 'package:parent_teacher_engagement_app/screens/student/student_registration.dart';

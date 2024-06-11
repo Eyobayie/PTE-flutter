@@ -1,16 +1,17 @@
 import 'dart:convert';
+import 'package:parent_teacher_engagement_app/models/academic_year.dart';
 
 class Semister {
   final int id;
   final String name;
   final String? description;
-  int? AcademicYearId;
+  int AcademicYearId;
 
   Semister(
       {required this.id,
       required this.name,
       this.description,
-      this.AcademicYearId});
+      required this.AcademicYearId});
 
   // Factory method to create an instance of AcademicYear from JSON
   factory Semister.fromJson(Map<String, dynamic> json) {

@@ -9,7 +9,6 @@ import 'package:parent_teacher_engagement_app/widgets/sharedButton.dart';
 import 'package:provider/provider.dart';
 
 import '../../constants/scaffold_constants.dart';
-import '../../models/department.dart';
 
 class NewSmister extends StatefulWidget {
   const NewSmister({super.key});

@@ -1,5 +1,5 @@
 class Api {
-  static const String baseUrl = 'http://localhost:5000/api';
+  static const String baseUrl = 'http://localhost:4000/api';
 
   static String apiUrl(String endpoint) {
     return '$baseUrl/$endpoint';

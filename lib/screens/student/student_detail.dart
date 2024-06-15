@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:parent_teacher_engagement_app/constants/appbar_constants.dart';
 import 'package:parent_teacher_engagement_app/models/student.dart';
+import 'package:parent_teacher_engagement_app/screens/student/add_student_result.dart';
 import 'package:parent_teacher_engagement_app/widgets/attendance.dart';
+import 'package:parent_teacher_engagement_app/widgets/performance.dart';
 
 class StudentDetailScreen extends StatefulWidget {
   const StudentDetailScreen({super.key});
@@ -18,7 +20,7 @@ class _StudentDetailScreenState extends State<StudentDetailScreen>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 2, vsync: this);
   }
 
   @override
@@ -35,12 +37,16 @@ class _StudentDetailScreenState extends State<StudentDetailScreen>
         backgroundColor: AppBarConstants.backgroundColor,
         iconTheme: AppBarConstants.iconTheme,
         title: Text(
-          student.firstname,
+          student.firstname ?? '',
           style: AppBarConstants.textStyle,
         ),
         actions: [
           TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pushNamed(
+                    CreateStudentResultForm.resultFormRote,
+                    arguments: student.id);
+              },
               child: const Text(
                 'Add result',
                 style: TextStyle(color: Colors.white),
@@ -51,7 +57,6 @@ class _StudentDetailScreenState extends State<StudentDetailScreen>
           unselectedLabelColor: Colors.white70,
           controller: _tabController,
           tabs: const [
-            Tab(text: 'Details'),
             Tab(text: 'Attendances'),
             Tab(text: 'Performance'),
           ],
@@ -62,9 +67,8 @@ class _StudentDetailScreenState extends State<StudentDetailScreen>
         child: TabBarView(
           controller: _tabController,
           children: [
-            const Center(child: Text('Here is the detail')),
             AttendanceWidget(studentId: student.id),
-            const Center(child: Text('Here is the performance')),
+            ResultTable(studentId: student.id),
           ],
         ),
       ),

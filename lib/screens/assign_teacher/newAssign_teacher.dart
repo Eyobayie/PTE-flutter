@@ -6,9 +6,7 @@ import 'package:parent_teacher_engagement_app/constants/card_constants.dart';
 import 'package:parent_teacher_engagement_app/models/assign_teacher_model.dart';
 import 'package:parent_teacher_engagement_app/models/gradelevel.dart';
 import 'package:parent_teacher_engagement_app/models/section.dart';
-import 'package:parent_teacher_engagement_app/models/semister_model.dart';
 import 'package:parent_teacher_engagement_app/providers/AcademicYearProvider.dart';
-import 'package:parent_teacher_engagement_app/providers/AssignmentProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/DepartmentProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/GradelevelProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/SectionProvider.dart';
@@ -21,7 +19,6 @@ import 'package:parent_teacher_engagement_app/widgets/sharedButton.dart';
 import 'package:provider/provider.dart';
 
 import '../../constants/scaffold_constants.dart';
-import '../../models/department.dart';
 
 class NewTeacherAssignment extends StatefulWidget {
   const NewTeacherAssignment({super.key});
@@ -229,7 +226,7 @@ class _NewTeacherAssignmentState extends State<NewTeacherAssignment> {
                         items: semisterProvider.semisters.map((semister) {
                           return DropdownMenuItem<int>(
                             value: semister.id,
-                            child: Text(semister.name),
+                            child: Text(semister.name ?? ''),
                           );
                         }).toList(),
                         onChanged: (value) {
@@ -299,7 +296,7 @@ class _NewTeacherAssignmentState extends State<NewTeacherAssignment> {
                         items: subProvider.subjects.map((subject) {
                           return DropdownMenuItem<int>(
                             value: subject.id,
-                            child: Text(subject.name),
+                            child: Text(subject.name?? ''),
                           );
                         }).toList(),
                         onChanged: (value) {

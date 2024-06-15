@@ -4,11 +4,11 @@ import 'package:parent_teacher_engagement_app/services/subject/subject.dart';
 
 class SubjectProvider extends ChangeNotifier {
   List<Subject> _subjects = [];
-  List<Subject> _subjectgradelevels = [];
+  List<Subject> _subjectGradeLevels = [];
   String _error = '';
 
   List<Subject> get subjects => _subjects;
-  List<Subject> get subjectGradleles => _subjectgradelevels;
+  List<Subject> get subjectGradleles => _subjectGradeLevels;
   String get error => _error;
 
   Future<void> fetchSubjects() async {
@@ -26,11 +26,10 @@ class SubjectProvider extends ChangeNotifier {
       _subjects.removeWhere((subject) => subject.id == id);
       notifyListeners();
     } catch (e) {
-      print('Error deleting department: $e');
+      print('Error deleting subject: $e');
     }
   }
 
-// add a new department
   void addDepartment(Subject subject) {
     _subjects.add(subject);
     notifyListeners();
@@ -45,18 +44,17 @@ class SubjectProvider extends ChangeNotifier {
         _subjects.add(createdSubject);
         notifyListeners();
       } else {
-        print(
-            'Error creating subject at provider: created subject is null or id is null');
+        print('Error creating subject: created subject is null');
       }
     } catch (e) {
-      print('Error creating subject from provider: $e');
+      print('Error creating subject: $e');
     }
   }
 
   Future<void> fetchSubjectByGradelevel(int gradeId) async {
     try {
-      _subjectgradelevels = await getSubjectByGradelevel(gradeId);
-      print('Fetched subject grade levels: $_subjectgradelevels');
+      _subjectGradeLevels = await getSubjectsByGradelevel(gradeId);
+      print('Fetched subjects by grade level: $_subjectGradeLevels');
       notifyListeners();
     } catch (e) {
       print('Error fetching subjects by grade level: $e');

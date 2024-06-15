@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:parent_teacher_engagement_app/models/academic_year.dart';
 import 'package:parent_teacher_engagement_app/models/semister_model.dart';
 import 'package:parent_teacher_engagement_app/services/semister/semister_service.dart';
 
@@ -8,8 +7,9 @@ class SemisterProvider with ChangeNotifier {
   String _error = '';
   Semister? _selectedSemister;
   bool _isLoading = false;
+    List<Semister> _filteredSemisters = [];
+  List<Semister> get semisters => _filteredSemisters;
 
-  List<Semister> get semisters => _semisters;
   String get error => _error;
 
   Semister? get selectedSemister => _selectedSemister;
@@ -41,11 +41,11 @@ class SemisterProvider with ChangeNotifier {
     }
   }
 
-  Future<void> fetchSemisterByAcademicYearId(int academicYearId) async {
+  Future<void> fetchSemistersByAcademicYear(int academicYearId) async {
     _isLoading = true;
-    notifyListeners();
     try {
-      _selectedSemister = await getSemisterByAcademicYearId(academicYearId);
+    _filteredSemisters = _semisters.where((semister) => semister.AcademicYearId == academicYearId).toList();
+          notifyListeners();
     } catch (error) {
       throw error;
     } finally {
@@ -86,7 +86,7 @@ class SemisterProvider with ChangeNotifier {
   }
 
   Future<void> updateSemisterProvider(
-      int id, String name, String description, int academicYearId) async {
+      int? id, String name, String description, int academicYearId) async {
     _isLoading = true;
     notifyListeners();
     try {

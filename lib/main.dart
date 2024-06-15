@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:parent_teacher_engagement_app/Auth/login.dart';
+import 'package:parent_teacher_engagement_app/providers/studentResultProvider.dart';
+import 'package:parent_teacher_engagement_app/screens/Assignment/assignment.dart';
+import 'package:parent_teacher_engagement_app/screens/Assignment/assignment_screen.dart';
+import 'package:parent_teacher_engagement_app/screens/student/add_student_result.dart';
+import 'package:provider/provider.dart';
 import 'package:parent_teacher_engagement_app/constants/appbar_constants.dart';
 import 'package:parent_teacher_engagement_app/constants/scaffold_constants.dart';
 import 'package:parent_teacher_engagement_app/providers/AcademicYearProvider.dart';
@@ -14,6 +20,7 @@ import 'package:parent_teacher_engagement_app/providers/TeacherProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/assinTeacher_provider.dart';
 import 'package:parent_teacher_engagement_app/providers/helpProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/helpResponseProvider.dart';
+import 'package:parent_teacher_engagement_app/providers/resultPercentageProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/semister_provider.dart';
 import 'package:parent_teacher_engagement_app/screens/academicYear/academic_year.dart';
 import 'package:parent_teacher_engagement_app/screens/assign_teacher/assign_teacher.dart';
@@ -31,6 +38,8 @@ import 'package:parent_teacher_engagement_app/screens/notification/announcement.
 import 'package:parent_teacher_engagement_app/screens/notification/announcement_form.dart';
 import 'package:parent_teacher_engagement_app/screens/parent/parent_registration.dart';
 import 'package:parent_teacher_engagement_app/screens/parent/parent_screen.dart';
+import 'package:parent_teacher_engagement_app/screens/resultPercentage/add_result_percentage.dart';
+import 'package:parent_teacher_engagement_app/screens/resultPercentage/result_percentage.dart';
 import 'package:parent_teacher_engagement_app/screens/section/create_section.dart';
 import 'package:parent_teacher_engagement_app/screens/semister/semister_registration.dart';
 import 'package:parent_teacher_engagement_app/screens/student/student_per_section.dart';
@@ -43,12 +52,11 @@ import 'package:parent_teacher_engagement_app/screens/teacher/teacher_screen.dar
 import 'package:parent_teacher_engagement_app/screens/academicYear/academicYear_registration.dart';
 import 'package:parent_teacher_engagement_app/widgets/createAttendance.dart';
 import 'package:parent_teacher_engagement_app/widgets/mainDrawer.dart';
-import 'package:provider/provider.dart';
 
 import 'providers/AnnouncemetProvider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -72,8 +80,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AssignmentProvider()),
         ChangeNotifierProvider(create: (_) => SemisterProvider()),
         ChangeNotifierProvider(create: (_) => AssignTeacherProvider()),
-        ChangeNotifierProvider(create: (context) => StudentProvider()),
-        // Add StudentProvider here
+        ChangeNotifierProvider(create: (_) => ResultPercentageProvider()),
+        ChangeNotifierProvider(create: (_) =>ResultProvider()),
+        ChangeNotifierProvider(create: (_) => StudentProvider()),
       ],
       child: MaterialApp(
         title: 'Parent Teacher Engagement',
@@ -83,56 +92,39 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           primaryColor: Colors.blue,
         ),
-        // Set up the routes here
         routes: {
-          '/': (context) =>
-              const MyHomePage(title: 'Parent Teacher Engagement'),
+          '/': (context) =>  LoginDemo(),
           DepartmentPage.departmentRoute: (context) => const DepartmentPage(),
-
           NewDepartment.newDepartmentRoute: (context) => const NewDepartment(),
           NewSmister.newSemisterRoute: (context) => const NewSmister(),
           HelpDialog.helpDialogRoute: (context) => HelpDialog(),
           HelpResponsePage.helpRoute: (context) => const HelpResponsePage(),
-          //AssignmentPage.assignmentRoute: (context) => AssignmentPage(),
-
-          GradelevelScreen.gradelevelScreenRoute: (context) =>
-              const GradelevelScreen(),
-          NotificationList.notificationListRoute: (context) =>
-              const NotificationList(),
-          GradeDetailScreen.gradeDetailScreenRoute: (context) =>
-              const SizedBox(),
-          AcademicYearScreen.academicYearRoute: (context) =>
-              const AcademicYearScreen(),
-          NewAnnouncement.announcementRoute: (context) =>
-              const NewAnnouncement(),
-          AnnouncementForm.AnnouncementFormRoute: (context) =>
-              const AnnouncementForm(),
+          ResultPercentageScreen.resultPercentageRoute: (context) => const ResultPercentageScreen(),
+          NewResultPercentageForm.newResultParcentageRoute: (context) =>const NewResultPercentageForm(),
+          GradelevelScreen.gradelevelScreenRoute: (context) => const GradelevelScreen(),
+          NotificationList.notificationListRoute: (context) => const NotificationList(),
+          GradeDetailScreen.gradeDetailScreenRoute: (context) => const SizedBox(),
+          AcademicYearScreen.academicYearRoute: (context) => const AcademicYearScreen(),
+          NewAnnouncement.announcementRoute: (context) => const NewAnnouncement(),
+          AnnouncementForm.AnnouncementFormRoute: (context) => const AnnouncementForm(),
           NewGradeLevel.newgradelevelRoute: (context) => const NewGradeLevel(),
           TeacherScreen.teacherRoute: (context) => const TeacherScreen(),
-          TeacherRegistration.teacherRegistrationRoute: (context) =>
-              const TeacherRegistration(),
+          TeacherRegistration.teacherRegistrationRoute: (context) => const TeacherRegistration(),
           ParentScreen.parentRoute: (context) => const ParentScreen(),
-          ParentRegistration.ParentRegistrationRoute: (context) =>
-              const ParentRegistration(),
+          ParentRegistration.ParentRegistrationRoute: (context) => const ParentRegistration(),
           CreateSection.createSectionRoute: (context) => const CreateSection(),
           SubjectScreen.subjectRoute: (context) => const SubjectScreen(),
-          SubjectRegistration.SubjectRegistrationRoute: (context) =>
-              const SubjectRegistration(),
-          StudentPerSection.studentRoute: (context) =>
-              const StudentPerSection(),
-          StudentRegistration.StudentRegistrationRoute: (context) =>
-              const StudentRegistration(),
-          StudentDetailScreen.studentDetailRoute: (context) =>
-              const StudentDetailScreen(),
-          AcademicYearRegistration.AcademicYearRegistrationRoute: (context) =>
-              const AcademicYearRegistration(),
-
-          // Add this route
-          NewAttendancePage.newAttendance: (context) =>
-              const NewAttendancePage(),
+          SubjectRegistration.SubjectRegistrationRoute: (context) => const SubjectRegistration(),
+          StudentPerSection.studentRoute: (context) => const StudentPerSection(),
+          StudentRegistration.StudentRegistrationRoute: (context) => const StudentRegistration(),
+          StudentDetailScreen.studentDetailRoute: (context) => const StudentDetailScreen(),
+          AcademicYearRegistration.AcademicYearRegistrationRoute: (context) => const AcademicYearRegistration(),
+          NewAttendancePage.newAttendance: (context) => const NewAttendancePage(),
           AssignTeacher.assignTeacherRoute: (context) => const AssignTeacher(),
-          NewTeacherAssignment.newTeacherAssignmentRoute: (context) =>
-              const NewTeacherAssignment()
+          AssignmentScreen.assignmentRoute:(context) => const AssignmentScreen(),
+          AssignmentPage.assignmentRoute: (context)=> const  AssignmentPage(),
+          CreateStudentResultForm.resultFormRote:(context) =>const CreateStudentResultForm(),
+          NewTeacherAssignment.newTeacherAssignmentRoute: (context) => const NewTeacherAssignment(),
         },
       ),
     );
@@ -163,17 +155,12 @@ class _MyHomePageState extends State<MyHomePage> {
         actions: const <Widget>[
           NotificationAppBarActions(),
         ],
-        iconTheme: IconThemeData(color: AppBarConstants.iconThem),
+        iconTheme: const IconThemeData(color: AppBarConstants.iconThem),
       ),
       drawer: const MainDrawer(),
       body: const Center(
         child: Text('There will be something here'),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {},
-      //   child: const Text('Help?'),
-      // ),
-
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {

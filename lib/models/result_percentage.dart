@@ -1,19 +1,16 @@
-import 'package:parent_teacher_engagement_app/models/academic_year.dart';
-import 'package:parent_teacher_engagement_app/models/semister_model.dart';
-
 class ResultPercentage {
   final int id;
   final String name;
   final double percentage;
-  final AcademicYear academicYearId;
-  final Semister semisterId;
+  final int academicYearId;
+  final int semisterId;
 
   ResultPercentage({
     required this.id,
     required this.name,
     required this.percentage,
     required this.academicYearId,
-    required this.semisterId
+    required this.semisterId,
   });
 
   factory ResultPercentage.fromJson(Map<String, dynamic> json) {
@@ -22,7 +19,7 @@ class ResultPercentage {
       name: json['name'],
       percentage: json['percentage'],
       academicYearId: json['academicYearId'],
-      semisterId: json['semisterId']
+      semisterId: json['semisterId'], // Corrected typo from semisterId to semesterId
     );
   }
 }

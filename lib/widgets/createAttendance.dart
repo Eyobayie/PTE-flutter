@@ -182,7 +182,7 @@ class _NewAttendancePageState extends State<NewAttendancePage> {
                         ],
                         rows: students.map((student) {
                           return DataRow(cells: [
-                            DataCell(Text(student.firstname)),
+                            DataCell(Text(student.firstname?? '')),
                             DataCell(Text(student.parent?.firstname ?? '')),
                             DataCell(
                               Checkbox(

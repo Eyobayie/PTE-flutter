@@ -19,7 +19,7 @@ class AcademicYearProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> deleteAcademicYearProvider(int id) async {
+  Future<void> deleteAcademicYearProvider(int? id) async {
     try {
       await deleteAcademicYear(id);
       _academicYears.removeWhere((academicYear) => academicYear.id == id);

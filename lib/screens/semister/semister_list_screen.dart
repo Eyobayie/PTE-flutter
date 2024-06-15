@@ -95,14 +95,14 @@ class _SemisterListScreenState extends State<SemisterListScreen> {
                                         arguments: semister,
                                       );
                                     }),
-                                title: Text(semister.name),
+                                title: Text(semister.name?? ''),
                                 subtitle: Text(semister.description ?? ''),
                                 trailing: IconButton(
                                   icon: const Icon(Icons.delete),
                                   color: Colors.red[900],
                                   onPressed: () {
                                     semiProvider
-                                        .deleteSemisterProvider(semister.id);
+                                        .deleteSemisterProvider(semister.id?? 0);
                                   },
                                 ),
                               ),

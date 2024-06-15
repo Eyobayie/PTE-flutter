@@ -7,6 +7,7 @@ import 'package:parent_teacher_engagement_app/screens/gradelevel/gradelevel_scre
 import 'package:parent_teacher_engagement_app/screens/helpResponse/helpResponse.dart';
 import 'package:parent_teacher_engagement_app/screens/notification/announcement.dart';
 import 'package:parent_teacher_engagement_app/screens/parent/parent_screen.dart';
+import 'package:parent_teacher_engagement_app/screens/resultPercentage/result_percentage.dart';
 import 'package:parent_teacher_engagement_app/screens/semister/semister_list_screen.dart';
 import 'package:parent_teacher_engagement_app/screens/student/student_registration.dart';
 import 'package:parent_teacher_engagement_app/screens/subject/subject_screen.dart';
@@ -48,8 +49,6 @@ class MainDrawer extends StatelessWidget {
               GradelevelScreen.gradelevelScreenRoute),
           sideBar(context, 'Subject', const Icon(Icons.book_online),
               SubjectScreen.subjectRoute),
-          sideBar(context, 'Students', const Icon(Icons.people),
-              StudentRegistration.StudentRegistrationRoute),
           sideBar(context, 'Announcements', const Icon(Icons.people),
               NewAnnouncement.announcementRoute),
           sideBar(
@@ -61,8 +60,10 @@ class MainDrawer extends StatelessWidget {
               AssignTeacher.assignTeacherRoute),
           sideBar(context, 'Manage Semister', const Icon(Icons.assistant),
               SemisterListScreen.semisterRoute),
+          sideBar(context, 'Result percentage', const Icon(Icons.percent),
+           ResultPercentageScreen.resultPercentageRoute),    
           sideBar(
-              context, 'Help', Icon(Icons.help), HelpResponsePage.helpRoute),
+              context, 'Help', const Icon(Icons.help), HelpResponsePage.helpRoute),
         ],
       ),
     );

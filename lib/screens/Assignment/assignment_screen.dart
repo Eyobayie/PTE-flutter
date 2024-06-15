@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:parent_teacher_engagement_app/providers/SubjectProvider.dart';
-import 'package:parent_teacher_engagement_app/screens/subject/subject_registration.dart';
+import 'package:parent_teacher_engagement_app/constants/card_constants.dart';
+import 'package:parent_teacher_engagement_app/constants/scaffold_constants.dart';
+import 'package:parent_teacher_engagement_app/providers/AssignmentProvider.dart';
+import 'package:parent_teacher_engagement_app/screens/Assignment/assignment.dart';
 import 'package:provider/provider.dart';
 
 import '../../constants/appbar_constants.dart';
-import '../../constants/card_constants.dart';
-import '../../constants/scaffold_constants.dart';
 
-class SubjectScreen extends StatefulWidget {
-  const SubjectScreen({Key? key});
+class AssignmentScreen extends StatefulWidget {
+  const AssignmentScreen({Key? key});
 
-  static const String subjectRoute = 'subjectRoute';
+  static const String assignmentRoute = 'assignments';
 
   @override
-  State<SubjectScreen> createState() => _SubjectScreenState();
+  State<AssignmentScreen> createState() => _AssignmentScreenState();
 }
 
-class _SubjectScreenState extends State<SubjectScreen> {
+class _AssignmentScreenState extends State<AssignmentScreen> {
   bool _isLoading = false; // Local loading state in ExamHome
 
   @override
@@ -32,7 +32,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
             true; // Set local isLoading to true before making the API call
       });
       // Use the provider to fetch data
-      await context.read<SubjectProvider>().fetchSubjects();
+      await context.read<AssignmentProvider>().fetchAssignments();
     } finally {
       setState(() {
         _isLoading =
@@ -43,14 +43,13 @@ class _SubjectScreenState extends State<SubjectScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var deptProvider = Provider.of<SubjectProvider>(context);
-    // double screenWidth = MediaQuery.of(context).size.width;
-    // double screenHeight = MediaQuery.of(context).size.height;
+    var assignProvider = Provider.of<AssignmentProvider>(context);
+    final gradelevelId = ModalRoute.of(context)!.settings.arguments as int;
     return Scaffold(
         backgroundColor: ScaffoldConstants.backgroundColor,
         appBar: AppBar(
           title: const Text(
-            'All Subjects',
+            'All assignments',
             style: AppBarConstants.textStyle,
           ),
           backgroundColor: AppBarConstants.backgroundColor,
@@ -58,8 +57,16 @@ class _SubjectScreenState extends State<SubjectScreen> {
           actions: [
             TextButton(
                 onPressed: () {
-                  Navigator.of(context)
-                      .pushNamed(SubjectRegistration.SubjectRegistrationRoute);
+                  // Navigator.of(context)
+                  //     .pushNamed(AssignmentPage.assignmentRoute,
+                  //      arguments: gradelevelId);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          AssignmentPage(gradelevelId: gradelevelId),
+                    ),
+                  );
                 },
                 child: const Text(
                   'Add new',
@@ -71,24 +78,24 @@ class _SubjectScreenState extends State<SubjectScreen> {
             ? const Center(
                 child: CircularProgressIndicator(),
               )
-            : deptProvider.error.isNotEmpty
+            : assignProvider.error.isNotEmpty
                 ? Center(
-                    child: Text('Error: ${deptProvider.error}'),
+                    child: Text('Error: ${assignProvider.error}'),
                   )
-                : Consumer<SubjectProvider>(
-                    builder: (context, departmentProvider, child) {
-                    if (departmentProvider.subjects.isEmpty) {
+                : Consumer<AssignmentProvider>(
+                    builder: (context, assignmentProvider, child) {
+                    if (assignmentProvider.assignments.isEmpty) {
                       // If departments list is empty, fetch data
-                      departmentProvider.fetchSubjects();
+                      assignmentProvider.fetchAssignments();
                       return const Center(child: CircularProgressIndicator());
                     } else {
                       // If departments list is not empty, display the department list
                       return ListView.builder(
-                        itemCount: deptProvider.subjects.length,
+                        itemCount: assignProvider.assignments.length,
                         itemBuilder: (context, index) {
-                          final subject = deptProvider.subjects[index];
+                          final assignment = assignProvider.assignments[index];
                           return Dismissible(
-                            key: Key(subject.id.toString()),
+                            key: Key(assignment.id.toString()),
                             child: Card(
                               elevation: CardConstants.elevationHeight,
                               margin: CardConstants.marginSize,
@@ -100,19 +107,18 @@ class _SubjectScreenState extends State<SubjectScreen> {
                                     color: Colors.amber[400],
                                     onPressed: () {
                                       Navigator.of(context).pushNamed(
-                                        SubjectRegistration
-                                            .SubjectRegistrationRoute,
-                                        arguments: subject,
+                                        AssignmentPage.assignmentRoute,
+                                        arguments: assignment,
                                       );
                                     }),
-                                title: Text(subject.name?? ''),
-                                subtitle: Text(subject.description ?? ''),
+                                title: Text(assignment.title),
+                                subtitle: Text(assignment.description ?? ''),
                                 trailing: IconButton(
                                   icon: const Icon(Icons.delete),
                                   color: Colors.red[900],
                                   onPressed: () {
-                                    deptProvider
-                                        .deleteSubjectProvider(subject.id);
+                                    assignProvider
+                                        .deleteAssignmentRecord(assignment.id);
                                   },
                                 ),
                               ),

@@ -7,33 +7,40 @@ Future<List<Announcement>> getAnnouncements() async {
   final response = await http.get(Uri.parse(Api.announcementsUrl));
   if (response.statusCode == 200) {
     final List<dynamic> data = jsonDecode(response.body);
-    final List<Announcement> parents =
+    final List<Announcement> announcements =
         data.map((item) => Announcement.fromJson(item)).toList();
-    return parents;
+    return announcements;
   } else {
     throw Exception('Failed to load data');
   }
 }
 
 Future<Announcement?> registerAnnouncementt(
+  DateTime date,
   String title,
   String description,
 ) async {
-  final response = await http.post(Uri.parse(Api.announcementsUrl),
-      // headers: <String, String>{
-      //   'Content-Type': 'application/json; charset=UTF-8',
-      // },
-      body:
-          jsonEncode(<String, dynamic>{'title': title, 'email': description}));
+  final response = await http.post(
+    Uri.parse(Api.announcementsUrl),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, dynamic>{
+      'date': date.toIso8601String(),
+      'title': title,
+      'description': description,
+    }),
+  );
+
   if (response.statusCode == 200) {
-    // Parse the response body to get the created department
     final Map<String, dynamic> responseData = jsonDecode(response.body);
     final registeredAnnouncement = Announcement.fromJson(responseData);
     return registeredAnnouncement;
   } else {
-    throw Exception('Failed to create department');
+    throw Exception('Failed to create announcement');
   }
 }
+
 
 Future<void> deleteAnnouncement(int id) async {
   final response = await http.delete(Uri.parse('${Api.announcementUrl}/$id'));
@@ -57,6 +64,6 @@ Future<void> updateAnnouncement(
         'description': description,
       }));
   if (response.statusCode != 200) {
-    throw Exception('Failed to update data');
+    throw Exception('Failed to update annoncement');
   }
 }

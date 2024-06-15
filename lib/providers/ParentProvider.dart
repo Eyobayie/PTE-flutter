@@ -47,10 +47,10 @@ class ParentProvider extends ChangeNotifier {
   }
 
   Future<void> createParentProvider(
-      String firstname, String lastname, String email, int phone) async {
+      String firstname, String lastname, String username, String email, int phone,String role) async {
     try {
       Parent? createdParent =
-          await registerParent(firstname, lastname, email, phone);
+          await registerParent(firstname, lastname, username, email, phone, role);
       if (createdParent != null) {
         _parents.add(createdParent);
         notifyListeners();
@@ -64,17 +64,19 @@ class ParentProvider extends ChangeNotifier {
   }
 
   Future<void> updateParentProvider(int id, String firstname, String lastname,
-      String email, int phone) async {
+     String username, String email, int phone, String role) async {
     try {
-      await updateParent(id, firstname, lastname, email, phone);
+      await updateParent(id, firstname, lastname,username, email, phone, role);
       int index = _parents.indexWhere((parent) => parent.id == id);
       if (index != -1) {
         _parents[index] = Parent(
           id: id,
           firstname: firstname,
           lastname: lastname,
+          username: username,
           email: email,
           phone: phone,
+          role: role,
         );
         notifyListeners();
       } else {

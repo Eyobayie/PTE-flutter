@@ -9,7 +9,6 @@ import 'package:parent_teacher_engagement_app/screens/notification/announcement.
 import 'package:parent_teacher_engagement_app/screens/parent/parent_screen.dart';
 import 'package:parent_teacher_engagement_app/screens/resultPercentage/result_percentage.dart';
 import 'package:parent_teacher_engagement_app/screens/semister/semister_list_screen.dart';
-import 'package:parent_teacher_engagement_app/screens/student/student_registration.dart';
 import 'package:parent_teacher_engagement_app/screens/subject/subject_screen.dart';
 import 'package:parent_teacher_engagement_app/screens/teacher/teacher_screen.dart';
 

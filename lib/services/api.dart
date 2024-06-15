@@ -39,6 +39,9 @@ class Api {
   static String get studentUrl => apiUrl('student');
   static String get studentPerSectionUrl => apiUrl('gradelevel');
 
+ // login endpoints
+ static String get login=> apiUrl('login');
+
   // Gradelevel with section
   static String get gradewithsection => apiUrl('gradewithsection');
 // student's result endpoint

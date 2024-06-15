@@ -109,4 +109,11 @@ class AssignTeacherProvider with ChangeNotifier {
       notifyListeners();
     }
   }
+
+  // Add this method to filter by academic year
+  List<AssignTeacherModel> filterByAcademicYear(int academicYearId) {
+    return _assignedTeachers
+        .where((teacher) => teacher.AcademicYearId == academicYearId)
+        .toList();
+  }
 }

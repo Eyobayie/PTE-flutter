@@ -18,7 +18,7 @@ Future<List<Teacher>> getTeachers() async {
 }
 
 Future<Teacher?> registerTeacher(
-    String firstname, String lastname, String? email, int phone) async {
+    String firstname, String lastname,String username, String? email, int phone, String role) async {
   final response = await http.post(Uri.parse(Api.teachersUrl),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -26,8 +26,10 @@ Future<Teacher?> registerTeacher(
       body: jsonEncode(<String, dynamic>{
         'firstname': firstname,
         'lastname': lastname,
+        'username':username,
         'email': email ?? '',
-        'phone': phone
+        'phone': phone,
+        'role': role,
       }));
   if (response.statusCode == 200) {
     // Parse the response body to get the created department
@@ -48,7 +50,7 @@ Future<void> deleteTeacher(int id) async {
 }
 
 Future<void> updateTeacher(
-    int id, String firstname, String lastname, String email, int phone) async {
+    int id, String firstname, String lastname, String username, String email, int phone, String role) async {
   final response = await http.put(Uri.parse('${Api.teacherUrl}/$id'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -56,8 +58,10 @@ Future<void> updateTeacher(
       body: jsonEncode(<String, dynamic>{
         'firstname': firstname,
         'lastname': lastname,
+        'username':username,
         'email': email,
-        'phone': phone
+        'phone': phone,
+        'role': role,
       }));
   if (response.statusCode != 200) {
     throw Exception('Failed to update data');

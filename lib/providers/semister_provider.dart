@@ -41,18 +41,19 @@ class SemisterProvider with ChangeNotifier {
     }
   }
 
-  Future<void> fetchSemistersByAcademicYear(int academicYearId) async {
-    _isLoading = true;
-    try {
+ Future<void> fetchSemistersByAcademicYear(int academicYearId) async {
+  _isLoading = true;
+  notifyListeners();
+  try {
     _filteredSemisters = _semisters.where((semister) => semister.AcademicYearId == academicYearId).toList();
-          notifyListeners();
-    } catch (error) {
-      throw error;
-    } finally {
-      _isLoading = false;
-      notifyListeners();
-    }
+  } catch (error) {
+    throw error;
+  } finally {
+    _isLoading = false;
+    notifyListeners();
   }
+}
+
 
   Future<void> fetchSemisterByAcademicYearIdSemisterId(
       int academicYearId, int id) async {
@@ -86,7 +87,7 @@ class SemisterProvider with ChangeNotifier {
   }
 
   Future<void> updateSemisterProvider(
-      int? id, String name, String description, int academicYearId) async {
+      int id, String name, String description, int academicYearId) async {
     _isLoading = true;
     notifyListeners();
     try {

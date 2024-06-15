@@ -48,11 +48,13 @@ class _ResultPercentageScreenState extends State<ResultPercentageScreen> {
           ? const Center(child: CircularProgressIndicator())
           : provider.error.isNotEmpty
               ? Center(child: Text('Error: ${provider.error}'))
-              : Container(
-                color: CardConstants.backgroundColor,
-                width: MediaQuery.of(context).size.width * 1.0,
-                child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
+              : SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  color: CardConstants.backgroundColor,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
                     child: DataTable(
                       columns: const [
                         DataColumn(label: Text('Name')),
@@ -110,6 +112,7 @@ class _ResultPercentageScreenState extends State<ResultPercentageScreen> {
                       }).toList(),
                     ),
                   ),
+                ),
               ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:parent_teacher_engagement_app/constants/appbar_constants.dart';
 import 'package:parent_teacher_engagement_app/providers/AcademicYearProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/SubjectProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/resultPercentageProvider.dart';
@@ -50,8 +51,9 @@ class _CreateStudentResultFormState extends State<CreateStudentResultForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Create Student Result'),
+        title: const Text('Create Student Result',style: AppBarConstants.textStyle,),
         centerTitle: true,
+        backgroundColor: AppBarConstants.backgroundColor,
       ),
       body: Consumer4<AcademicYearProvider, SemisterProvider, SubjectProvider, ResultPercentageProvider>(
         builder: (context, academicYearProvider, semisterProvider, subjectProvider, resultPercentageProvider, child) {
@@ -62,14 +64,21 @@ class _CreateStudentResultFormState extends State<CreateStudentResultForm> {
               child: ListView(
                 children: [
                   TextFormField(
-                    decoration: const InputDecoration(labelText: 'Result'),
+                    decoration: const InputDecoration(
+                      labelText: 'Result',
+                      border: OutlineInputBorder(),
+                    ),
                     keyboardType: TextInputType.number,
                     onSaved: (value) {
                       _result = double.parse(value!);
                     },
                   ),
+                  const SizedBox(height: 16.0),
                   DropdownButtonFormField<String>(
-                    decoration: const InputDecoration(labelText: 'Result Type'),
+                    decoration:const InputDecoration(
+                      labelText: 'Result Type',
+                      border: OutlineInputBorder(),
+                    ),
                     items: ['Midterm', 'Final', 'Assignment'].map((String type) {
                       return DropdownMenuItem<String>(
                         value: type,
@@ -83,8 +92,12 @@ class _CreateStudentResultFormState extends State<CreateStudentResultForm> {
                     },
                     validator: (value) => value == null ? 'Please select a result type' : null,
                   ),
+                  const SizedBox(height: 16.0),
                   DropdownButtonFormField<int>(
-                    decoration: const InputDecoration(labelText: 'Academic Year'),
+                    decoration:const InputDecoration(
+                      labelText: 'Academic Year',
+                      border: OutlineInputBorder(),
+                    ),
                     items: academicYearProvider.academicYears.map((academicYear) {
                       return DropdownMenuItem<int>(
                         value: academicYear.id,
@@ -102,8 +115,12 @@ class _CreateStudentResultFormState extends State<CreateStudentResultForm> {
                     },
                     validator: (value) => value == null ? 'Please select an academic year' : null,
                   ),
+                  const SizedBox(height: 16.0),
                   DropdownButtonFormField<int>(
-                    decoration: const InputDecoration(labelText: 'Semister'),
+                    decoration:const InputDecoration(
+                      labelText: 'Semister',
+                      border: OutlineInputBorder(),
+                    ),
                     items: semisterProvider.semisters.map((semister) {
                       return DropdownMenuItem<int>(
                         value: semister.id,
@@ -117,8 +134,12 @@ class _CreateStudentResultFormState extends State<CreateStudentResultForm> {
                     },
                     validator: (value) => value == null ? 'Please select a semister' : null,
                   ),
+                  const SizedBox(height: 16.0),
                   DropdownButtonFormField<int>(
-                    decoration: const InputDecoration(labelText: 'Subject'),
+                    decoration:const InputDecoration(
+                      labelText: 'Subject',
+                      border: OutlineInputBorder(),
+                    ),
                     items: subjectProvider.subjects.map((subject) {
                       return DropdownMenuItem<int>(
                         value: subject.id,
@@ -132,8 +153,12 @@ class _CreateStudentResultFormState extends State<CreateStudentResultForm> {
                     },
                     validator: (value) => value == null ? 'Please select a subject' : null,
                   ),
+                  const SizedBox(height: 16.0),
                   DropdownButtonFormField<int>(
-                    decoration: const InputDecoration(labelText: 'Result Percentage'),
+                    decoration:const InputDecoration(
+                      labelText: 'Result Percentage',
+                      border: OutlineInputBorder(),
+                    ),
                     items: resultPercentageProvider.resultPercentages.map((resultPercentage) {
                       return DropdownMenuItem<int>(
                         value: resultPercentage.id,

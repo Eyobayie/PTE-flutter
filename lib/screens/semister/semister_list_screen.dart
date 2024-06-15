@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:parent_teacher_engagement_app/constants/appbar_constants.dart';
 import 'package:parent_teacher_engagement_app/constants/card_constants.dart';
 import 'package:parent_teacher_engagement_app/constants/scaffold_constants.dart';
 import 'package:parent_teacher_engagement_app/providers/semister_provider.dart';
 import 'package:parent_teacher_engagement_app/screens/semister/semister_registration.dart';
 import 'package:provider/provider.dart';
+import 'package:parent_teacher_engagement_app/screens/department/new_department.dart';
+
+import '../../constants/appbar_constants.dart';
 
 class SemisterListScreen extends StatefulWidget {
-  SemisterListScreen({super.key, Key});
-  static const String semisterRoute = 'semisterRoute';
+  const SemisterListScreen({Key? key});
+
+  static const String semisterRoute = 'semisterroutes';
 
   @override
   State<SemisterListScreen> createState() => _SemisterListScreenState();
 }
 
 class _SemisterListScreenState extends State<SemisterListScreen> {
-  bool _isLoading = false;
+  bool _isLoading = false; // Local loading state in ExamHome
+
   @override
   void initState() {
     super.initState();
@@ -25,13 +29,15 @@ class _SemisterListScreenState extends State<SemisterListScreen> {
   Future<void> fetchData() async {
     try {
       setState(() {
-        _isLoading = true;
+        _isLoading =
+            true; // Set local isLoading to true before making the API call
       });
-
+      // Use the provider to fetch data
       await context.read<SemisterProvider>().fetchSemisters();
     } finally {
       setState(() {
-        _isLoading = false;
+        _isLoading =
+            false; // Set local isLoading to false after the API call is complete
       });
     }
   }
@@ -39,12 +45,13 @@ class _SemisterListScreenState extends State<SemisterListScreen> {
   @override
   Widget build(BuildContext context) {
     var semiProvider = Provider.of<SemisterProvider>(context);
-
+    // double screenWidth = MediaQuery.of(context).size.width;
+    // double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
         backgroundColor: ScaffoldConstants.backgroundColor,
         appBar: AppBar(
           title: const Text(
-            'Semisters',
+            'All Semisters',
             style: AppBarConstants.textStyle,
           ),
           backgroundColor: AppBarConstants.backgroundColor,
@@ -52,7 +59,8 @@ class _SemisterListScreenState extends State<SemisterListScreen> {
           actions: [
             TextButton(
                 onPressed: () {
-                  Navigator.of(context).pushNamed(NewSmister.newSemisterRoute);
+                  Navigator.of(context)
+                      .pushNamed(NewSmister.newSemisterRoute);
                 },
                 child: const Text(
                   'Add new',
@@ -71,9 +79,11 @@ class _SemisterListScreenState extends State<SemisterListScreen> {
                 : Consumer<SemisterProvider>(
                     builder: (context, semisterProvider, child) {
                     if (semisterProvider.semisters.isEmpty) {
+                      // If departments list is empty, fetch data
                       semisterProvider.fetchSemisters();
                       return const Center(child: CircularProgressIndicator());
                     } else {
+                      // If departments list is not empty, display the department list
                       return ListView.builder(
                         itemCount: semiProvider.semisters.length,
                         itemBuilder: (context, index) {
@@ -91,18 +101,18 @@ class _SemisterListScreenState extends State<SemisterListScreen> {
                                     color: Colors.amber[400],
                                     onPressed: () {
                                       Navigator.of(context).pushNamed(
-                                        NewSmister.newSemisterRoute,
+                                        NewDepartment.newDepartmentRoute,
                                         arguments: semister,
                                       );
                                     }),
-                                title: Text(semister.name?? ''),
+                                title: Text(semister.name),
                                 subtitle: Text(semister.description ?? ''),
                                 trailing: IconButton(
                                   icon: const Icon(Icons.delete),
                                   color: Colors.red[900],
                                   onPressed: () {
-                                    semiProvider
-                                        .deleteSemisterProvider(semister.id?? 0);
+                                    semiProvider.deleteSemisterProvider(
+                                        semister.id);
                                   },
                                 ),
                               ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:parent_teacher_engagement_app/models/teacher.dart';
 import 'package:parent_teacher_engagement_app/providers/TeacherProvider.dart';
-import 'package:parent_teacher_engagement_app/services/teacher/teacher.dart';
 import 'package:parent_teacher_engagement_app/widgets/sharedButton.dart';
 import 'package:provider/provider.dart';
 
@@ -26,6 +25,7 @@ class _TeacherRegistrationState extends State<TeacherRegistration> {
       teacher = args;
       _firstnameController.text = teacher?.firstname ?? '';
       _lastnameController.text = teacher?.lastname ?? '';
+      _usernameController.text =teacher?.username ?? '';
       _emailController.text = teacher!.email ?? '';
       _phoneController.text = teacher!.phone.toString();
     }
@@ -34,16 +34,19 @@ class _TeacherRegistrationState extends State<TeacherRegistration> {
   // Declaring variables
   late final String _firstname;
   late final String _lastname;
+  late final String _username;
   late final String _email;
   late final int _phone;
 //Declaring focus nodes
   final _firstnameFocusNode = FocusNode();
   final _lastnameFocusNode = FocusNode();
+  final _usernameFocusNode = FocusNode();
   final _emailFocusNode = FocusNode();
   final _phoneFocusNode = FocusNode();
   // Declaring controllers
   final _firstnameController = TextEditingController();
   final _lastnameController = TextEditingController();
+  final _usernameController = TextEditingController();
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
 
@@ -56,12 +59,13 @@ class _TeacherRegistrationState extends State<TeacherRegistration> {
     _formKey.currentState!.save();
     final String enteredName = _firstnameController.text.trim();
     final String enteredLstname = _lastnameController.text.trim();
+    final String enteredUsername = _usernameController.text.trim();
     final String enteredEmail = _emailController.text.trim();
     if (teacher == null) {
       try {
         await Provider.of<TeacherProvider>(context, listen: false)
             .createTeacherProvider(
-                enteredName, enteredLstname, enteredEmail, _phone);
+                enteredName, enteredLstname, enteredUsername, enteredEmail, _phone, 'teacher');
       } catch (error) {
         print('Error creating department');
       }
@@ -69,7 +73,7 @@ class _TeacherRegistrationState extends State<TeacherRegistration> {
       try {
         await Provider.of<TeacherProvider>(context, listen: false)
             .updateTeacherProvider(
-                teacher!.id, enteredName, enteredLstname, enteredEmail, _phone);
+                teacher!.id, enteredName, enteredLstname, enteredUsername,enteredEmail, _phone,'teacher');
       } catch (error) {
         print('Error updating teacher: $error');
       }
@@ -141,7 +145,7 @@ class _TeacherRegistrationState extends State<TeacherRegistration> {
                   return null;
                 },
                 onFieldSubmitted: (value) {
-                  FocusScope.of(context).requestFocus(_emailFocusNode);
+                  FocusScope.of(context).requestFocus(_usernameFocusNode);
                 },
                 focusNode: _lastnameFocusNode,
                 maxLines: 1,
@@ -150,6 +154,34 @@ class _TeacherRegistrationState extends State<TeacherRegistration> {
                   _lastname = value!;
                 },
               ),
+               const SizedBox(height: 10),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: "Username",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: const BorderSide(color: Colors.blue),
+                  ),
+                ),
+                textInputAction: TextInputAction.next,
+                keyboardType: TextInputType.text,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Username is required';
+                  }
+                  return null;
+                },
+                onFieldSubmitted: (value) {
+                  FocusScope.of(context).requestFocus(_emailFocusNode);
+                },
+                focusNode: _usernameFocusNode,
+                maxLines: 1,
+                controller: _usernameController,
+                onSaved: (value) {
+                  _username = value!;
+                },
+              ),
+
               const SizedBox(
                 height: 10,
               ),

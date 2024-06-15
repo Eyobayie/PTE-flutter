@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:parent_teacher_engagement_app/Auth/login.dart';
+import 'package:parent_teacher_engagement_app/screens/Auth/login.dart';
 import 'package:parent_teacher_engagement_app/providers/studentResultProvider.dart';
 import 'package:parent_teacher_engagement_app/screens/Assignment/assignment.dart';
 import 'package:parent_teacher_engagement_app/screens/Assignment/assignment_screen.dart';
+import 'package:parent_teacher_engagement_app/screens/semister/semister_list_screen.dart';
 import 'package:parent_teacher_engagement_app/screens/student/add_student_result.dart';
 import 'package:provider/provider.dart';
 import 'package:parent_teacher_engagement_app/constants/appbar_constants.dart';
@@ -96,6 +97,7 @@ class MyApp extends StatelessWidget {
           '/': (context) =>  LoginDemo(),
           DepartmentPage.departmentRoute: (context) => const DepartmentPage(),
           NewDepartment.newDepartmentRoute: (context) => const NewDepartment(),
+          SemisterListScreen.semisterRoute:(context) => const SemisterListScreen(),
           NewSmister.newSemisterRoute: (context) => const NewSmister(),
           HelpDialog.helpDialogRoute: (context) => HelpDialog(),
           HelpResponsePage.helpRoute: (context) => const HelpResponsePage(),

@@ -4,6 +4,7 @@ import 'package:parent_teacher_engagement_app/constants/scaffold_constants.dart'
 import 'package:parent_teacher_engagement_app/providers/ParentProvider.dart';
 import 'package:parent_teacher_engagement_app/screens/parent/parent_registration.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants/appbar_constants.dart';
 
@@ -18,13 +19,21 @@ class ParentScreen extends StatefulWidget {
 
 class _ParentScreenState extends State<ParentScreen> {
   bool _isLoading = false; // Local loading state in ExamHome
-
+  int? id;
+  String? role;
   @override
   void initState() {
     super.initState();
     fetchData();
+    getUserData();
   }
-
+ Future<void> getUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      id = prefs.getInt('id');
+      role = prefs.getString('role');
+    });
+  }
   Future<void> fetchData() async {
     try {
       setState(() {
@@ -56,7 +65,8 @@ class _ParentScreenState extends State<ParentScreen> {
           backgroundColor: AppBarConstants.backgroundColor,
           iconTheme: AppBarConstants.iconTheme,
           actions: [
-            TextButton(
+            if(role=="admin")
+             TextButton(
                 onPressed: () {
                   Navigator.of(context)
                       .pushNamed(ParentRegistration.ParentRegistrationRoute);
@@ -95,7 +105,7 @@ class _ParentScreenState extends State<ParentScreen> {
                               color: CardConstants.backgroundColor,
                               shape: CardConstants.rectangular,
                               child: ListTile(
-                                leading: IconButton(
+                                leading: role=="admin"? IconButton(
                                     icon: const Icon(Icons.edit),
                                     color: Colors.amber[400],
                                     onPressed: () {
@@ -104,17 +114,17 @@ class _ParentScreenState extends State<ParentScreen> {
                                             .ParentRegistrationRoute,
                                         arguments: parent,
                                       );
-                                    }),
+                                    }):null,
                                 title: Text(parent.firstname),
                                 subtitle: Text('${parent.phone}'),
-                                trailing: IconButton(
+                                trailing: role=="admin"? IconButton(
                                   icon: const Icon(Icons.delete),
                                   color: Colors.red[900],
                                   onPressed: () {
                                     parentProvider
                                         .deleteParentProvider(parent.id);
                                   },
-                                ),
+                                ):null,
                               ),
                             ),
                           );

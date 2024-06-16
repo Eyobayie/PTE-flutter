@@ -59,8 +59,7 @@ class _SemisterListScreenState extends State<SemisterListScreen> {
           actions: [
             TextButton(
                 onPressed: () {
-                  Navigator.of(context)
-                      .pushNamed(NewSmister.newSemisterRoute);
+                  Navigator.of(context).pushNamed(NewSmister.newSemisterRoute);
                 },
                 child: const Text(
                   'Add new',
@@ -111,8 +110,8 @@ class _SemisterListScreenState extends State<SemisterListScreen> {
                                   icon: const Icon(Icons.delete),
                                   color: Colors.red[900],
                                   onPressed: () {
-                                    semiProvider.deleteSemisterProvider(
-                                        semister.id);
+                                    semiProvider
+                                        .deleteSemisterProvider(semister.id);
                                   },
                                 ),
                               ),

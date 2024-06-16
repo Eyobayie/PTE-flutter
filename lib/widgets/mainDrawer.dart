@@ -11,9 +11,43 @@ import 'package:parent_teacher_engagement_app/screens/resultPercentage/result_pe
 import 'package:parent_teacher_engagement_app/screens/semister/semister_list_screen.dart';
 import 'package:parent_teacher_engagement_app/screens/subject/subject_screen.dart';
 import 'package:parent_teacher_engagement_app/screens/teacher/teacher_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class MainDrawer extends StatelessWidget {
+class MainDrawer extends StatefulWidget {
   const MainDrawer({super.key});
+
+  @override
+  State<MainDrawer> createState() => _MainDrawerState();
+}
+
+class _MainDrawerState extends State<MainDrawer> {
+  int? id;
+  String? firstname;
+  String? lastname;
+  String? username;
+  String? email;
+  int? phone;
+  String? role;
+
+  @override
+  void initState() {
+    super.initState();
+    getUserData();
+  }
+
+  Future<void> getUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      id = prefs.getInt('id');
+      firstname = prefs.getString('firstname');
+      lastname = prefs.getString('lastname');
+      username = prefs.getString('username');
+      email = prefs.getString('email');
+      phone = prefs.getInt('phone');
+      role = prefs.getString('role');
+    });
+  }
+
   Widget sideBar(BuildContext context, String title, Icon icon, String route) {
     return ListTile(
       title: Text(title),
@@ -23,46 +57,51 @@ class MainDrawer extends StatelessWidget {
       },
     );
   }
+  List<Widget> adminRoles=[];
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
         children: [
-          const DrawerHeader(
-            decoration: BoxDecoration(
+           DrawerHeader(
+            decoration: const BoxDecoration(
               color: AppBarConstants.backgroundColor,
             ),
-            child: Text(
-              'User profile',
-              style: TextStyle(color: Colors.white),
-            ),
+            child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${firstname ?? ''} ${lastname ?? ''}',
+                        style: const TextStyle(color: Colors.white, fontSize: 20),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        phone != null ? 'Phone: $phone' : 'Phone: N/A',
+                        style: const TextStyle(color: Colors.white, fontSize: 16),
+                      ),
+                    ],
+                  ),
           ),
-          sideBar(context, 'Departments', const Icon(Icons.home),
-              DepartmentPage.departmentRoute),
-          sideBar(context, 'Teachers', const Icon(Icons.person),
-              TeacherScreen.teacherRoute),
-          sideBar(context, 'Parents', const Icon(Icons.people),
-              ParentScreen.parentRoute),
-          sideBar(context, 'Grades', const Icon(Icons.star),
-              GradelevelScreen.gradelevelScreenRoute),
-          sideBar(context, 'Subject', const Icon(Icons.book_online),
-              SubjectScreen.subjectRoute),
-          sideBar(context, 'Announcements', const Icon(Icons.people),
-              NewAnnouncement.announcementRoute),
-          sideBar(
-              context,
-              'Academic years',
-              const Icon(Icons.person_outline_outlined),
-              AcademicYearScreen.academicYearRoute),
-          sideBar(context, 'Assign Teacher', const Icon(Icons.assistant),
-              AssignTeacher.assignTeacherRoute),
-          sideBar(context, 'Manage Semister', const Icon(Icons.assistant),
-              SemisterListScreen.semisterRoute),
-          sideBar(context, 'Result percentage', const Icon(Icons.percent),
-           ResultPercentageScreen.resultPercentageRoute),    
-          sideBar(
-              context, 'Help', const Icon(Icons.help), HelpResponsePage.helpRoute),
+           if (role == 'teacher' || role == 'admin') 
+            sideBar(context, 'Departments', const Icon(Icons.home), DepartmentPage.departmentRoute),
+          sideBar(context, 'Teachers', const Icon(Icons.person), TeacherScreen.teacherRoute),
+          if (role == 'teacher' || role == 'admin') 
+          sideBar(context, 'Parents', const Icon(Icons.people), ParentScreen.parentRoute),
+          sideBar(context, 'Grades', const Icon(Icons.star), GradelevelScreen.gradelevelScreenRoute),
+          sideBar(context, 'Subject', const Icon(Icons.book_online), SubjectScreen.subjectRoute),
+          if(role=='admin')
+          sideBar(context, 'Announcements', const Icon(Icons.people), NewAnnouncement.announcementRoute),
+           if(role=='admin')
+          sideBar(context, 'Academic years', const Icon(Icons.person_outline_outlined), AcademicYearScreen.academicYearRoute),
+          if(role=='admin')
+          sideBar(context, 'Assign Teacher', const Icon(Icons.assistant), AssignTeacher.assignTeacherRoute),
+          if(role=='admin')
+          sideBar(context, 'Manage Semister', const Icon(Icons.assistant), SemisterListScreen.semisterRoute),
+          if(role=='admin')
+          sideBar(context, 'Result percentage', const Icon(Icons.percent), ResultPercentageScreen.resultPercentageRoute),
+          if(role=='admin')    
+          sideBar(context, 'Help', const Icon(Icons.help), HelpResponsePage.helpRoute),
         ],
       ),
     );

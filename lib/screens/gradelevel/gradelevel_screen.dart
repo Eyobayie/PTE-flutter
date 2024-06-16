@@ -6,6 +6,7 @@ import 'package:parent_teacher_engagement_app/providers/GradelevelProvider.dart'
 import 'package:parent_teacher_engagement_app/screens/gradelevel/gradeDetail.dart';
 import 'package:parent_teacher_engagement_app/screens/gradelevel/new_grade.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants/scaffold_constants.dart';
 
@@ -18,13 +19,22 @@ class GradelevelScreen extends StatefulWidget {
 
 class _GradelevelScreenState extends State<GradelevelScreen> {
   bool _isLoading = false; // Local loading state in ExamHome
+  int? id;
+  String? role;
 
   @override
   void initState() {
     super.initState();
     fetchData();
+    getUserData();
   }
-
+ Future<void> getUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      id = prefs.getInt('id');
+      role = prefs.getString('role');
+    });
+  }
   Future<void> fetchData() async {
     final gradeProvider = context.read<GradelevelProvider>();
     try {
@@ -55,6 +65,7 @@ class _GradelevelScreenState extends State<GradelevelScreen> {
         backgroundColor: AppBarConstants.backgroundColor,
         iconTheme: AppBarConstants.iconTheme,
         actions: [
+         if(role=="admin")
           TextButton(
             onPressed: () {
               Navigator.of(context).pushNamed(NewGradeLevel.newgradelevelRoute);
@@ -90,7 +101,7 @@ class _GradelevelScreenState extends State<GradelevelScreen> {
                             color: CardConstants.backgroundColor,
                             shape: CardConstants.rectangular,
                             child: ListTile(
-                              leading: IconButton(
+                              leading:role=="admin"? IconButton(
                                 icon: const Icon(Icons.edit),
                                 color: Colors.amber[400],
                                 onPressed: () {
@@ -99,17 +110,17 @@ class _GradelevelScreenState extends State<GradelevelScreen> {
                                     arguments: gradelevel,
                                   );
                                 },
-                              ),
+                              ):null,
                               title: Text(gradelevel.grade),
                               subtitle: Text(gradelevel.description ?? ''),
-                              trailing: IconButton(
+                              trailing:role=="admin"? IconButton(
                                 icon: const Icon(Icons.delete),
                                 color: Colors.red[900],
                                 onPressed: () {
                                   gradeProvider
                                       .deleteGradelevelProvider(gradelevel.id);
                                 },
-                              ),
+                              ):null,
                             ),
                           ),
                         );

@@ -1,19 +1,19 @@
 class Login {
     String username;
-    int phone;
+    int password;
 
-    Login({required this.username, required this.phone});
+    Login({required this.username, required this.password});
 
     factory Login.fromJson(Map<String, dynamic> json){
       return Login(
         username: json['username'],
-         phone: json['phone']);
+         password: json['password']);
     }
 
       Map<String, dynamic> toJson() {
     return {
       'username': username,
-      'phone': phone,
+      'phone': password,
     };
   }
 }

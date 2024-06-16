@@ -25,7 +25,7 @@ class _ParentRegistrationState extends State<ParentRegistration> {
       parent = args;
       _firstnameController.text = parent?.firstname ?? '';
       _lastnameController.text = parent?.lastname ?? '';
-      _usernameController.text= parent?.username ?? '';
+      _usernameController.text = parent?.username ?? '';
       _emailController.text = parent!.email ?? '';
       _phoneController.text = parent!.phone.toString();
     }
@@ -40,13 +40,13 @@ class _ParentRegistrationState extends State<ParentRegistration> {
 //Declaring focus nodes
   final _firstnameFocusNode = FocusNode();
   final _lastnameFocusNode = FocusNode();
-  final _usernameFocusNode =FocusNode();
+  final _usernameFocusNode = FocusNode();
   final _emailFocusNode = FocusNode();
   final _phoneFocusNode = FocusNode();
   // Declaring controllers
   final _firstnameController = TextEditingController();
   final _lastnameController = TextEditingController();
-  final _usernameController =TextEditingController();
+  final _usernameController = TextEditingController();
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
 
@@ -59,21 +59,21 @@ class _ParentRegistrationState extends State<ParentRegistration> {
     _formKey.currentState!.save();
     final String enteredName = _firstnameController.text.trim();
     final String enteredLstname = _lastnameController.text.trim();
-    final String enteredUsername= _usernameController.text.trim();
+    final String enteredUsername = _usernameController.text.trim();
     final String enteredEmail = _emailController.text.trim();
     if (parent == null) {
       try {
         await Provider.of<ParentProvider>(context, listen: false)
-            .createParentProvider(
-                enteredName, enteredLstname, enteredUsername,enteredEmail, _phone, 'parent');
+            .createParentProvider(enteredName, enteredLstname, enteredUsername,
+                enteredEmail, _phone, 'parent');
       } catch (error) {
         print('Error creating parent');
       }
     } else {
       try {
         await Provider.of<ParentProvider>(context, listen: false)
-            .updateParentProvider(
-                parent!.id, enteredName, enteredLstname,enteredUsername, enteredEmail, _phone, 'parent');
+            .updateParentProvider(parent!.id, enteredName, enteredLstname,
+                enteredUsername, enteredEmail, _phone, 'parent');
       } catch (error) {
         print('Error updating parent: $error');
       }
@@ -154,11 +154,10 @@ class _ParentRegistrationState extends State<ParentRegistration> {
                   _lastname = value!;
                 },
               ),
-
               const SizedBox(
                 height: 10,
               ),
-TextFormField(
+              TextFormField(
                 decoration: InputDecoration(
                   labelText: "Username",
                   border: OutlineInputBorder(

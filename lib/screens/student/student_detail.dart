@@ -4,6 +4,7 @@ import 'package:parent_teacher_engagement_app/models/student.dart';
 import 'package:parent_teacher_engagement_app/screens/student/add_student_result.dart';
 import 'package:parent_teacher_engagement_app/widgets/attendance.dart';
 import 'package:parent_teacher_engagement_app/widgets/performance.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class StudentDetailScreen extends StatefulWidget {
   const StudentDetailScreen({super.key});
@@ -16,11 +17,19 @@ class StudentDetailScreen extends StatefulWidget {
 class _StudentDetailScreenState extends State<StudentDetailScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-
+  int? id;
+  String? role;
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+  }
+    Future<void> getUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      id = prefs.getInt('id');
+      role = prefs.getString('role');
+    });
   }
 
   @override
@@ -41,6 +50,7 @@ class _StudentDetailScreenState extends State<StudentDetailScreen>
           style: AppBarConstants.textStyle,
         ),
         actions: [
+          if(role=="admin")
           TextButton(
               onPressed: () {
                 Navigator.of(context).pushNamed(

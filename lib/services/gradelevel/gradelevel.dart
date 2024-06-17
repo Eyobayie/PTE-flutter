@@ -74,6 +74,7 @@ Future<Gradelevel> fetchGradeWithSections(int id) async {
   }
 }
 
+
 Future<List<Gradelevel>> fetchGradelevelsWithSections() async {
   try {
     final response = await http.get(Uri.parse(Api.gradewithsection));

@@ -30,6 +30,23 @@ Future<List<Student>> getStudentPerSection(
   }
 }
 
+Future<List<Student>> getStudentsByParentId(int? parentId, int senctionId) async {
+  try {
+    final response = await http.get(Uri.parse('${Api.studentsUrl}/$parentId/section/$senctionId'));
+    if (response.statusCode == 200) {
+      List data = json.decode(response.body);
+      List<Student> students = data.map((item) => Student.fromJson(item)).toList();
+      return students;
+    } else {
+      throw Exception('Failed to load students: ${response.statusCode}');
+    }
+  } catch (error) {
+    throw Exception('Unexpected error: $error');
+  }
+}
+
+
+
 Future<Student?> registerStudent(String firstname, String? email, int? phone,
     int sectionId, int gradelevelId, int parentId) async {
   final response = await http.post(Uri.parse(Api.studentsUrl),

@@ -8,11 +8,11 @@ class Student {
   int SectionId;
   int ParentId;
   int GradelevelId;
-  Parent? parent; // Add this line to include the Parent object
+  Parent? parent;
 
   Student({
-   required this.id,
-     this.firstname,
+    required this.id,
+    this.firstname,
     this.email,
     this.phone,
     required this.SectionId,
@@ -23,7 +23,7 @@ class Student {
 
   factory Student.fromJson(Map<String, dynamic> json) {
     return Student(
-         id: json['id'] ?? 0,
+      id: json['id'] ?? 0,
       firstname: json['firstname'] as String?,
       email: json['email'],
       phone: json['phone'],
@@ -35,17 +35,18 @@ class Student {
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'firstname': firstname,
-        'email': email,
-        'phone': phone,
-        'SectionId': SectionId,
-        'ParentId': ParentId,
-        'GradelevelId': GradelevelId,
-        'Parent': parent
-            ?.toJson(), // Add this line to include the Parent object in JSON
-      };
+    'id': id,
+    'firstname': firstname,
+    'email': email,
+    'phone': phone,
+    'SectionId': SectionId,
+    'ParentId': ParentId,
+    'GradelevelId': GradelevelId,
+    'Parent': parent?.toJson(),
+  };
+
+  @override
   String toString() {
-    return 'student{id: $id,firstname: $firstname, email: $email, phone: $phone, SectionId: $SectionId, ParentId: $ParentId,GradelevelId: $GradelevelId}';
+    return 'Student{id: $id, firstname: $firstname, email: $email, phone: $phone, SectionId: $SectionId, ParentId: $ParentId, GradelevelId: $GradelevelId}';
   }
 }

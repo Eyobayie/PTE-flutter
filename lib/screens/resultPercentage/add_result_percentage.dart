@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:parent_teacher_engagement_app/constants/appbar_constants.dart';
 import 'package:parent_teacher_engagement_app/models/academic_year.dart';
 import 'package:parent_teacher_engagement_app/models/semister_model.dart';
 import 'package:parent_teacher_engagement_app/providers/AcademicYearProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/resultPercentageProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/semister_provider.dart';
+import 'package:parent_teacher_engagement_app/widgets/sharedButton.dart';
 import 'package:provider/provider.dart';
 
 class NewResultPercentageForm extends StatefulWidget {
-    const NewResultPercentageForm({Key? key}) : super(key: key);
+  const NewResultPercentageForm({Key? key}) : super(key: key);
 
   static const String newResultParcentageRoute = 'new-result-percentage';
 
   @override
-  _NewResultPercentageFormState createState() => _NewResultPercentageFormState();
+  _NewResultPercentageFormState createState() =>
+      _NewResultPercentageFormState();
 }
 
 class _NewResultPercentageFormState extends State<NewResultPercentageForm> {
@@ -26,7 +29,8 @@ class _NewResultPercentageFormState extends State<NewResultPercentageForm> {
   @override
   void initState() {
     super.initState();
-    Provider.of<AcademicYearProvider>(context, listen: false).fetchAcademicYears();
+    Provider.of<AcademicYearProvider>(context, listen: false)
+        .fetchAcademicYears();
     Provider.of<SemisterProvider>(context, listen: false).fetchSemisters();
   }
 
@@ -54,7 +58,9 @@ class _NewResultPercentageFormState extends State<NewResultPercentageForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add New Result Percentage'),
+        title: const Text('Add New Result Percentage',style: AppBarConstants.textStyle,),
+        centerTitle: true,
+        backgroundColor: AppBarConstants.backgroundColor,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -64,7 +70,10 @@ class _NewResultPercentageFormState extends State<NewResultPercentageForm> {
             children: <Widget>[
               TextFormField(
                 controller: _nameController,
-                decoration: const InputDecoration(labelText: 'Name'),
+                decoration:const InputDecoration(
+                  labelText: 'Name',
+                  border: OutlineInputBorder(),
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter the name';
@@ -75,16 +84,22 @@ class _NewResultPercentageFormState extends State<NewResultPercentageForm> {
                   _nameController.text = value!;
                 },
               ),
+              const SizedBox(height: 16.0),
               TextFormField(
                 controller: _percentageController,
-                decoration: const InputDecoration(labelText: 'Percentage'),
+                decoration: const InputDecoration(
+                  labelText: 'Percentage',
+                  border: OutlineInputBorder(),
+                ),
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter the percentage';
                   }
                   final percentage = double.tryParse(value);
-                  if (percentage == null || percentage < 0 || percentage > 100) {
+                  if (percentage == null ||
+                      percentage < 0 ||
+                      percentage > 100) {
                     return 'Please enter a valid percentage';
                   }
                   return null;
@@ -93,15 +108,20 @@ class _NewResultPercentageFormState extends State<NewResultPercentageForm> {
                   _percentageController.text = value!;
                 },
               ),
+              const SizedBox(height: 16.0),
               Consumer<AcademicYearProvider>(
                 builder: (context, academicYearProvider, child) {
                   if (academicYearProvider.academicYears.isEmpty) {
                     return const Center(child: CircularProgressIndicator());
                   } else {
                     return DropdownButtonFormField<int>(
-                      decoration: const InputDecoration(labelText: 'Academic Year'),
+                      decoration: const InputDecoration(
+                        labelText: 'Academic Year',
+                        border: OutlineInputBorder(),
+                      ),
                       value: _selectedAcademicYearId,
-                      items: academicYearProvider.academicYears.map((AcademicYear academicYear) {
+                      items: academicYearProvider.academicYears
+                          .map((AcademicYear academicYear) {
                         return DropdownMenuItem<int>(
                           value: academicYear.id,
                           child: Text('${academicYear.year}'),
@@ -110,7 +130,8 @@ class _NewResultPercentageFormState extends State<NewResultPercentageForm> {
                       onChanged: (int? newValue) {
                         setState(() {
                           _selectedAcademicYearId = newValue;
-                          _selectedSemisterId = null; // Reset semester selection
+                          _selectedSemisterId =
+                              null; // Reset semester selection
                         });
                         if (newValue != null) {
                           Provider.of<SemisterProvider>(context, listen: false)
@@ -127,6 +148,7 @@ class _NewResultPercentageFormState extends State<NewResultPercentageForm> {
                   }
                 },
               ),
+              const SizedBox(height: 16.0),
               Consumer<SemisterProvider>(
                 builder: (context, semisterProvider, child) {
                   if (_selectedAcademicYearId == null) {
@@ -136,12 +158,16 @@ class _NewResultPercentageFormState extends State<NewResultPercentageForm> {
                     return const Center(child: CircularProgressIndicator());
                   } else {
                     return DropdownButtonFormField<int>(
-                      decoration: const InputDecoration(labelText: 'Semester'),
+                      decoration:const InputDecoration(
+                        labelText: 'Semester',
+                        border: OutlineInputBorder(),
+                      ),
                       value: _selectedSemisterId,
-                      items: semisterProvider.semisters.map((Semister semister) {
+                      items:
+                          semisterProvider.semisters.map((Semister semister) {
                         return DropdownMenuItem<int>(
                           value: semister.id,
-                          child: Text('${semister.name}'),
+                          child: Text(semister.name),
                         );
                       }).toList(),
                       onChanged: (int? newValue) {
@@ -160,10 +186,7 @@ class _NewResultPercentageFormState extends State<NewResultPercentageForm> {
                 },
               ),
               const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: saveForm,
-                child: const Text('Submit'),
-              ),
+              SharedButton(onPressed: saveForm, text: "Submit")
             ],
           ),
         ),

@@ -4,6 +4,7 @@ import 'package:parent_teacher_engagement_app/constants/scaffold_constants.dart'
 import 'package:parent_teacher_engagement_app/providers/AssignmentProvider.dart';
 import 'package:parent_teacher_engagement_app/screens/Assignment/assignment.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants/appbar_constants.dart';
 
@@ -18,11 +19,20 @@ class AssignmentScreen extends StatefulWidget {
 
 class _AssignmentScreenState extends State<AssignmentScreen> {
   bool _isLoading = false; // Local loading state in ExamHome
-
+  int? id;
+  String? role;
   @override
   void initState() {
     super.initState();
+    getUserData();
     fetchData();
+  }
+    Future<void> getUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      id = prefs.getInt('id');
+      role = prefs.getString('role');
+    });
   }
 
   Future<void> fetchData() async {
@@ -55,6 +65,7 @@ class _AssignmentScreenState extends State<AssignmentScreen> {
           backgroundColor: AppBarConstants.backgroundColor,
           iconTheme: AppBarConstants.iconTheme,
           actions: [
+            if(role=="admin")
             TextButton(
                 onPressed: () {
                   // Navigator.of(context)
@@ -102,7 +113,7 @@ class _AssignmentScreenState extends State<AssignmentScreen> {
                               color: CardConstants.backgroundColor,
                               shape: CardConstants.rectangular,
                               child: ListTile(
-                                leading: IconButton(
+                                leading: role=="admin"? IconButton(
                                     icon: const Icon(Icons.edit),
                                     color: Colors.amber[400],
                                     onPressed: () {
@@ -110,17 +121,17 @@ class _AssignmentScreenState extends State<AssignmentScreen> {
                                         AssignmentPage.assignmentRoute,
                                         arguments: assignment,
                                       );
-                                    }),
+                                    }):null,
                                 title: Text(assignment.title),
-                                subtitle: Text(assignment.description ?? ''),
-                                trailing: IconButton(
+                                subtitle: Text(assignment.description),
+                                trailing:role=="admin"? IconButton(
                                   icon: const Icon(Icons.delete),
                                   color: Colors.red[900],
                                   onPressed: () {
                                     assignProvider
                                         .deleteAssignmentRecord(assignment.id);
                                   },
-                                ),
+                                ):null,
                               ),
                             ),
                           );

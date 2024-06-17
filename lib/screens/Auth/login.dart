@@ -4,6 +4,8 @@ import 'package:parent_teacher_engagement_app/main.dart';
 import 'package:parent_teacher_engagement_app/services/Auth/login.dart';
 
 class LoginDemo extends StatefulWidget {
+  static const loginRoute="login-route";
+
   @override
   _LoginDemoState createState() => _LoginDemoState();
 }

@@ -11,6 +11,7 @@ import 'package:parent_teacher_engagement_app/screens/resultPercentage/result_pe
 import 'package:parent_teacher_engagement_app/screens/semister/semister_list_screen.dart';
 import 'package:parent_teacher_engagement_app/screens/subject/subject_screen.dart';
 import 'package:parent_teacher_engagement_app/screens/teacher/teacher_screen.dart';
+import 'package:parent_teacher_engagement_app/services/Auth/logout.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MainDrawer extends StatefulWidget {
@@ -102,6 +103,13 @@ class _MainDrawerState extends State<MainDrawer> {
           sideBar(context, 'Result percentage', const Icon(Icons.percent), ResultPercentageScreen.resultPercentageRoute),
           if(role=='admin')    
           sideBar(context, 'Help', const Icon(Icons.help), HelpResponsePage.helpRoute),
+           ListTile(title: const Text('Logout'),
+           leading: const Icon(Icons.logout),
+           onTap: (){
+            clearAllData();
+            Navigator.of(context).pushNamed('/');
+           },
+           )
         ],
       ),
     );

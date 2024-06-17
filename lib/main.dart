@@ -82,7 +82,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => SemisterProvider()),
         ChangeNotifierProvider(create: (_) => AssignTeacherProvider()),
         ChangeNotifierProvider(create: (_) => ResultPercentageProvider()),
-        ChangeNotifierProvider(create: (_) =>ResultProvider()),
+        ChangeNotifierProvider(create: (_) => ResultProvider()),
         ChangeNotifierProvider(create: (_) => StudentProvider()),
       ],
       child: MaterialApp(
@@ -94,39 +94,59 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.blue,
         ),
         routes: {
-          '/': (context) =>  LoginDemo(),
+          '/': (context) => LoginDemo(),
           DepartmentPage.departmentRoute: (context) => const DepartmentPage(),
           NewDepartment.newDepartmentRoute: (context) => const NewDepartment(),
-          SemisterListScreen.semisterRoute:(context) => const SemisterListScreen(),
+          SemisterListScreen.semisterRoute: (context) =>
+              const SemisterListScreen(),
           NewSmister.newSemisterRoute: (context) => const NewSmister(),
           HelpDialog.helpDialogRoute: (context) => HelpDialog(),
           HelpResponsePage.helpRoute: (context) => const HelpResponsePage(),
-          ResultPercentageScreen.resultPercentageRoute: (context) => const ResultPercentageScreen(),
-          NewResultPercentageForm.newResultParcentageRoute: (context) =>const NewResultPercentageForm(),
-          GradelevelScreen.gradelevelScreenRoute: (context) => const GradelevelScreen(),
-          NotificationList.notificationListRoute: (context) => const NotificationList(),
-          GradeDetailScreen.gradeDetailScreenRoute: (context) => const SizedBox(),
-          AcademicYearScreen.academicYearRoute: (context) => const AcademicYearScreen(),
-          NewAnnouncement.announcementRoute: (context) => const NewAnnouncement(),
-          AnnouncementForm.AnnouncementFormRoute: (context) => const AnnouncementForm(),
+          ResultPercentageScreen.resultPercentageRoute: (context) =>
+              const ResultPercentageScreen(),
+          NewResultPercentageForm.newResultParcentageRoute: (context) =>
+              const NewResultPercentageForm(),
+          GradelevelScreen.gradelevelScreenRoute: (context) =>
+              const GradelevelScreen(),
+          NotificationList.notificationListRoute: (context) =>
+              const NotificationList(),
+          GradeDetailScreen.gradeDetailScreenRoute: (context) =>
+              const SizedBox(),
+          AcademicYearScreen.academicYearRoute: (context) =>
+              const AcademicYearScreen(),
+          NewAnnouncement.announcementRoute: (context) =>
+              const NewAnnouncement(),
+          AnnouncementForm.AnnouncementFormRoute: (context) =>
+              const AnnouncementForm(),
           NewGradeLevel.newgradelevelRoute: (context) => const NewGradeLevel(),
           TeacherScreen.teacherRoute: (context) => const TeacherScreen(),
-          TeacherRegistration.teacherRegistrationRoute: (context) => const TeacherRegistration(),
+          TeacherRegistration.teacherRegistrationRoute: (context) =>
+              const TeacherRegistration(),
           ParentScreen.parentRoute: (context) => const ParentScreen(),
-          ParentRegistration.ParentRegistrationRoute: (context) => const ParentRegistration(),
+          ParentRegistration.ParentRegistrationRoute: (context) =>
+              const ParentRegistration(),
           CreateSection.createSectionRoute: (context) => const CreateSection(),
           SubjectScreen.subjectRoute: (context) => const SubjectScreen(),
-          SubjectRegistration.SubjectRegistrationRoute: (context) => const SubjectRegistration(),
-          StudentPerSection.studentRoute: (context) => const StudentPerSection(),
-          StudentRegistration.StudentRegistrationRoute: (context) => const StudentRegistration(),
-          StudentDetailScreen.studentDetailRoute: (context) => const StudentDetailScreen(),
-          AcademicYearRegistration.AcademicYearRegistrationRoute: (context) => const AcademicYearRegistration(),
-          NewAttendancePage.newAttendance: (context) => const NewAttendancePage(),
+          SubjectRegistration.SubjectRegistrationRoute: (context) =>
+              const SubjectRegistration(),
+          StudentPerSection.studentRoute: (context) =>
+              const StudentPerSection(),
+          StudentRegistration.StudentRegistrationRoute: (context) =>
+              const StudentRegistration(),
+          StudentDetailScreen.studentDetailRoute: (context) =>
+              const StudentDetailScreen(),
+          AcademicYearRegistration.AcademicYearRegistrationRoute: (context) =>
+              const AcademicYearRegistration(),
+          NewAttendancePage.newAttendance: (context) =>
+              const NewAttendancePage(),
           AssignTeacher.assignTeacherRoute: (context) => const AssignTeacher(),
-          AssignmentScreen.assignmentRoute:(context) => const AssignmentScreen(),
-          AssignmentPage.assignmentRoute: (context)=> const  AssignmentPage(),
-          CreateStudentResultForm.resultFormRote:(context) =>const CreateStudentResultForm(),
-          NewTeacherAssignment.newTeacherAssignmentRoute: (context) => const NewTeacherAssignment(),
+          AssignmentScreen.assignmentRoute: (context) =>
+              const AssignmentScreen(),
+          AssignmentPage.assignmentRoute: (context) => const AssignmentPage(),
+          CreateStudentResultForm.resultFormRote: (context) =>
+              const CreateStudentResultForm(),
+          NewTeacherAssignment.newTeacherAssignmentRoute: (context) =>
+              const NewTeacherAssignment(),
         },
       ),
     );
@@ -147,7 +167,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ScaffoldConstants.backgroundColor,
+      backgroundColor: Color(0xffAED1E4),
       appBar: AppBar(
         backgroundColor: AppBarConstants.backgroundColor,
         title: Text(
@@ -160,8 +180,33 @@ class _MyHomePageState extends State<MyHomePage> {
         iconTheme: const IconThemeData(color: AppBarConstants.iconThem),
       ),
       drawer: const MainDrawer(),
-      body: const Center(
-        child: Text('There will be something here'),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 15),
+        child: ListView(children: [
+          Card(
+            elevation: 2,
+            child: Container(
+              width: 400,
+              height: 130,
+              decoration: const BoxDecoration(
+                color: Color(0XFF3856f0),
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
+            ),
+          ),
+         const SizedBox(height: 20,),
+          Card(
+            elevation: 2,
+            child: Container(
+              width: 400,
+              height: 130,
+              decoration: const BoxDecoration(
+                color: Color(0XFF53cf53),
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
+            ),
+          ),
+        ]),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

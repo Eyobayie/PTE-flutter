@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class Parent {
   final int id;
   String firstname;
@@ -8,15 +6,18 @@ class Parent {
   String? email;
   int phone;
   String? role;
+  String? password;
 
-  Parent(
-      {required this.id,
-      required this.firstname,
-      required this.lastname,
-      required this.username,
-      this.email,
-      this.role,
-      required this.phone});
+  Parent({
+    required this.id,
+    required this.firstname,
+    required this.lastname,
+    required this.username,
+    this.email,
+    this.role,
+    this.password,
+    required this.phone,
+  });
 
   factory Parent.fromJson(Map<String, dynamic> json) {
     return Parent(
@@ -26,20 +27,24 @@ class Parent {
       username: json['username'],
       email: json['email'],
       phone: json['phone'],
-      role:json['role']
+      role: json['role'],
+      password: json['password'],
     );
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'firstname': firstname,
-        'lastname': lastname,
-        'username': username,
-        'email': email,
-        'phone': phone,
-        'role': role,
-      };
+    'id': id,
+    'firstname': firstname,
+    'lastname': lastname,
+    'username': username,
+    'email': email,
+    'phone': phone,
+    'role': role,
+    'password': password,
+  };
+
+  @override
   String toString() {
-    return 'Parent{id: $id, firstname: $firstname, lastname: $lastname,username:$username, email: $email, phone: $phone, role:$role}';
+    return 'Parent{id: $id, firstname: $firstname, lastname: $lastname, username: $username, email: $email, phone: $phone, role: $role, password: $password}';
   }
 }

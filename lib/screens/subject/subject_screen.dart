@@ -24,15 +24,18 @@ class _SubjectScreenState extends State<SubjectScreen> {
   @override
   void initState() {
     super.initState();
+    getUserData();
     fetchData();
   }
- Future<void> getUserData() async {
+
+  Future<void> getUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       id = prefs.getInt('id');
       role = prefs.getString('role');
     });
   }
+
   Future<void> fetchData() async {
     try {
       setState(() {
@@ -63,9 +66,9 @@ class _SubjectScreenState extends State<SubjectScreen> {
           ),
           backgroundColor: AppBarConstants.backgroundColor,
           iconTheme: AppBarConstants.iconTheme,
-          actions: [
-            if(role =="admin")
-            TextButton(
+        actions: [
+          if(role=="admin")
+              TextButton(
                 onPressed: () {
                   Navigator.of(context)
                       .pushNamed(SubjectRegistration.SubjectRegistrationRoute);
@@ -73,7 +76,8 @@ class _SubjectScreenState extends State<SubjectScreen> {
                 child: const Text(
                   'Add new',
                   style: TextStyle(color: Colors.white),
-                ))
+                ),
+              ),
           ],
         ),
         body: _isLoading
@@ -104,26 +108,30 @@ class _SubjectScreenState extends State<SubjectScreen> {
                               color: CardConstants.backgroundColor,
                               shape: CardConstants.rectangular,
                               child: ListTile(
-                                leading:role=="admin"? IconButton(
-                                    icon: const Icon(Icons.edit),
-                                    color: Colors.amber[400],
-                                    onPressed: () {
-                                      Navigator.of(context).pushNamed(
-                                        SubjectRegistration
-                                            .SubjectRegistrationRoute,
-                                        arguments: subject,
-                                      );
-                                    }):null,
-                                title: Text(subject.name?? ''),
+                                leading: role == "admin"
+                                    ? IconButton(
+                                        icon: const Icon(Icons.edit),
+                                        color: Colors.amber[400],
+                                        onPressed: () {
+                                          Navigator.of(context).pushNamed(
+                                            SubjectRegistration
+                                                .SubjectRegistrationRoute,
+                                            arguments: subject,
+                                          );
+                                        })
+                                    : null,
+                                title: Text(subject.name ?? ''),
                                 subtitle: Text(subject.description ?? ''),
-                                trailing:role=="admin"? IconButton(
-                                  icon: const Icon(Icons.delete),
-                                  color: Colors.red[900],
-                                  onPressed: () {
-                                    deptProvider
-                                        .deleteSubjectProvider(subject.id);
-                                  },
-                                ):null,
+                                trailing: role == "admin"
+                                    ? IconButton(
+                                        icon: const Icon(Icons.delete),
+                                        color: Colors.red[900],
+                                        onPressed: () {
+                                          deptProvider.deleteSubjectProvider(
+                                              subject.id);
+                                        },
+                                      )
+                                    : null,
                               ),
                             ),
                           );

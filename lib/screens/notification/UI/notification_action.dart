@@ -77,7 +77,7 @@ class _NotificationAppBarActionsState extends State<NotificationAppBarActions> {
                               onTap: () {
                                 print("onTap ${announcement.title}");
                                 Navigator.of(context).pushNamed(
-                                    NotificationList.notificationListRoute);
+                                    NotificationList.notificationListRoute, arguments: announcement);
                                 _controller.hideMenu();
                               },
                               child: Container(

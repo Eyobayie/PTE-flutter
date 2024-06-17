@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'package:parent_teacher_engagement_app/models/academic_year.dart';
 
 class Semister {
   final int id;
@@ -9,7 +7,7 @@ class Semister {
 
   Semister(
       {required this.id,
-      required this.name,
+       required this.name,
       this.description,
       required this.AcademicYearId});
 
@@ -17,8 +15,8 @@ class Semister {
   factory Semister.fromJson(Map<String, dynamic> json) {
     return Semister(
         id: json['id'],
-        name: json['name'],
-        description: json['description'],
+        name: json['name'] ,
+        description: json['description'] ?? '',
         AcademicYearId: json['AcademicYearId']);
   }
 

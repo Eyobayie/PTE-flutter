@@ -35,10 +35,10 @@ class TeacherProvider extends ChangeNotifier {
   }
 
   Future<void> createTeacherProvider(
-      String firstname, String lastname, String email, int phone) async {
+      String firstname, String lastname,String username, String email, int phone, String role) async {
     try {
       Teacher? registeredTeacher =
-          await registerTeacher(firstname, lastname, email, phone);
+          await registerTeacher(firstname, lastname, username, email, phone, role);
       if (registeredTeacher != null) {
         _teachers.add(registeredTeacher);
         notifyListeners();
@@ -52,17 +52,19 @@ class TeacherProvider extends ChangeNotifier {
   }
 
   Future<void> updateTeacherProvider(int id, String firstname, String lastname,
-      String email, int phone) async {
+      String username,String email, int phone, String role) async {
     try {
-      await updateTeacher(id, firstname, lastname, email, phone);
+      await updateTeacher(id, firstname, lastname, username,email, phone,role);
       int index = _teachers.indexWhere((teacher) => teacher.id == id);
       if (index != -1) {
         _teachers[index] = Teacher(
           id: id,
           firstname: firstname,
           lastname: lastname,
+          username: username,
           email: email,
           phone: phone,
+          role: role,
         );
         notifyListeners();
       } else {

@@ -59,7 +59,7 @@ Future<void> updateAcademicYear(AcademicYear academicYear) async {
   }
 }
 
-Future<void> deleteAcademicYear(int id) async {
+Future<void> deleteAcademicYear(int? id) async {
   final response = await http.delete(Uri.parse('${Api.academicYear}/$id'));
   if (response.statusCode != 200) {
     throw Exception('Failed to delete academic year');

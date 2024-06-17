@@ -8,6 +8,10 @@ class Api {
   // department endpoints
   static String get departmentUrl => apiUrl('department');
   static String get departmentsUrl => apiUrl('departments');
+ 
+  // result percentage endpoints
+  static String get resultPercentagesUrl => apiUrl('result-percentages');
+  static String get resultPercentageUrl => apiUrl('result-percentage');
 
   // GradeLevel endpoints
   static String get gradeLevelsUrl => apiUrl('gradelevels');
@@ -25,16 +29,23 @@ class Api {
   static String get subjectsUrl => apiUrl('subjects');
   static String get subjectUrl => apiUrl('subject');
   static String get subjectGradeLevel => apiUrl('subjectGradeLevel');
+
   // Notifications endpoint
   static String get announcementsUrl => apiUrl('announcements');
   static String get announcementUrl => apiUrl('announcement');
+  
   // Students endpoint
   static String get studentsUrl => apiUrl('students');
   static String get studentUrl => apiUrl('student');
   static String get studentPerSectionUrl => apiUrl('gradelevel');
+
+ // login endpoints
+ static String get login=> apiUrl('login');
+
   // Gradelevel with section
   static String get gradewithsection => apiUrl('gradewithsection');
-
+// student's result endpoint
+  static String get studentResultsUrl => apiUrl('student-results');
   // Help endpoints
   static String get helpsUrl => apiUrl('helps');
   static String get helpUrl => apiUrl('help');

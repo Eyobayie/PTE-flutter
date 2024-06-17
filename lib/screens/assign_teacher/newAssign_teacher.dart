@@ -1,14 +1,10 @@
-// ignore_for_file: non_constant_identifier_names
-
 import 'package:flutter/material.dart';
 import 'package:parent_teacher_engagement_app/constants/appbar_constants.dart';
 import 'package:parent_teacher_engagement_app/constants/card_constants.dart';
 import 'package:parent_teacher_engagement_app/models/assign_teacher_model.dart';
 import 'package:parent_teacher_engagement_app/models/gradelevel.dart';
 import 'package:parent_teacher_engagement_app/models/section.dart';
-import 'package:parent_teacher_engagement_app/models/semister_model.dart';
 import 'package:parent_teacher_engagement_app/providers/AcademicYearProvider.dart';
-import 'package:parent_teacher_engagement_app/providers/AssignmentProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/DepartmentProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/GradelevelProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/SectionProvider.dart';
@@ -17,11 +13,9 @@ import 'package:parent_teacher_engagement_app/providers/TeacherProvider.dart';
 import 'package:parent_teacher_engagement_app/providers/assinTeacher_provider.dart';
 import 'package:parent_teacher_engagement_app/providers/semister_provider.dart';
 import 'package:parent_teacher_engagement_app/widgets/sharedButton.dart';
-
 import 'package:provider/provider.dart';
 
 import '../../constants/scaffold_constants.dart';
-import '../../models/department.dart';
 
 class NewTeacherAssignment extends StatefulWidget {
   const NewTeacherAssignment({super.key});
@@ -42,13 +36,12 @@ class _NewTeacherAssignmentState extends State<NewTeacherAssignment> {
   int? GradelevelId;
   int? SectionId;
 
-  int? _selectedAcademicYearId;
+  List<dynamic> filteredSemesters = [];
 
   @override
   void initState() {
     super.initState();
-    Provider.of<AcademicYearProvider>(context, listen: false)
-        .fetchAcademicYears();
+    Provider.of<AcademicYearProvider>(context, listen: false).fetchAcademicYears();
     Provider.of<TeacherProvider>(context, listen: false).fetchTeachers();
     Provider.of<DepartmentProvider>(context, listen: false).fetchDepartments();
     Provider.of<SemisterProvider>(context, listen: false).fetchSemisters();
@@ -70,6 +63,20 @@ class _NewTeacherAssignmentState extends State<NewTeacherAssignment> {
       SubjectId = assignTeacher?.SubjectId;
       GradelevelId = assignTeacher?.GradelevelId;
       SectionId = assignTeacher?.SectionId;
+
+      // Filter semesters based on the initial AcademicYearId
+      filterSemesters(AcademicYearId);
+    }
+  }
+
+  void filterSemesters(int? academicYearId) {
+    final allSemesters = Provider.of<SemisterProvider>(context, listen: false).semisters;
+    if (academicYearId != null) {
+      filteredSemesters = allSemesters.where((semister) {
+        return semister.AcademicYearId == academicYearId;
+      }).toList();
+    } else {
+      filteredSemesters = [];
     }
   }
 
@@ -80,20 +87,10 @@ class _NewTeacherAssignmentState extends State<NewTeacherAssignment> {
     }
     _formKey.currentState!.save();
 
-    // Print values to the terminal
-    print('TeacherId: $TeacherId');
-    print('AcademicYearId: $AcademicYearId');
-    print('SemisterId: $SemisterId');
-    print('DepartmentID: $DepartmentID');
-    print('SubjectId: $SubjectId');
-    print('GradelevelId: $GradelevelId');
-    print('SectionId: $SectionId');
-
     if (assignTeacher == null) {
-      // Create new semester
+      // Create new assignment
       try {
-        await Provider.of<AssignTeacherProvider>(context, listen: false)
-            .addAssignedTeacher(
+        await Provider.of<AssignTeacherProvider>(context, listen: false).addAssignedTeacher(
           TeacherId!,
           AcademicYearId!,
           SemisterId!,
@@ -103,15 +100,14 @@ class _NewTeacherAssignmentState extends State<NewTeacherAssignment> {
           SectionId!,
         );
       } catch (error) {
-        print('Error occurring assigning the teacher to class: $error');
+        print('Error assigning the teacher to class: $error');
       }
     } else {
-      // Update existing semester
+      // Update existing assignment
       try {
-        await Provider.of<AssignTeacherProvider>(context, listen: false)
-            .updateAssignedTeacher(assignTeacher!);
+        await Provider.of<AssignTeacherProvider>(context, listen: false).updateAssignedTeacher(assignTeacher!);
       } catch (error) {
-        print('Error updating semester: $error');
+        print('Error updating assignment: $error');
       }
     }
 
@@ -124,9 +120,7 @@ class _NewTeacherAssignmentState extends State<NewTeacherAssignment> {
       backgroundColor: ScaffoldConstants.backgroundColor,
       appBar: AppBar(
         title: Text(
-          assignTeacher == null
-              ? 'Add new AssignTeacher'
-              : 'Edit AssignedTeacher',
+          assignTeacher == null ? 'Add new AssignTeacher' : 'Edit AssignedTeacher',
           style: AppBarConstants.textStyle,
         ),
         backgroundColor: AppBarConstants.backgroundColor,
@@ -169,7 +163,7 @@ class _NewTeacherAssignmentState extends State<NewTeacherAssignment> {
                         value: TeacherId,
                         validator: (value) {
                           if (value == null) {
-                            return 'Please select an  teacher';
+                            return 'Please select a teacher';
                           }
                           return null;
                         },
@@ -190,8 +184,7 @@ class _NewTeacherAssignmentState extends State<NewTeacherAssignment> {
                             borderSide: const BorderSide(color: Colors.blue),
                           ),
                         ),
-                        items: academicYearProvider.academicYears
-                            .map((academicYear) {
+                        items: academicYearProvider.academicYears.map((academicYear) {
                           return DropdownMenuItem<int>(
                             value: academicYear.id,
                             child: Text(academicYear.year.toString()),
@@ -200,6 +193,8 @@ class _NewTeacherAssignmentState extends State<NewTeacherAssignment> {
                         onChanged: (value) {
                           setState(() {
                             AcademicYearId = value;
+                            // Filter semesters when academic year changes
+                            filterSemesters(value);
                           });
                         },
                         value: AcademicYearId,
@@ -226,10 +221,10 @@ class _NewTeacherAssignmentState extends State<NewTeacherAssignment> {
                             borderSide: const BorderSide(color: Colors.blue),
                           ),
                         ),
-                        items: semisterProvider.semisters.map((semister) {
+                        items: filteredSemesters.map((semister) {
                           return DropdownMenuItem<int>(
                             value: semister.id,
-                            child: Text(semister.name),
+                            child: Text(semister.name ?? ''),
                           );
                         }).toList(),
                         onChanged: (value) {
@@ -240,7 +235,7 @@ class _NewTeacherAssignmentState extends State<NewTeacherAssignment> {
                         value: SemisterId,
                         validator: (value) {
                           if (value == null) {
-                            return 'Please select an semister';
+                            return 'Please select a semister';
                           }
                           return null;
                         },
@@ -275,7 +270,7 @@ class _NewTeacherAssignmentState extends State<NewTeacherAssignment> {
                         value: DepartmentID,
                         validator: (value) {
                           if (value == null) {
-                            return 'Please select an department';
+                            return 'Please select a department';
                           }
                           return null;
                         },
@@ -299,7 +294,7 @@ class _NewTeacherAssignmentState extends State<NewTeacherAssignment> {
                         items: subProvider.subjects.map((subject) {
                           return DropdownMenuItem<int>(
                             value: subject.id,
-                            child: Text(subject.name),
+                            child: Text(subject.name ?? ''),
                           );
                         }).toList(),
                         onChanged: (value) {
@@ -310,7 +305,7 @@ class _NewTeacherAssignmentState extends State<NewTeacherAssignment> {
                         value: SubjectId,
                         validator: (value) {
                           if (value == null) {
-                            return 'Please select an Subject';
+                            return 'Please select a subject';
                           }
                           return null;
                         },
@@ -331,8 +326,7 @@ class _NewTeacherAssignmentState extends State<NewTeacherAssignment> {
                             borderSide: const BorderSide(color: Colors.blue),
                           ),
                         ),
-                        items: gradelevelProvider.gradelevels
-                            .map((Gradelevel gradelevel) {
+                        items: gradelevelProvider.gradelevels.map((Gradelevel gradelevel) {
                           return DropdownMenuItem<int>(
                             value: gradelevel.id,
                             child: Text(gradelevel.grade),
@@ -341,10 +335,8 @@ class _NewTeacherAssignmentState extends State<NewTeacherAssignment> {
                         onChanged: (value) {
                           setState(() {
                             GradelevelId = value;
-                            Provider.of<SectionProvider>(context, listen: false)
-                                .fetchSections(GradelevelId);
-                            SectionId =
-                                null; // Reset section when grade level changes
+                            Provider.of<SectionProvider>(context, listen: false).fetchSections(GradelevelId);
+                            SectionId = null; // Reset section when grade level changes
                           });
                         },
                         value: GradelevelId,
@@ -360,8 +352,7 @@ class _NewTeacherAssignmentState extends State<NewTeacherAssignment> {
                   const SizedBox(height: 20),
                   Consumer<SectionProvider>(
                     builder: (context, sectionProvider, child) {
-                      if (GradelevelId == null ||
-                          sectionProvider.sections.isEmpty) {
+                      if (GradelevelId == null || sectionProvider.sections.isEmpty) {
                         return const Center(child: CircularProgressIndicator());
                       }
                       return DropdownButtonFormField<int>(

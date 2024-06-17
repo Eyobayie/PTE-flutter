@@ -6,6 +6,7 @@ import 'package:parent_teacher_engagement_app/providers/TeacherProvider.dart';
 import 'package:parent_teacher_engagement_app/screens/teacher/teacher_registration.dart';
 import 'package:provider/provider.dart';
 import 'package:parent_teacher_engagement_app/screens/department/new_department.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants/appbar_constants.dart';
 
@@ -20,13 +21,21 @@ class TeacherScreen extends StatefulWidget {
 
 class _TeacherScreenState extends State<TeacherScreen> {
   bool _isLoading = false; // Local loading state in ExamHome
-
+  int? id;
+  String? role;
   @override
   void initState() {
     super.initState();
+    getUserData();
     fetchData();
   }
-
+  Future<void> getUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      id = prefs.getInt('id');
+      role = prefs.getString('role');
+    });
+  }
   Future<void> fetchData() async {
     try {
       setState(() {
@@ -58,6 +67,7 @@ class _TeacherScreenState extends State<TeacherScreen> {
           backgroundColor: AppBarConstants.backgroundColor,
           iconTheme: AppBarConstants.iconTheme,
           actions: [
+            if(role=="admin")
             TextButton(
                 onPressed: () {
                   Navigator.of(context)
@@ -97,7 +107,7 @@ class _TeacherScreenState extends State<TeacherScreen> {
                               color: CardConstants.backgroundColor,
                               shape: CardConstants.rectangular,
                               child: ListTile(
-                                leading: IconButton(
+                                leading:role=="admin" ? IconButton(
                                     icon: const Icon(Icons.edit),
                                     color: Colors.amber[400],
                                     onPressed: () {
@@ -106,18 +116,18 @@ class _TeacherScreenState extends State<TeacherScreen> {
                                             .teacherRegistrationRoute,
                                         arguments: teacher,
                                       );
-                                    }),
+                                    }):null,
                                 title: Text(
                                     '${teacher.firstname} ${' '} ${teacher.lastname}'),
                                 subtitle: Text('${teacher.phone}'),
-                                trailing: IconButton(
+                                trailing: role=="admin"? IconButton(
                                   icon: const Icon(Icons.delete),
                                   color: Colors.red[900],
                                   onPressed: () {
                                     teachProvider
                                         .deleteTeacherProvider(teacher.id);
                                   },
-                                ),
+                                ):null,
                               ),
                             ),
                           );

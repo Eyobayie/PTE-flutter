@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:parent_teacher_engagement_app/providers/SubjectProvider.dart';
 import 'package:parent_teacher_engagement_app/screens/subject/subject_registration.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants/appbar_constants.dart';
 import '../../constants/card_constants.dart';
@@ -18,13 +19,20 @@ class SubjectScreen extends StatefulWidget {
 
 class _SubjectScreenState extends State<SubjectScreen> {
   bool _isLoading = false; // Local loading state in ExamHome
-
+  int? id;
+  String? role;
   @override
   void initState() {
     super.initState();
     fetchData();
   }
-
+ Future<void> getUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      id = prefs.getInt('id');
+      role = prefs.getString('role');
+    });
+  }
   Future<void> fetchData() async {
     try {
       setState(() {
@@ -56,6 +64,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
           backgroundColor: AppBarConstants.backgroundColor,
           iconTheme: AppBarConstants.iconTheme,
           actions: [
+            if(role =="admin")
             TextButton(
                 onPressed: () {
                   Navigator.of(context)
@@ -95,7 +104,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                               color: CardConstants.backgroundColor,
                               shape: CardConstants.rectangular,
                               child: ListTile(
-                                leading: IconButton(
+                                leading:role=="admin"? IconButton(
                                     icon: const Icon(Icons.edit),
                                     color: Colors.amber[400],
                                     onPressed: () {
@@ -104,17 +113,17 @@ class _SubjectScreenState extends State<SubjectScreen> {
                                             .SubjectRegistrationRoute,
                                         arguments: subject,
                                       );
-                                    }),
-                                title: Text(subject.name),
+                                    }):null,
+                                title: Text(subject.name?? ''),
                                 subtitle: Text(subject.description ?? ''),
-                                trailing: IconButton(
+                                trailing:role=="admin"? IconButton(
                                   icon: const Icon(Icons.delete),
                                   color: Colors.red[900],
                                   onPressed: () {
                                     deptProvider
                                         .deleteSubjectProvider(subject.id);
                                   },
-                                ),
+                                ):null,
                               ),
                             ),
                           );

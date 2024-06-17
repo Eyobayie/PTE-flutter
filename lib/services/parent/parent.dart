@@ -16,7 +16,7 @@ Future<List<Parent>> getParents() async {
 }
 
 Future<Parent?> registerParent(
-    String firstname, String lastname, String? email, int phone) async {
+    String firstname, String lastname, String username,String? email, int phone, String role) async {
   final response = await http.post(Uri.parse(Api.parentstUrl),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -24,8 +24,10 @@ Future<Parent?> registerParent(
       body: jsonEncode(<String, dynamic>{
         'firstname': firstname,
         'lastname': lastname,
+        'username':username,
         'email': email ?? '',
-        'phone': phone
+        'phone': phone,
+        'role':role,
       }));
   if (response.statusCode == 200) {
     // Parse the response body to get the created department
@@ -33,7 +35,7 @@ Future<Parent?> registerParent(
     final registeredParent = Parent.fromJson(responseData);
     return registeredParent;
   } else {
-    throw Exception('Failed to create department');
+    throw Exception('Failed to create parent');
   }
 }
 
@@ -46,7 +48,7 @@ Future<void> deleteParent(int id) async {
 }
 
 Future<void> updateParent(
-    int id, String firstname, String lastname, String email, int phone) async {
+    int id, String firstname, String lastname, String username,String email, int phone, String role) async {
   final response = await http.put(Uri.parse('${Api.parentUrl}/$id'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -54,8 +56,10 @@ Future<void> updateParent(
       body: jsonEncode(<String, dynamic>{
         'firstname': firstname,
         'lastname': lastname,
+        'username':username,
         'email': email,
-        'phone': phone
+        'phone': phone,
+        'role':role,
       }));
   if (response.statusCode != 200) {
     throw Exception('Failed to update data');

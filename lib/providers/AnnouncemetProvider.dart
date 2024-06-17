@@ -30,12 +30,11 @@ class AnnouncementProvider extends ChangeNotifier {
     }
   }
 
-  // Create new announcement
   Future<void> createAnnouncementProvider(
       DateTime date, String title, String description) async {
     try {
       Announcement? createdAnnouncement =
-          await registerAnnouncementt(title, description);
+          await registerAnnouncementt(date, title, description);
       if (createdAnnouncement != null) {
         _announcements.add(createdAnnouncement);
         notifyListeners();
@@ -48,16 +47,15 @@ class AnnouncementProvider extends ChangeNotifier {
     }
   }
 
-  // Update existing announcement
   Future<void> updateAnnouncementProvider(
-      int id, String title, String description) async {
+      int id, DateTime date, String title, String description) async {
     try {
       await updateAnnouncement(id, title, description);
       int index =
           _announcements.indexWhere((announcement) => announcement.id == id);
       if (index != -1) {
         _announcements[index] =
-            Announcement(id: id, title: title, description: description);
+            Announcement(id: id, date: date, title: title, description: description);
         notifyListeners();
       } else {
         print('Error: Announcement not found in provider list');

@@ -4,8 +4,9 @@ import 'package:parent_teacher_engagement_app/constants/card_constants.dart';
 import 'package:parent_teacher_engagement_app/constants/scaffold_constants.dart';
 import 'package:parent_teacher_engagement_app/models/student.dart';
 import 'package:parent_teacher_engagement_app/providers/AttendanceProvider.dart';
+import 'package:parent_teacher_engagement_app/screens/Assignment/assignment_screen.dart';
 import 'package:parent_teacher_engagement_app/screens/student/student_detail.dart';
-import 'package:parent_teacher_engagement_app/screens/Assignment/assignment.dart';
+import 'package:parent_teacher_engagement_app/screens/student/student_registration.dart';
 import 'package:parent_teacher_engagement_app/services/student/student.dart';
 import 'package:parent_teacher_engagement_app/widgets/createAttendance.dart';
 import 'package:provider/provider.dart';
@@ -80,31 +81,9 @@ class _StudentPerSectionState extends State<StudentPerSection> {
             onPressed: () {
               // Navigator.of(context).pushNamed(NewDepartment.newDepartmentRoute);
             },
-            child:
-                //  PopupMenuButton(
-
-                //   itemBuilder: (context) {
-                //     return [
-                //       PopupMenuItem(
-                //         value: 'edit',
-                //         child: Text('Edit'),
-                //         onTap: () {
-                //           print('hey');
-                //         },
-                //       ),
-                //       PopupMenuItem(
-                //         value: 'delete',
-                //         child: Text('Delete'),
-                //       )
-                //     ];
-                //   },
-                //   onSelected: (String value) {
-                //     print('You Click on po up menu item $value');
-                //   },
-                // ),
-                PopupMenuItem(
+            child: PopupMenuItem(
               child: IconButton(
-                icon: Icon(
+                icon:const Icon(
                   Icons.menu,
                   color: Colors.white,
                 ),
@@ -113,36 +92,39 @@ class _StudentPerSectionState extends State<StudentPerSection> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(
                           5), // Adjust the value as needed
-                      side: BorderSide(
+                      side:const BorderSide(
                           color: Colors.white), // Add border color if necessary
                     ),
                     color: Colors.white,
                     context: context,
-                    position: RelativeRect.fromLTRB(82, 82, 0, 0),
+                    position:const RelativeRect.fromLTRB(82, 82, 0, 0),
                     items: [
                       PopupMenuItem(
-                        child: Text('Add New'),
-                        onTap: () {},
+                        
+                        onTap: () {
+                          Navigator.of(context).pushNamed(StudentRegistration.StudentRegistrationRoute);
+                        },
                         value: 1,
+                        child:const Text('Add New'),
                       ),
-                      PopupMenuItem(
-                        child: Text('Assigment'),
+                       PopupMenuItem(
+                        
                         onTap: () async {
-                          // Navigator.of(context).pushNamed(
-                          //     AssignmentPage.assignmentRoute,
-                          //     arguments: gradelevelId);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  AssignmentPage(gradelevelId: gradelevelId),
-                            ),
-                          );
+                          Navigator.of(context).pushNamed(
+                              AssignmentScreen.assignmentRoute,
+                              arguments: gradelevelId);
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) =>
+                          //         AssignmentPage(gradelevelId: gradelevelId),
+                          //   ),
+                          // );
                         },
                         value: 2,
+                        child:  const Text('Assigments'),
                       ),
                       PopupMenuItem(
-                        child: Text('Attendence'),
                         onTap: () async {
                           Navigator.of(context).pushNamed(
                               NewAttendancePage.newAttendance,
@@ -150,25 +132,16 @@ class _StudentPerSectionState extends State<StudentPerSection> {
                                 'SectionId': sectionId,
                                 'GradelevelId': gradelevelId
                               });
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) =>
-                          //         NewAttendancePage(gradelevelId: gradelevelId, sectionId),
-                          //   ),
-                          // );
                         },
                         value: 3,
+                         child: const Text('Attendence'),
                       ),
                     ],
                   );
                 },
               ),
             ),
-            // const Text(
-            //   'Add new',
-            //   style: TextStyle(color: Colors.white),
-            // ),
+       
           )
         ],
       ),
@@ -204,7 +177,7 @@ class _StudentPerSectionState extends State<StudentPerSection> {
                     ],
                     rows: students.map((student) {
                       return DataRow(cells: [
-                        DataCell(Text(student.firstname)),
+                        DataCell(Text(student.firstname ?? '')),
                         DataCell(Text(student.parent?.firstname ?? '')),
                         DataCell(Text(student.phone.toString())),
                         DataCell(IconButton(

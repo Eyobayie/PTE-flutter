@@ -1,6 +1,6 @@
 class Subject {
   final int id;
-  final String name;
+  final String? name;
   final String? description;
   final int GradelevelId;
 
@@ -13,9 +13,9 @@ class Subject {
 
   factory Subject.fromJson(Map<String, dynamic> json) {
     return Subject(
-        id: json['id'],
-        name: json['name'],
-        description: json['description'],
+       id: json['id'] ?? 0,
+       name: json['name'] as String?,
+        description: json['description'] ?? '',
         GradelevelId: json['GradelevelId']);
   }
 

@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:parent_teacher_engagement_app/constants/card_constants.dart';
 import 'package:parent_teacher_engagement_app/constants/scaffold_constants.dart';
-import 'package:parent_teacher_engagement_app/providers/semister_provider.dart';
-import 'package:parent_teacher_engagement_app/screens/semister/semister_registration.dart';
+import 'package:parent_teacher_engagement_app/providers/AssignmentProvider.dart';
+import 'package:parent_teacher_engagement_app/screens/Assignment/assignment.dart';
 import 'package:provider/provider.dart';
-import 'package:parent_teacher_engagement_app/screens/department/new_department.dart';
 
 import '../../constants/appbar_constants.dart';
 
-class SemisterListScreen extends StatefulWidget {
-  const SemisterListScreen({Key? key});
+class AssignmentScreen extends StatefulWidget {
+  const AssignmentScreen({Key? key});
 
-  static const String semisterRoute = 'semisterroutes';
+  static const String assignmentRoute = 'assignments';
 
   @override
-  State<SemisterListScreen> createState() => _SemisterListScreenState();
+  State<AssignmentScreen> createState() => _AssignmentScreenState();
 }
 
-class _SemisterListScreenState extends State<SemisterListScreen> {
+class _AssignmentScreenState extends State<AssignmentScreen> {
   bool _isLoading = false; // Local loading state in ExamHome
 
   @override
@@ -33,7 +32,7 @@ class _SemisterListScreenState extends State<SemisterListScreen> {
             true; // Set local isLoading to true before making the API call
       });
       // Use the provider to fetch data
-      await context.read<SemisterProvider>().fetchSemisters();
+      await context.read<AssignmentProvider>().fetchAssignments();
     } finally {
       setState(() {
         _isLoading =
@@ -44,14 +43,13 @@ class _SemisterListScreenState extends State<SemisterListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var semiProvider = Provider.of<SemisterProvider>(context);
-    // double screenWidth = MediaQuery.of(context).size.width;
-    // double screenHeight = MediaQuery.of(context).size.height;
+    var assignProvider = Provider.of<AssignmentProvider>(context);
+    final gradelevelId = ModalRoute.of(context)!.settings.arguments as int;
     return Scaffold(
         backgroundColor: ScaffoldConstants.backgroundColor,
         appBar: AppBar(
           title: const Text(
-            'All Semisters',
+            'All assignments',
             style: AppBarConstants.textStyle,
           ),
           backgroundColor: AppBarConstants.backgroundColor,
@@ -59,7 +57,16 @@ class _SemisterListScreenState extends State<SemisterListScreen> {
           actions: [
             TextButton(
                 onPressed: () {
-                  Navigator.of(context).pushNamed(NewSmister.newSemisterRoute);
+                  // Navigator.of(context)
+                  //     .pushNamed(AssignmentPage.assignmentRoute,
+                  //      arguments: gradelevelId);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          AssignmentPage(gradelevelId: gradelevelId),
+                    ),
+                  );
                 },
                 child: const Text(
                   'Add new',
@@ -71,24 +78,24 @@ class _SemisterListScreenState extends State<SemisterListScreen> {
             ? const Center(
                 child: CircularProgressIndicator(),
               )
-            : semiProvider.error.isNotEmpty
+            : assignProvider.error.isNotEmpty
                 ? Center(
-                    child: Text('Error: ${semiProvider.error}'),
+                    child: Text('Error: ${assignProvider.error}'),
                   )
-                : Consumer<SemisterProvider>(
-                    builder: (context, semisterProvider, child) {
-                    if (semisterProvider.semisters.isEmpty) {
+                : Consumer<AssignmentProvider>(
+                    builder: (context, assignmentProvider, child) {
+                    if (assignmentProvider.assignments.isEmpty) {
                       // If departments list is empty, fetch data
-                      semisterProvider.fetchSemisters();
+                      assignmentProvider.fetchAssignments();
                       return const Center(child: CircularProgressIndicator());
                     } else {
                       // If departments list is not empty, display the department list
                       return ListView.builder(
-                        itemCount: semiProvider.semisters.length,
+                        itemCount: assignProvider.assignments.length,
                         itemBuilder: (context, index) {
-                          final semister = semiProvider.semisters[index];
+                          final assignment = assignProvider.assignments[index];
                           return Dismissible(
-                            key: Key(semister.id.toString()),
+                            key: Key(assignment.id.toString()),
                             child: Card(
                               elevation: CardConstants.elevationHeight,
                               margin: CardConstants.marginSize,
@@ -100,18 +107,18 @@ class _SemisterListScreenState extends State<SemisterListScreen> {
                                     color: Colors.amber[400],
                                     onPressed: () {
                                       Navigator.of(context).pushNamed(
-                                        NewDepartment.newDepartmentRoute,
-                                        arguments: semister,
+                                        AssignmentPage.assignmentRoute,
+                                        arguments: assignment,
                                       );
                                     }),
-                                title: Text(semister.name),
-                                subtitle: Text(semister.description ?? ''),
+                                title: Text(assignment.title),
+                                subtitle: Text(assignment.description ?? ''),
                                 trailing: IconButton(
                                   icon: const Icon(Icons.delete),
                                   color: Colors.red[900],
                                   onPressed: () {
-                                    semiProvider
-                                        .deleteSemisterProvider(semister.id);
+                                    assignProvider
+                                        .deleteAssignmentRecord(assignment.id);
                                   },
                                 ),
                               ),

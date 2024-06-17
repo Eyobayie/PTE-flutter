@@ -25,6 +25,7 @@ class _ParentRegistrationState extends State<ParentRegistration> {
       parent = args;
       _firstnameController.text = parent?.firstname ?? '';
       _lastnameController.text = parent?.lastname ?? '';
+      _usernameController.text = parent?.username ?? '';
       _emailController.text = parent!.email ?? '';
       _phoneController.text = parent!.phone.toString();
     }
@@ -33,16 +34,19 @@ class _ParentRegistrationState extends State<ParentRegistration> {
   // Declaring variables
   late final String _firstname;
   late final String _lastname;
+  late final String _username;
   late final String _email;
   late final int _phone;
 //Declaring focus nodes
   final _firstnameFocusNode = FocusNode();
   final _lastnameFocusNode = FocusNode();
+  final _usernameFocusNode = FocusNode();
   final _emailFocusNode = FocusNode();
   final _phoneFocusNode = FocusNode();
   // Declaring controllers
   final _firstnameController = TextEditingController();
   final _lastnameController = TextEditingController();
+  final _usernameController = TextEditingController();
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
 
@@ -55,20 +59,21 @@ class _ParentRegistrationState extends State<ParentRegistration> {
     _formKey.currentState!.save();
     final String enteredName = _firstnameController.text.trim();
     final String enteredLstname = _lastnameController.text.trim();
+    final String enteredUsername = _usernameController.text.trim();
     final String enteredEmail = _emailController.text.trim();
     if (parent == null) {
       try {
         await Provider.of<ParentProvider>(context, listen: false)
-            .createParentProvider(
-                enteredName, enteredLstname, enteredEmail, _phone);
+            .createParentProvider(enteredName, enteredLstname, enteredUsername,
+                enteredEmail, _phone, 'parent');
       } catch (error) {
-        print('Error creating department');
+        print('Error creating parent');
       }
     } else {
       try {
         await Provider.of<ParentProvider>(context, listen: false)
-            .updateParentProvider(
-                parent!.id, enteredName, enteredLstname, enteredEmail, _phone);
+            .updateParentProvider(parent!.id, enteredName, enteredLstname,
+                enteredUsername, enteredEmail, _phone, 'parent');
       } catch (error) {
         print('Error updating parent: $error');
       }
@@ -140,13 +145,42 @@ class _ParentRegistrationState extends State<ParentRegistration> {
                   return null;
                 },
                 onFieldSubmitted: (value) {
-                  FocusScope.of(context).requestFocus(_emailFocusNode);
+                  FocusScope.of(context).requestFocus(_usernameFocusNode);
                 },
                 focusNode: _lastnameFocusNode,
                 maxLines: 1,
                 controller: _lastnameController,
                 onSaved: (value) {
                   _lastname = value!;
+                },
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: "Username",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: const BorderSide(color: Colors.blue),
+                  ),
+                ),
+                textInputAction: TextInputAction.next,
+                keyboardType: TextInputType.text,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Username is required';
+                  }
+                  return null;
+                },
+                onFieldSubmitted: (value) {
+                  FocusScope.of(context).requestFocus(_emailFocusNode);
+                },
+                focusNode: _usernameFocusNode,
+                maxLines: 1,
+                controller: _usernameController,
+                onSaved: (value) {
+                  _username = value!;
                 },
               ),
               const SizedBox(

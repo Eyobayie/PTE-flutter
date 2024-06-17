@@ -61,7 +61,7 @@ class _AnnouncementFormState extends State<AnnouncementForm> {
       try {
         await Provider.of<AnnouncementProvider>(context, listen: false)
             .updateAnnouncementProvider(
-                announcement!.id, enteredTitle, enteredDescription);
+                announcement!.id, date, enteredTitle, enteredDescription);
       } catch (error) {
         print('Error updating department: $error');
       }

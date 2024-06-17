@@ -41,6 +41,7 @@ dependencies:
   intl: ^0.17.0
   custom_pop_up_menu: ^1.2.4
   accordion: ^2.6.0
+  shared_preferences: ^2.2.3
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -64,8 +65,10 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - lib/assets/profile.png
+    - lib/assets/backgroundImage.jpg
+    - lib/assets/edusure.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

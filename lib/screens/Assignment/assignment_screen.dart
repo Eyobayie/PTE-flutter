@@ -27,7 +27,8 @@ class _AssignmentScreenState extends State<AssignmentScreen> {
     getUserData();
     fetchData();
   }
-    Future<void> getUserData() async {
+
+  Future<void> getUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       id = prefs.getInt('id');
@@ -65,24 +66,24 @@ class _AssignmentScreenState extends State<AssignmentScreen> {
           backgroundColor: AppBarConstants.backgroundColor,
           iconTheme: AppBarConstants.iconTheme,
           actions: [
-            if(role=="admin")
-            TextButton(
-                onPressed: () {
-                  // Navigator.of(context)
-                  //     .pushNamed(AssignmentPage.assignmentRoute,
-                  //      arguments: gradelevelId);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          AssignmentPage(gradelevelId: gradelevelId),
-                    ),
-                  );
-                },
-                child: const Text(
-                  'Add new',
-                  style: TextStyle(color: Colors.white),
-                ))
+            if (role == "admin")
+              TextButton(
+                  onPressed: () {
+                    // Navigator.of(context)
+                    //     .pushNamed(AssignmentPage.assignmentRoute,
+                    //      arguments: gradelevelId);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            AssignmentPage(gradelevelId: gradelevelId),
+                      ),
+                    );
+                  },
+                  child: const Text(
+                    'Add new',
+                    style: TextStyle(color: Colors.white),
+                  ))
           ],
         ),
         body: _isLoading
@@ -113,25 +114,29 @@ class _AssignmentScreenState extends State<AssignmentScreen> {
                               color: CardConstants.backgroundColor,
                               shape: CardConstants.rectangular,
                               child: ListTile(
-                                leading: role=="admin"? IconButton(
-                                    icon: const Icon(Icons.edit),
-                                    color: Colors.amber[400],
-                                    onPressed: () {
-                                      Navigator.of(context).pushNamed(
-                                        AssignmentPage.assignmentRoute,
-                                        arguments: assignment,
-                                      );
-                                    }):null,
+                                leading: role == "admin"
+                                    ? IconButton(
+                                        icon: const Icon(Icons.edit),
+                                        color: Colors.amber[400],
+                                        onPressed: () {
+                                          Navigator.of(context).pushNamed(
+                                            AssignmentPage.assignmentRoute,
+                                            arguments: assignment,
+                                          );
+                                        })
+                                    : null,
                                 title: Text(assignment.title),
                                 subtitle: Text(assignment.description),
-                                trailing:role=="admin"? IconButton(
-                                  icon: const Icon(Icons.delete),
-                                  color: Colors.red[900],
-                                  onPressed: () {
-                                    assignProvider
-                                        .deleteAssignmentRecord(assignment.id);
-                                  },
-                                ):null,
+                                trailing: role == "admin"
+                                    ? IconButton(
+                                        icon: const Icon(Icons.delete),
+                                        color: Colors.red[900],
+                                        onPressed: () {
+                                          assignProvider.deleteAssignmentRecord(
+                                              assignment.id);
+                                        },
+                                      )
+                                    : null,
                               ),
                             ),
                           );

@@ -56,4 +56,5 @@ class Api {
   //assign teacher endpoint
   static String get teacherassignments => apiUrl('teacherassignments');
   static String get teacherAssignment => apiUrl('teacherAssignment');
+  static String get resultpercentages => apiUrl('result-percentages');
 }

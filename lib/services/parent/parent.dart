@@ -65,3 +65,22 @@ Future<void> updateParent(
     throw Exception('Failed to update data');
   }
 }
+Future<int> fetchTotalParentss() async {
+    try {
+      final response = await http.get(Uri.parse(Api.parentCount));
+
+      if (response.statusCode == 200) {
+        // If the server returns a successful response, parse the JSON
+        final jsonData = json.decode(response.body);
+        int totalParents = jsonData['totalParents'];
+        return totalParents;
+      } else {
+        // If the server returns an error response, throw an exception
+        throw Exception('Failed to load total students');
+      }
+    } catch (error) {
+      // Handle any exceptions thrown during the process
+      print('FETCH TOTAL STUDENTS ERROR: $error');
+      throw Exception('Failed to load total students');
+    }
+  }

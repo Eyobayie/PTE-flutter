@@ -55,8 +55,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
   @override
   Widget build(BuildContext context) {
     var deptProvider = Provider.of<SubjectProvider>(context);
-    // double screenWidth = MediaQuery.of(context).size.width;
-    // double screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
         backgroundColor: ScaffoldConstants.backgroundColor,
         appBar: AppBar(

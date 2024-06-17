@@ -5,6 +5,9 @@ import 'package:parent_teacher_engagement_app/screens/Assignment/assignment.dart
 import 'package:parent_teacher_engagement_app/screens/Assignment/assignment_screen.dart';
 import 'package:parent_teacher_engagement_app/screens/semister/semister_list_screen.dart';
 import 'package:parent_teacher_engagement_app/screens/student/add_student_result.dart';
+import 'package:parent_teacher_engagement_app/services/parent/parent.dart';
+import 'package:parent_teacher_engagement_app/services/student/student.dart';
+import 'package:parent_teacher_engagement_app/services/teacher/teacher.dart';
 import 'package:provider/provider.dart';
 import 'package:parent_teacher_engagement_app/constants/appbar_constants.dart';
 import 'package:parent_teacher_engagement_app/constants/scaffold_constants.dart';
@@ -53,6 +56,7 @@ import 'package:parent_teacher_engagement_app/screens/teacher/teacher_screen.dar
 import 'package:parent_teacher_engagement_app/screens/academicYear/academicYear_registration.dart';
 import 'package:parent_teacher_engagement_app/widgets/createAttendance.dart';
 import 'package:parent_teacher_engagement_app/widgets/mainDrawer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'providers/AnnouncemetProvider.dart';
 
@@ -163,6 +167,91 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   bool _isHelpActive = false;
+  int _totalStudents = 0;
+  int _totalParents = 0;
+  int _totalTeachers = 0;
+  bool _isLoading = false;
+  int? id;
+  String? role;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchTotalStudents();
+    _fetchTotalParents();
+    _fetchTotalTeachers();
+    getUserData();
+  }
+
+  Future<void> getUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      id = prefs.getInt('id');
+      role = prefs.getString('role');
+    });
+  }
+
+  Future<void> _fetchTotalStudents() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      int totalStudents = await fetchTotalStudents();
+      setState(() {
+        _totalStudents = totalStudents;
+        _isLoading = false;
+      });
+    } catch (error) {
+      print('Error fetching total students: $error');
+      setState(() {
+        _isLoading = false;
+        // Handle error scenario
+      });
+    }
+  }
+
+  Future<void> _fetchTotalTeachers() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      int totalTeachers = await fetchTotalTeachers();
+      setState(() {
+        _totalTeachers = totalTeachers;
+        _isLoading = false;
+      });
+    } catch (error) {
+      print('Error fetching total teachers: $error');
+      setState(() {
+        _isLoading = false;
+        // Handle error scenario
+      });
+    }
+  }
+
+  Future<void> _fetchTotalParents() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      int totalParents = await fetchTotalParentss();
+      setState(() {
+        _totalParents = totalParents;
+        _isLoading = false;
+      });
+    } catch (error) {
+      print('Error fetching total parents: $error');
+      setState(() {
+        _isLoading = false;
+        // Handle error scenario
+      });
+    }
+  }
+
+  Color color = Colors.white;
 
   @override
   Widget build(BuildContext context) {
@@ -181,31 +270,121 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       drawer: const MainDrawer(),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
         child: ListView(children: [
           Card(
             elevation: 2,
             child: Container(
               width: 400,
-              height: 130,
+                height: 100,
               decoration: const BoxDecoration(
                 color: Color(0XFF3856f0),
                 borderRadius: BorderRadius.all(Radius.circular(10)),
               ),
-            ),
-          ),
-         const SizedBox(height: 20,),
-          Card(
-            elevation: 2,
-            child: Container(
-              width: 400,
-              height: 130,
-              decoration: const BoxDecoration(
-                color: Color(0XFF53cf53),
-                borderRadius: BorderRadius.all(Radius.circular(10)),
+              child: ListTile(
+                leading: const Icon(
+                  Icons.group,
+                  size: 30,
+                  color: Colors.white,
+                ),
+                title: const Text('Total students',
+                    style: AppBarConstants.textStyle),
+                subtitle:
+                    Text('$_totalStudents', style: AppBarConstants.textStyle),
               ),
             ),
           ),
+          const SizedBox(
+            height: 20,
+          ),
+           if (role == 'teacher' || role == 'admin') 
+            Card(
+              elevation: 2,
+              child: Container(
+                width: 400,
+                height: 100,
+                decoration: const BoxDecoration(
+                  color: Color(0XFFD64149),
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                ),
+                child: const ListTile(
+                  leading: Icon(
+                    Icons.book,
+                    size: 30,
+                    color: Colors.white,
+                  ),
+                  title: Text('Assignments', style: AppBarConstants.textStyle),
+                ),
+              ),
+            ),
+          if (role == "admin")
+            Card(
+              elevation: 2,
+              child: Container(
+                width: 400,
+                height: 100,
+                decoration: const BoxDecoration(
+                  color: Color(0XFFE3A627),
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                ),
+                child: ListTile(
+                  leading: const Icon(
+                    Icons.group,
+                    size: 30,
+                    color: Colors.white,
+                  ),
+                  title: const Text('Total teachers',
+                      style: AppBarConstants.textStyle),
+                  subtitle:
+                      Text('$_totalTeachers', style: AppBarConstants.textStyle),
+                ),
+              ),
+            ),
+          if (role == "admin")
+            Card(
+              elevation: 2,
+              child: Container(
+                width: 400,
+                height: 100,
+                decoration: const BoxDecoration(
+                  color: Color(0XFF53cf53),
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                ),
+                child: const ListTile(
+                  leading: Icon(
+                    Icons.notification_important,
+                    size: 30,
+                    color: Colors.white,
+                  ),
+                  title: Text('Announcemets', style: AppBarConstants.textStyle),
+                ),
+              ),
+            ),
+          if (role == "admin")
+            Card(
+              elevation: 2,
+              child: Container(
+                width: 400,
+                height: 100,
+                decoration: const BoxDecoration(
+                  color: AppBarConstants.backgroundColor,
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                ),
+                child: ListTile(
+                  leading: const Icon(
+                    Icons.group,
+                    size: 30,
+                    color: Colors.white,
+                  ),
+                  title: const Text(
+                    'Total parents',
+                    style: AppBarConstants.textStyle,
+                  ),
+                  subtitle:
+                      Text('$_totalParents', style: AppBarConstants.textStyle),
+                ),
+              ),
+            ),
         ]),
       ),
       floatingActionButton: FloatingActionButton(

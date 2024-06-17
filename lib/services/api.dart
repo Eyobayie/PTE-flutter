@@ -19,12 +19,14 @@ class Api {
   //Parent endpoints
   static String get parentstUrl => apiUrl('parents');
   static String get parentUrl => apiUrl('parent');
+  static String get parentCount => apiUrl('parentcount');
   //teachers endpoint
   static String get teachersUrl => apiUrl('teachers');
   static String get teacherUrl => apiUrl('teacher');
   // sections endpoint
   static String get sectionsUrl => apiUrl('sections');
   static String get sectionUrl => apiUrl('section');
+  static String get teacherCount =>apiUrl('teachercount');
   // sebjects endpoint
   static String get subjectsUrl => apiUrl('subjects');
   static String get subjectUrl => apiUrl('subject');
@@ -38,6 +40,7 @@ class Api {
   static String get studentsUrl => apiUrl('students');
   static String get studentUrl => apiUrl('student');
   static String get studentPerSectionUrl => apiUrl('gradelevel');
+  static String get studentCount=> apiUrl('studentscount');
 
  // login endpoints
  static String get login=> apiUrl('login');
